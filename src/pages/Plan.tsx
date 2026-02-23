@@ -23,7 +23,7 @@ const Plan = () => {
     {
       number: "02",
       title: "Personalised Growth",
-      timeline: "Coming Soon",
+      timeline: "In Production",
       status: "upcoming",
       image: phaseWalk,
       description:
@@ -34,7 +34,7 @@ const Plan = () => {
     {
       number: "03",
       title: "The Full Platform",
-      timeline: "On the Horizon",
+      timeline: "Coming Soon",
       status: "future",
       image: phaseRun,
       description:
