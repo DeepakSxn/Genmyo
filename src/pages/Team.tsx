@@ -26,7 +26,7 @@ const Team = () => {
       <section className="section-padding bg-background">
         <div className="container-wide px-6 md:px-12">
           <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start">
+          <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start mb-10 md:mb-12">
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden flex-shrink-0 bg-secondary">
                 <img src={personaRajit} alt="Rajit Punshi" className="w-full h-full object-cover" />
               </div>
@@ -67,7 +67,7 @@ const Team = () => {
       <section className="section-padding bg-cream">
         <div className="container-wide px-6 md:px-12">
           <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start">
+          <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start mb-10 md:mb-12">
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden flex-shrink-0 bg-secondary">
                 <img src={personaSid} alt="Sid Punshi" className="w-full h-full object-cover" />
               </div>
@@ -82,17 +82,16 @@ const Team = () => {
             </div>
             <div className="space-y-8 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Sid is a final-year student at UCL School of Management (First Class
-                predicted) with professional experience spanning fintech, data analytics,
-                and product development. He brings both first-hand experience in the
-                wellness space and a genuine understanding of the challenges younger
-                generations face around mental wellbeing, identity, and digital overload.
+                Sid brings professional experience spanning AI, fintech, data analytics, 
+                and product development, alongside first-hand experience in the wellness 
+                space and a genuine understanding of the challenges younger generations 
+                face around mental wellbeing, identity, and digital overload.
               </p>
               <p>
                 He leads product design, user experience, and growth strategy for GenMyo,
-                ensuring the platform resonates with Gen Z and Millennial users. His
-                contribution keeps GenMyo practical, relatable, and grounded in real user
-                behaviour, ensuring that what is built is not just well-structured, but
+                ensuring the platform resonates with Gen Z and Millennial users. His 
+                contribution keeps GenMyo practical, relatable, and grounded in real user 
+                behaviour, ensuring that what is built is not just well-structured, but 
                 genuinely usable in everyday life.
               </p>
             </div>

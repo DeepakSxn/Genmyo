@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import FooterLogo from "./FooterLogo";
 
 const Footer = () => {
   return (
@@ -7,7 +8,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
           {/* Brand */}
           <div className="md:col-span-2">
-            <h3 className="font-serif text-3xl font-medium mb-4">GenMyo</h3>
+            <div className="mb-6">
+              <FooterLogo size={60} />
+            </div>
             <p className="text-primary-foreground/70 max-w-md leading-relaxed">
               An AI-led platform designed to support lasting human development 
               through personalized reflection, guidance, and growth.
