@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { ArrowRight, Circle } from "lucide-react";
 import phaseCrawl from "@/assets/phase-crawl.jpg";
 import phaseWalk from "@/assets/phase-walk.jpg";
 import phaseRun from "@/assets/phase-run.jpg";
 
-const GOOGLE_FORM_URL = "https://forms.gle/fgDzXX8EQz6yCiKMA";
+const JOIN_PAGE_PATH = "/join";
 
 const Plan = () => {
   const phases = [
@@ -169,15 +170,13 @@ const Plan = () => {
                       {phase.outcome}
                     </p>
                     {phase.status === "active" && (
-                      <a
-                        href={GOOGLE_FORM_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <Link
+                        to={JOIN_PAGE_PATH}
                         className="inline-flex items-center gap-2 mt-8 text-foreground font-medium link-underline"
                       >
                         Join now
                         <ArrowRight size={16} />
-                      </a>
+                      </Link>
                     )}
                   </div>
                 </div>
@@ -211,15 +210,13 @@ const Plan = () => {
             The Mirror Project is free to join and designed to fit into your 
             everyday life. Begin building clarity today.
           </p>
-          <a
-            href={GOOGLE_FORM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to={JOIN_PAGE_PATH}
             className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
           >
             Join The Mirror Project
             <ArrowRight size={18} />
-          </a>
+          </Link>
         </div>
       </section>
     </Layout>

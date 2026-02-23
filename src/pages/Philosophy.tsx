@@ -4,8 +4,6 @@ import { ArrowRight, Quote } from "lucide-react";
 import personaAisha from "@/assets/persona-aisha.jpg";
 import personaDavid from "@/assets/persona-david.jpg";
 
-const GOOGLE_FORM_URL = "https://forms.gle/fgDzXX8EQz6yCiKMA";
-
 const Philosophy = () => {
   const personas = [
     {
@@ -290,7 +288,8 @@ const Philosophy = () => {
             it. Join The Mirror Project and begin the journey.
           </p>
           <a
-            href={GOOGLE_FORM_URL}
+            href={"/Join"
+}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
