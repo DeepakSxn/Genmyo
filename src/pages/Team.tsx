@@ -55,7 +55,7 @@ const Team = () => {
                 Gen X carrying responsibility without emotional bandwidth, and Baby Boomers
                 facing reinvention and transition. The world was building performance
                 capability at scale, but not inner capability. GenMyo was conceptualised as
-                a structured, human-first, AI-enabled architecture for developing clarity,
+                a structured, AI-first, Human-enabled architecture for developing clarity,
                 regulation, and agency across life stages, not episodically, but
                 continuously.
               </p>
