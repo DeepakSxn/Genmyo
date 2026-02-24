@@ -64,12 +64,11 @@ const Footer = () => {
             © {new Date().getFullYear()} GenMyo. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-primary-foreground/50">
-            <a href="#" className="hover:text-primary-foreground transition-colors">
-              Privacy
-            </a>
-            <a href="#" className="hover:text-primary-foreground transition-colors">
-              Terms
-            </a>
+          <Link to="/terms" className="hover:text-primary-foreground transition-colors">
+              Privacy & Terms
+            
+          </Link>
+           
           </div>
         </div>
       </div>

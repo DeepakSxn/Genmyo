@@ -1,21 +1,35 @@
 import { useState } from "react";
 import { z } from "zod";
+import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowRight, CheckCircle } from "lucide-react";
 
 const WHATSAPP_REDIRECT_URL = "https://wa.me/message/Y4GOKBIGBWUUM1?text=HI";
-const GOOGLE_FORM_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
+const GOOGLE_FORM_URL =
+  "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
 
 const formSchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
+  name: z
+    .string()
+    .trim()
+    .min(1, "Name is required")
+    .max(100, "Name must be less than 100 characters"),
   email: z.string().trim().email("Please enter a valid email").max(255),
-  whatsapp: z.string().trim().min(1, "WhatsApp number is required").max(20, "Please enter a valid number")
+  whatsapp: z
+    .string()
+    .trim()
+    .min(1, "WhatsApp number is required")
+    .max(20, "Please enter a valid number")
     .regex(/^\+?[0-9\s\-()]+$/, "Please enter a valid phone number with country code"),
   context: z.string().max(500, "Please keep it under 500 characters").optional(),
+  acceptedTerms: z
+    .boolean()
+    .refine((value) => value, { message: "You must accept the terms to continue" }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -26,11 +40,12 @@ const Join = () => {
     email: "",
     whatsapp: "",
     context: "",
+    acceptedTerms: false,
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (field: keyof FormData, value: string) => {
+  const handleChange = (field: keyof FormData, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -197,9 +212,36 @@ const Join = () => {
                 {errors.context && <p className="text-sm text-destructive">{errors.context}</p>}
               </div>
 
+              <div className="space-y-2">
+                <div className="flex items-start gap-3">
+                  <Checkbox
+                    id="acceptedTerms"
+                    checked={formData.acceptedTerms}
+                    onCheckedChange={(checked) =>
+                      handleChange("acceptedTerms", checked === true)
+                    }
+                    className="mt-1"
+                  />
+                  <Label
+                    htmlFor="acceptedTerms"
+                    className="text-sm font-normal text-muted-foreground"
+                  >
+                    I have read and agree to the{" "}
+                    <Link to="/terms" className="underline text-accent">
+                      Terms &amp; Conditions
+                    </Link>
+                    .
+                  </Label>
+                </div>
+                {errors.acceptedTerms && (
+                  <p className="text-sm text-destructive">{errors.acceptedTerms}</p>
+                )}
+              </div>
+
               <Button
                 type="submit"
-                className="w-full rounded-full py-6 text-base gap-2"
+                disabled={!formData.acceptedTerms}
+                className="w-full rounded-full py-6 text-base gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 Join & Connect on WhatsApp
                 <ArrowRight size={18} />
