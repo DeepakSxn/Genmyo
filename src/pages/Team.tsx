@@ -27,7 +27,7 @@ const Team = () => {
         <div className="container-wide px-6 md:px-12">
           <div className="max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start mb-10 md:mb-12">
-              <div className="w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden flex-shrink-0 bg-secondary">
+              <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden flex-shrink-0 bg-secondary">
                 <img src={personaRajit} alt="Rajit Punshi" className="w-full h-full object-cover" />
               </div>
               <div>
@@ -68,7 +68,7 @@ const Team = () => {
         <div className="container-wide px-6 md:px-12">
           <div className="max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start mb-10 md:mb-12">
-              <div className="w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden flex-shrink-0 bg-secondary">
+              <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden flex-shrink-0 bg-secondary">
                 <img src={personaSid} alt="Sid Punshi" className="w-full h-full object-cover" />
               </div>
               <div>
