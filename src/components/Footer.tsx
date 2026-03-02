@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import FooterLogo from "./FooterLogo";
+import { Linkedin, Facebook } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -56,6 +57,26 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
+            <div className="flex gap-4 mt-6">
+              <a
+                href="https://www.linkedin.com/company/genmyo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.facebook.com/genmyo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+            </div>
           </div>
         </div>
 
