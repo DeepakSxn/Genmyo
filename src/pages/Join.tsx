@@ -93,6 +93,10 @@ const Join = () => {
     });
 
     document.body.appendChild(form);
+
+    // Same turn as the submit click so the browser still treats this as a user gesture.
+    window.open(WHATSAPP_REDIRECT_URL, "_blank");
+
     form.submit();
 
     // Clean up
@@ -102,9 +106,6 @@ const Join = () => {
     }, 1000);
 
     setSubmitted(true);
-    setTimeout(() => {
-      window.open(WHATSAPP_REDIRECT_URL, "_blank");
-    }, 5000);
   };
 
   if (submitted) {
@@ -116,10 +117,10 @@ const Join = () => {
               <CheckCircle className="text-accent" size={32} />
             </div>
             <h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-4 animate-fade-up delay-100">
-              Thanks! Redirecting you to WhatsApp…
+              Thanks! WhatsApp should open in a new tab.
             </h1>
             <p className="text-muted-foreground animate-fade-up delay-200 mb-6">
-              A new tab should open shortly. If it doesn't,{" "}
+              If it didn't open,{" "}
               <a
                 href={WHATSAPP_REDIRECT_URL}
                 target="_blank"
