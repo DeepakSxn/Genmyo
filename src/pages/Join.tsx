@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { z } from "zod";
-import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -228,9 +227,14 @@ const Join = () => {
                     className="text-sm font-normal text-muted-foreground"
                   >
                     I have read and agree to the{" "}
-                    <Link to="/terms" className="underline text-accent">
+                    <a
+                      href="/terms"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline text-accent"
+                    >
                       Terms &amp; Conditions
-                    </Link>
+                    </a>
                     .
                   </Label>
                 </div>
