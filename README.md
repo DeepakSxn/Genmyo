@@ -1,4 +1,4 @@
-aw# Genmyo Path
+# Genmyo Path
 
 ## Project info
 
