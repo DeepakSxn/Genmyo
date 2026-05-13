@@ -1,227 +1,299 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
-import { ArrowRight, Sparkles, Heart, Compass, Users, Play } from "lucide-react";
-
+import { ArrowRight, MessageCircle, Star } from "lucide-react";
 
 const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-hero min-h-[90vh] flex items-center relative overflow-hidden">
+      <section className="bg-gradient-hero min-h-[85vh] flex items-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(var(--accent)/0.08),transparent_50%)]" />
-        <div className="container-wide px-6 md:px-12 py-20 md:py-32 relative z-10">
+        <div className="container-wide px-6 md:px-12 py-20 md:py-28 relative z-10">
           <div className="max-w-4xl">
             <p className="text-sm font-medium tracking-widest uppercase text-accent mb-6 animate-fade-up">
               Inner Development, Reimagined
             </p>
             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-foreground mb-8 animate-fade-up delay-100 leading-[1.1]">
-              Build Clarity.{" "}
-              <span className="text-gradient">Cultivate Resilience.</span>{" "}
-              Reclaim Agency.
+              Your AI-powered guide for{" "}
+              <span className="text-gradient">clarity, resilience</span> and better daily decisions.
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10 animate-fade-up delay-200 leading-relaxed">
-              GenMyo is an AI-led platform for lasting human development, supporting 
-              you to navigate uncertainty with self-trust and meaningful direction.
+              A calm, reflective space to pause, understand yourself, and move forward, without
+              pressure, hype, or judgement. Start in two minutes on WhatsApp.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-up delay-300">
               <Link
                 to="/join"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
               >
-                Join The Mirror Project
-                <ArrowRight size={18} />
+                <MessageCircle size={18} />
+                Start your first session
               </Link>
               <Link
-                to="/philosophy"
+                to="/plan"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium border border-border rounded-full hover:bg-secondary transition-colors"
               >
-                Our Philosophy
+                Learn about the Mirror Project
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* The Problem Statement */}
+      {/* Editorial Intro: GenMyo brand + Mirror Project as first step */}
       <section className="section-padding bg-background">
-        <div className="container-narrow">
-          <div className="text-center mb-16">
-            <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">
-              The Modern Challenge
-            </p>
-            <h2 className="heading-section text-foreground mb-8">
-              Powerful Tools. Constant Stimulation.<br />
-              <span className="text-muted-foreground">Yet Many Feel Lost.</span>
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            {[
-              { stat: "46%", label: "of Gen Z workers feel stressed or depressed" },
-              { stat: "34%", label: "of Millennials report burnout and financial stress" },
-              { stat: "64%", label: "identify mental wellness as a primary need" },
-            ].map((item, index) => (
-              <div key={index} className="text-center p-8 rounded-2xl bg-cream">
-                <span className="font-serif text-5xl md:text-6xl font-medium text-accent block mb-3">
-                  {item.stat}
-                </span>
-                <p className="text-muted-foreground">{item.label}</p>
-              </div>
-            ))}
-          </div>
-          
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-body-large mb-6">
-              Existing solutions offer temporary fixes: content to consume, 
-              not capacities to build. Meditation apps calm for a moment. 
-              Coaching is prohibitively expensive. Generic advice misses 
-              the emotional complexity of real experience.
-            </p>
-            <p className="text-lg text-muted-foreground">
-              What's missing is integrated, continuous support that helps you 
-              make sense of uncertainty and build lasting inner strength.
-            </p>
-          </div>
+        <div className="container-narrow text-center">
+          <p className="text-sm font-medium tracking-widest uppercase text-accent mb-6">
+            About GenMyo
+          </p>
+          <p className="font-serif text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed mb-8">
+            GenMyo is a home for inner wellness, a calmer alternative to a noisy world,
+            built to help people pause, hear themselves clearly, and grow at their own pace.
+          </p>
+          <p className="font-serif italic text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+            The Mirror Project is the first step in that journey, a gentle, guided
+            experience that opens the door inward.
+          </p>
         </div>
       </section>
 
-      {/* What GenMyo Offers */}
+      {/* Where you are now. Where you're going. */}
       <section className="section-padding bg-sand">
         <div className="container-wide px-6 md:px-12">
-          <div className="text-center mb-16">
-            <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">
-              A Different Path
-            </p>
+          <div className="max-w-3xl mb-16">
             <h2 className="heading-section text-foreground mb-6">
-              Not Temporary Fixes. Enduring Capacities.
+              Where you are now. Where you're going.
             </h2>
-            <p className="text-body-large max-w-2xl mx-auto">
-               GenMyo brings humanistic teachings, wellness practices from industry experts, and AI-powered 
-               guidance into a coherent pathway that grows with you over time.
+            <p className="text-body-large">
+              A guided, evolving experience that grows with you, from your first reflection to a
+              deeply personalised practice.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: Sparkles,
-                title: "Clarity",
-                description: "Surface patterns and build understanding through guided reflection.",
-              },
-              {
-                icon: Heart,
-                title: "Resilience",
-                description: "Develop emotional strength that compounds over time.",
-              },
-              {
-                icon: Compass,
-                title: "Agency",
-                description: "Strengthen your sense of direction and self-trust.",
-              },
-              {
-                icon: Users,
-                title: "Connection",
-                description: "Access wisdom without isolation. Grow within community.",
-              },
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="card-elevated group hover:scale-[1.02] transition-transform duration-300"
-              >
-                <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <item.icon size={24} />
-                </div>
-                <h3 className="font-serif text-2xl font-medium text-foreground mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {item.description}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Phase 1 — Live */}
+            <div className="bg-primary text-primary-foreground rounded-3xl p-8 md:p-10 flex flex-col">
+              <p className="text-sm tracking-wide text-primary-foreground/70 mb-4">01 — Now</p>
+              <span className="inline-flex w-fit items-center px-4 py-1.5 rounded-full bg-primary-foreground/15 text-primary-foreground text-xs font-medium tracking-widest uppercase mb-8">
+                Live
+              </span>
+              <h3 className="font-serif text-3xl font-medium mb-5">The Mirror Project</h3>
+              <p className="text-primary-foreground/80 leading-relaxed mb-8">
+                A simple, guided WhatsApp experience that helps you pause, reflect, and think more
+                clearly, in just a few minutes a day.
+              </p>
+              <ul className="space-y-3 mb-8 text-primary-foreground/90">
+                {[
+                  "Respond to short reflection prompts",
+                  "Get gentle, guided responses",
+                  "Build a daily habit of clarity",
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="text-primary-foreground/60">—</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="border-t border-primary-foreground/20 pt-6 mt-auto">
+                <p className="font-serif italic text-primary-foreground/90 mb-6">
+                  Start understanding your thoughts, one small moment at a time.
                 </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Mirror Project CTA */}
-      <section className="section-padding bg-background">
-        <div className="container-wide px-6 md:px-12">
-          <div className="bg-gradient-warm rounded-3xl p-10 md:p-16">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 text-accent rounded-full text-sm font-medium mb-6">
-                  <Play size={14} className="fill-current" />
-                  Now Open
-                </div>
-                <h2 className="heading-section text-foreground mb-6">
-                  The Mirror Project
-                </h2>
-                <p className="text-body-large mb-8">
-                  A WhatsApp-native experience designed to help you build small, 
-                  supportive habits that create space for reflection and honest 
-                  self-inquiry in the flow of everyday life.
-                </p>
-                <ul className="space-y-4 mb-8">
-                  {[
-                    "Daily reflective prompts via WhatsApp",
-                    "Simple but meaningful questions for self-inquiry",
-                    "Build habits that create space for awareness",
-                    "Free to join and participate",
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <div className="w-2 h-2 rounded-full bg-accent" />
-                      </div>
-                      <span className="text-foreground">{item}</span>
-                    </li>
-                  ))}
-                </ul>
                 <Link
                   to="/join"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
                 >
-                  Join The Mirror Project
-                  <ArrowRight size={18} />
+                  Join now
+                  <ArrowRight size={16} />
                 </Link>
               </div>
-              <div className="hidden lg:flex items-center justify-center">
-                <div className="text-center px-8">
-                  <p className="font-serif text-2xl md:text-3xl text-foreground italic leading-relaxed mb-6">
-                    "Some days it might feel light and grounding. Other days it 
-                    might prompt deeper reflection. Both are part of the journey."
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Begins with Phase One of the GenMyo roadmap
-                  </p>
-                </div>
+            </div>
+
+            {/* Phase 2 */}
+            <div className="bg-cream rounded-3xl p-8 md:p-10 flex flex-col">
+              <p className="text-sm tracking-wide text-muted-foreground mb-4">02 — In Production</p>
+              <span className="inline-flex w-fit items-center px-4 py-1.5 rounded-full bg-accent/15 text-accent text-xs font-medium tracking-widest uppercase mb-8">
+                Coming Soon
+              </span>
+              <h3 className="font-serif text-3xl font-medium text-foreground mb-5">
+                Personalised Growth
+              </h3>
+              <p className="text-muted-foreground leading-relaxed mb-8">
+                Your experience becomes more tailored over time, based on what you share, how you
+                think, and what you need.
+              </p>
+              <ul className="space-y-3 mb-8 text-foreground/90">
+                {[
+                  "Pattern recognition from your reflections",
+                  "Adaptive prompts to your growth areas",
+                  "Progress you can actually feel",
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="text-muted-foreground">—</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="border-t border-border pt-6 mt-auto">
+                <p className="text-foreground font-medium">
+                  Move from one-off reflections to a consistent, personalised journey.
+                </p>
+              </div>
+            </div>
+
+            {/* Phase 3 */}
+            <div className="bg-cream rounded-3xl p-8 md:p-10 flex flex-col">
+              <p className="text-sm tracking-wide text-muted-foreground mb-4">03 — Coming Soon</p>
+              <span className="inline-flex w-fit items-center px-4 py-1.5 rounded-full bg-accent/15 text-accent text-xs font-medium tracking-widest uppercase mb-8">
+                On The Horizon
+              </span>
+              <h3 className="font-serif text-3xl font-medium text-foreground mb-5">
+                The Full Platform
+              </h3>
+              <p className="text-muted-foreground leading-relaxed mb-8">
+                A deeper ecosystem combining guided AI experiences, expert insights, and structured
+                growth pathways.
+              </p>
+              <ul className="space-y-3 mb-8 text-foreground/90">
+                {[
+                  "Expert-led content & guidance",
+                  "Structured personal growth pathways",
+                  "Community & peer reflection spaces",
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="text-muted-foreground">—</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="border-t border-border pt-6 mt-auto">
+                <p className="text-foreground font-medium">
+                  Sustain and deepen your personal growth over time.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Early Voices / Testimonials */}
+      <section className="section-padding bg-secondary">
+        <div className="container-wide px-6 md:px-12">
+          <div className="max-w-3xl mb-14">
+            <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
+              Early Voices
+            </p>
+            <h2 className="heading-section text-foreground mb-6">
+              What Mirror Project members say
+            </h2>
+            <p className="text-body-large">
+              A small but growing community of early members exploring what it means to reflect
+              with intention.
+            </p>
+          </div>
 
-      {/* What's Ahead */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                quote:
+                  "I didn't expect a WhatsApp conversation to make me feel this seen. It's quiet, thoughtful, and doesn't push me, it just helps me think.",
+                name: "Sarah A.",
+                location: "Singapore",
+                initials: "SA",
+                bg: "bg-accent/30 text-accent",
+              },
+              {
+                quote:
+                  "The prompts are surprisingly deep without being overwhelming. I've started looking forward to my morning check-ins. It's become a small ritual.",
+                name: "Marcus K.",
+                location: "London",
+                initials: "MK",
+                bg: "bg-cream text-foreground",
+              },
+              {
+                quote:
+                  "It's not therapy, it's not journaling, it's something different. Like having a calm, patient thought partner in your pocket.",
+                name: "Nadia R.",
+                location: "Dubai",
+                initials: "NR",
+                bg: "bg-primary text-primary-foreground",
+              },
+            ].map((t, i) => (
+              <div key={i} className="bg-cream rounded-2xl p-8 flex flex-col">
+                <div className="flex gap-1 mb-6 text-accent">
+                  {Array.from({ length: 5 }).map((_, idx) => (
+                    <Star key={idx} size={16} className="fill-current" />
+                  ))}
+                </div>
+                <p className="font-serif italic text-lg text-foreground leading-relaxed mb-8 flex-grow">
+                  "{t.quote}"
+                </p>
+                <div className="flex items-center gap-4 pt-6 border-t border-border">
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-medium ${t.bg}`}
+                  >
+                    {t.initials}
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground">{t.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Early Mirror member · {t.location}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why we built this */}
       <section className="section-padding bg-background">
-        <div className="container-narrow text-center">
-          <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">
-            What's Ahead
-          </p>
-          <h2 className="heading-section text-foreground mb-6">
-            AI-Powered Inner Change
-          </h2>
-          <p className="text-body-large max-w-2xl mx-auto mb-12">
-            We're building toward an AI-enhanced platform that personalizes your 
-            journey, adapting to your patterns, remembering your progress, and 
-            connecting you with the right resources at the right time.
-          </p>
-          <Link
-            to="/plan"
-            className="inline-flex items-center gap-2 text-foreground font-medium link-underline"
-          >
-            See How We're Building This
-            <ArrowRight size={16} />
-          </Link>
+        <div className="container-wide px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div>
+              <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
+                Why We Built This
+              </p>
+              <h2 className="heading-section text-foreground mb-8">
+                Built for the quiet moments between decisions.
+              </h2>
+              <p className="text-body-large mb-6">
+                GenMyo was created as a quieter alternative to modern wellness culture. In a world
+                shaped by noise and constant performance, we wanted to build a space where people
+                could simply pause and think.
+              </p>
+              <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
+                We're not here to optimise you. We're here to help you understand yourself, gently,
+                and at your own pace.
+              </p>
+              <Link
+                to="/philosophy"
+                className="inline-flex items-center gap-2 px-8 py-4 text-base font-medium bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
+              >
+                Read our story
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 gap-5">
+              {[
+                { stat: "2 min", label: "Average daily session time" },
+                { stat: "89%", label: "Members returned the next day" },
+                { stat: "0", label: "Apps to download" },
+                { stat: "∞", label: "No pressure, no judgement" },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="bg-cream rounded-2xl p-8 flex flex-col items-center justify-center text-center min-h-[180px]"
+                >
+                  <span className="font-serif text-4xl md:text-5xl font-medium text-accent block mb-3">
+                    {item.stat}
+                  </span>
+                  <p className="text-sm text-muted-foreground">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -229,25 +301,24 @@ const Index = () => {
       <section className="section-padding bg-primary text-primary-foreground">
         <div className="container-narrow text-center">
           <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6">
-            Begin Your Journey
+            Ready to pause and reflect?
           </h2>
-          <p className="text-xl text-primary-foreground/80 max-w-xl mx-auto mb-10">
-            Join a growing community committed to meaningful, self-directed 
-            inner change.
+          <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-10">
+            Join the Mirror Project. Your first guided session takes less than two minutes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/join"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-accent text-accent-foreground rounded-full hover:opacity-90 transition-opacity"
             >
-              Join The Mirror Project
-              <ArrowRight size={18} />
+              <MessageCircle size={18} />
+              Start on WhatsApp
             </Link>
             <Link
               to="/philosophy"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium border border-primary-foreground/30 rounded-full hover:bg-primary-foreground/10 transition-colors"
             >
-              Learn Our Philosophy
+              Learn more first
             </Link>
           </div>
         </div>

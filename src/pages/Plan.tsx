@@ -5,8 +5,6 @@ import phaseCrawl from "@/assets/phase-crawl.jpg";
 import phaseWalk from "@/assets/phase-walk.jpg";
 import phaseRun from "@/assets/phase-run.jpg";
 
-const JOIN_PAGE_PATH = "/join";
-
 const Plan = () => {
   const phases = [
     {
@@ -23,7 +21,7 @@ const Plan = () => {
     {
       number: "02",
       title: "Personalised Growth",
-      timeline: "In Production",
+      timeline: "Coming Soon",
       status: "upcoming",
       image: phaseWalk,
       description:
@@ -34,7 +32,7 @@ const Plan = () => {
     {
       number: "03",
       title: "The Full Platform",
-      timeline: "Coming Soon",
+      timeline: "On the Horizon",
       status: "future",
       image: phaseRun,
       description:
@@ -171,7 +169,7 @@ const Plan = () => {
                     </p>
                     {phase.status === "active" && (
                       <Link
-                        to={JOIN_PAGE_PATH}
+                        to="/join"
                         className="inline-flex items-center gap-2 mt-8 text-foreground font-medium link-underline"
                       >
                         Join now
@@ -211,7 +209,7 @@ const Plan = () => {
             everyday life. Begin building clarity today.
           </p>
           <Link
-            to={JOIN_PAGE_PATH}
+            to="/join"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
           >
             Join The Mirror Project

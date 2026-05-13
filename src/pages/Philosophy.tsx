@@ -287,16 +287,13 @@ const Philosophy = () => {
             The best way to understand what we're building is to experience 
             it. Join The Mirror Project and begin the journey.
           </p>
-          <a
-            href={"/Join"
-}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/join"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
           >
             Join The Mirror Project
             <ArrowRight size={18} />
-          </a>
+          </Link>
         </div>
       </section>
     </Layout>
