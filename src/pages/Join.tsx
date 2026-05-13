@@ -244,17 +244,7 @@ const Join = () => {
       return;
     }
 
-    // Compose payload — combine new fields into existing Google Form entries
-    const fullName = `${formData.firstName} ${formData.surname}`.trim();
     const fullWhatsapp = `${formData.countryCode} ${formData.whatsapp}`.trim();
-    const contextPayload = [
-      `DOB: ${formData.dob}`,
-      `Country: ${formData.country}`,
-      `City: ${formData.city}`,
-      formData.context ? `Notes: ${formData.context}` : "",
-    ]
-      .filter(Boolean)
-      .join(" | ");
 
     const iframe = document.createElement("iframe");
     iframe.name = "hidden_iframe";
@@ -267,10 +257,15 @@ const Join = () => {
     form.target = "hidden_iframe";
 
     const fields: Record<string, string> = {
-      "entry.1907368519": fullName,
+      // These entry IDs come from your Google Form questions.
+      "entry.1907368519": formData.firstName,
+      "entry.1208177102": formData.surname,
       "entry.44984313": formData.email,
       "entry.1030588086": fullWhatsapp,
-      "entry.79544609": contextPayload,
+      "entry.1640555608": formData.dob,
+      "entry.1418652324": formData.country,
+      "entry.142785906": formData.city,
+      "entry.79544609": formData.context || "",
     };
 
     Object.entries(fields).forEach(([name, value]) => {
