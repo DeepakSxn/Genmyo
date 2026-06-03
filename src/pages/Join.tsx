@@ -17,9 +17,28 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 const WHATSAPP_REDIRECT_URL = "https://wa.me/message/Y4GOKBIGBWUUM1?text=HI";
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
+const REGISTRATION_API_URL = import.meta.env.DEV
+  ? "/api/register"
+  : "https://slruck3a27.execute-api.ap-south-1.amazonaws.com/prod/register";
+
+function buildRegistrationPayload(
+  data: FormData,
+  fullWhatsapp: string
+): Record<string, string> {
+  return {
+    "entry.1907368519": data.firstName,
+    "entry.1208177102": data.surname,
+    "entry.44984313": data.email,
+    "entry.1640555608": data.dob,
+    "entry.1030588086": fullWhatsapp,
+    "entry.1418652324": data.country,
+    "entry.142785906": data.city,
+    "entry.79544609": data.context || "",
+  };
+}
 
 // Country codes with flag emoji + country name. Sorted by country name.
-const COUNTRY_CODES: { code: string; flag: string; country: string }[] = [
+const COUNTRY_CODES_RAW: { code: string; flag: string; country: string }[] = [
   { code: "+93", flag: "🇦🇫", country: "Afghanistan" },
   { code: "+355", flag: "🇦🇱", country: "Albania" },
   { code: "+213", flag: "🇩🇿", country: "Algeria" },
@@ -178,7 +197,7 @@ const COUNTRY_CODES: { code: string; flag: string; country: string }[] = [
   { code: "+380", flag: "🇺🇦", country: "Ukraine" },
   { code: "+971", flag: "🇦🇪", country: "United Arab Emirates" },
   { code: "+44", flag: "🇬🇧", country: "United Kingdom" },
-  { code: "+1 ", flag: "🇺🇸", country: "United States" },
+  { code: "+1", flag: "🇺🇸", country: "United States" },
   { code: "+598", flag: "🇺🇾", country: "Uruguay" },
   { code: "+998", flag: "🇺🇿", country: "Uzbekistan" },
   { code: "+58", flag: "🇻🇪", country: "Venezuela" },
@@ -188,6 +207,24 @@ const COUNTRY_CODES: { code: string; flag: string; country: string }[] = [
   { code: "+263", flag: "🇿🇼", country: "Zimbabwe" },
 ];
 
+// Unique id per row (Canada and US both use +1).
+type CountryCodeOption = { id: string; code: string; flag: string; country: string };
+
+const COUNTRY_CODES: CountryCodeOption[] = COUNTRY_CODES_RAW.map((entry) => {
+  const code = entry.code.trim();
+  return {
+    ...entry,
+    code,
+    id: `${entry.country}::${code}`,
+  };
+});
+
+function dialCodeFromSelectId(selectId: string): string {
+  const match = COUNTRY_CODES.find((c) => c.id === selectId);
+  if (match) return match.code;
+  const fromId = selectId.split("::")[1];
+  return fromId ?? selectId;
+}
 
 const formSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required").max(50, "Must be less than 50 characters"),
@@ -221,6 +258,8 @@ const Join = () => {
     context: "",
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (field: keyof FormData, value: string) => {
@@ -228,24 +267,12 @@ const Join = () => {
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
+    if (submitError) {
+      setSubmitError(null);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = formSchema.safeParse(formData);
-
-    if (!result.success) {
-      const fieldErrors: Partial<Record<keyof FormData, string>> = {};
-      result.error.issues.forEach((issue) => {
-        const field = issue.path[0] as keyof FormData;
-        if (!fieldErrors[field]) fieldErrors[field] = issue.message;
-      });
-      setErrors(fieldErrors);
-      return;
-    }
-
-    const fullWhatsapp = `${formData.countryCode} ${formData.whatsapp}`.trim();
-
+  const submitToGoogleFormAndFinish = (fields: Record<string, string>) => {
     const iframe = document.createElement("iframe");
     iframe.name = "hidden_iframe";
     iframe.style.display = "none";
@@ -255,18 +282,6 @@ const Join = () => {
     form.method = "POST";
     form.action = GOOGLE_FORM_URL;
     form.target = "hidden_iframe";
-
-    const fields: Record<string, string> = {
-      // These entry IDs come from your Google Form questions.
-      "entry.1907368519": formData.firstName,
-      "entry.1208177102": formData.surname,
-      "entry.44984313": formData.email,
-      "entry.1030588086": fullWhatsapp,
-      "entry.1640555608": formData.dob,
-      "entry.1418652324": formData.country,
-      "entry.142785906": formData.city,
-      "entry.79544609": formData.context || "",
-    };
 
     Object.entries(fields).forEach(([name, value]) => {
       const input = document.createElement("input");
@@ -284,10 +299,54 @@ const Join = () => {
       document.body.removeChild(iframe);
     }, 1000);
 
+    window.open(WHATSAPP_REDIRECT_URL, "_blank");
     setSubmitted(true);
-    setTimeout(() => {
-      window.open(WHATSAPP_REDIRECT_URL, "_blank");
-    }, 5000);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitError(null);
+    const result = formSchema.safeParse(formData);
+
+    if (!result.success) {
+      const fieldErrors: Partial<Record<keyof FormData, string>> = {};
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as keyof FormData;
+        if (!fieldErrors[field]) fieldErrors[field] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    const fullWhatsapp = `${dialCodeFromSelectId(formData.countryCode)} ${formData.whatsapp}`.trim();
+    const fields = buildRegistrationPayload(formData, fullWhatsapp);
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(REGISTRATION_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fields),
+      });
+
+      if (response.status === 409) {
+        const message =
+          "This phone number is already registered. If you joined before, open WhatsApp and message The Mirror, or use a different number.";
+        setSubmitError(message);
+        setErrors((prev) => ({
+          ...prev,
+          whatsapp: "This number is already registered.",
+        }));
+        return;
+      }
+
+      submitToGoogleFormAndFinish(fields);
+    } catch {
+      // If the API is unreachable, still complete Google Form + WhatsApp flow.
+      submitToGoogleFormAndFinish(fields);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -299,10 +358,10 @@ const Join = () => {
               <CheckCircle className="text-accent" size={32} />
             </div>
             <h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-4 animate-fade-up delay-100">
-              Thanks! Redirecting you to WhatsApp…
+              Thanks! WhatsApp should open in a new tab.
             </h1>
             <p className="text-muted-foreground animate-fade-up delay-200 mb-6">
-              A new tab should open shortly. If it doesn't,{" "}
+              If it didn't open,{" "}
               <a
                 href={WHATSAPP_REDIRECT_URL}
                 target="_blank"
@@ -429,10 +488,10 @@ const Join = () => {
                     </SelectTrigger>
                     <SelectContent className="max-h-72">
                       {COUNTRY_CODES.map((c) => (
-                        <SelectItem key={`${c.country}-${c.code}`} value={c.code.trim()}>
+                        <SelectItem key={c.id} value={c.id}>
                           <span className="inline-flex items-center gap-2">
                             <span aria-hidden>{c.flag}</span>
-                            <span>{c.code.trim()}</span>
+                            <span>{c.code}</span>
                             <span className="text-muted-foreground">{c.country}</span>
                           </span>
                         </SelectItem>
@@ -518,8 +577,18 @@ const Join = () => {
                 {errors.context && <p className="text-sm text-destructive">{errors.context}</p>}
               </div>
 
-              <Button type="submit" className="w-full rounded-full py-6 text-base gap-2">
-                Join & Connect on WhatsApp
+              {submitError && (
+                <p className="text-sm text-destructive rounded-lg border border-destructive/30 bg-destructive/5 p-4">
+                  {submitError}
+                </p>
+              )}
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full rounded-full py-6 text-base gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Submitting…" : "Join & Connect on WhatsApp"}
                 <ArrowRight size={18} />
               </Button>
             </form>
