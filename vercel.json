@@ -1,9 +1,12 @@
 {
   "rewrites": [
     {
+      "source": "/api/register",
+      "destination": "https://slruck3a27.execute-api.ap-south-1.amazonaws.com/prod/register"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }
   ]
 }
-
