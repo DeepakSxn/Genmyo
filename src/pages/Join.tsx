@@ -17,9 +17,8 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 const WHATSAPP_REDIRECT_URL = "https://wa.me/message/Y4GOKBIGBWUUM1?text=HI";
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
-const REGISTRATION_API_URL = import.meta.env.DEV
-  ? "/api/register"
-  : "https://slruck3a27.execute-api.ap-south-1.amazonaws.com/prod/register";
+// Same-origin path; Vercel (prod) and Vite (dev) proxy this to the AWS register API.
+const REGISTRATION_API_URL = "/api/register";
 
 function buildRegistrationPayload(
   data: FormData,
