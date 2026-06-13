@@ -1,9 +1,12 @@
 {
   "rewrites": [
     {
+      "source": "/api/register",
+      "destination": "https://hb4ngs4y66.execute-api.ap-south-1.amazonaws.com/register"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }
   ]
 }
-

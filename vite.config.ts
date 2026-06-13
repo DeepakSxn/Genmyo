@@ -12,10 +12,10 @@ export default defineConfig(() => ({
     },
     proxy: {
       "/api/register": {
-        target: "https://slruck3a27.execute-api.ap-south-1.amazonaws.com",
+        target: "https://hb4ngs4y66.execute-api.ap-south-1.amazonaws.com",
         changeOrigin: true,
         secure: true,
-        rewrite: (path) => path.replace(/^\/api\/register/, "/prod/register"),
+        rewrite: (path) => path.replace(/^\/api\/register/, "/register"),
       },
     },
   },
