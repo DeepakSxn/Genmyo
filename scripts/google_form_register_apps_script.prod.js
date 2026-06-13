@@ -1,5 +1,5 @@
 /**
- * Google Form -> Mirror Agent registration (shared field mapping)
+ * Google Form -> Mirror Agent registration 
  *
  * Maps questions by TITLE so the same script works on staging and prod forms
  * (only change REGISTER_URL per environment).
