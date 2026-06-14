@@ -1,41 +1,66 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import HeroMirrorCard, { HERO_ACCENT, HERO_CREAM, HERO_TERRACOTTA } from "@/components/HeroMirrorCard";
 import { ArrowRight, MessageCircle, Star } from "lucide-react";
 
 const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-hero min-h-[85vh] flex items-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(var(--accent)/0.08),transparent_50%)]" />
-        <div className="container-wide px-6 md:px-12 py-20 md:py-28 relative z-10">
-          <div className="max-w-4xl">
-            <p className="text-sm font-medium tracking-widest uppercase text-accent mb-6 animate-fade-up">
+      <section className="grid min-h-[calc(100dvh-4rem)] grid-cols-1 sm:min-h-[calc(100dvh-5rem)] md:grid-cols-2 lg:min-h-[calc(100dvh-5rem)]">
+        {/* Left — copy & CTAs */}
+        <div
+          className="flex items-center px-4 py-12 xs:px-5 sm:px-8 sm:py-16 md:px-10 md:py-16 lg:px-16 lg:py-20 xl:py-24"
+          style={{ backgroundColor: HERO_CREAM }}
+        >
+          <div className="mx-auto w-full max-w-xl md:mx-0">
+            <p
+              className="mb-4 animate-fade-up text-[0.65rem] font-medium uppercase tracking-[0.18em] xs:text-xs sm:mb-5 sm:tracking-[0.2em] md:mb-6 md:text-sm"
+              style={{ color: HERO_ACCENT }}
+            >
               Inner Development, Reimagined
             </p>
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-foreground mb-8 animate-fade-up delay-100 leading-[1.1]">
+            <h1
+              className="mb-5 animate-fade-up delay-100 font-serif text-[1.75rem] font-medium leading-[1.15] xs:text-3xl sm:mb-6 sm:text-4xl sm:leading-[1.12] md:mb-7 md:text-[2.35rem] lg:mb-8 lg:text-5xl xl:text-6xl 2xl:text-7xl"
+              style={{ color: "#2D2D2D" }}
+            >
               Your AI-powered guide for{" "}
-              <span className="text-gradient">clarity, resilience</span> and better daily decisions.
+              <span style={{ color: HERO_ACCENT }}>clarity,</span>{" "}
+              <span style={{ color: HERO_ACCENT }}>resilience</span> and better daily decisions.
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10 animate-fade-up delay-200 leading-relaxed">
+            <p
+              className="mb-7 max-w-lg animate-fade-up delay-200 text-[0.95rem] leading-relaxed sm:mb-8 sm:text-base md:mb-10 md:text-lg lg:text-xl"
+              style={{ color: "#6B6B6B" }}
+            >
               A calm, reflective space to pause, understand yourself, and move forward, without
-              pressure, hype, or judgement. Start in two minutes on WhatsApp.
+              pressure or judgement. Start in two minutes on WhatsApp.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 animate-fade-up delay-300">
+            <div className="flex animate-fade-up flex-col gap-3 delay-300 sm:flex-row sm:flex-wrap sm:gap-4">
               <Link
                 to="/join"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 sm:w-auto sm:px-7 md:px-8 md:py-4 md:text-base"
               >
                 <MessageCircle size={18} />
                 Start your first session
               </Link>
               <Link
                 to="/plan"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium border border-border rounded-full hover:bg-secondary transition-colors"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary/80 sm:w-auto sm:px-7 md:px-8 md:py-4 md:text-base"
+                style={{ backgroundColor: HERO_CREAM }}
               >
                 Learn about the Mirror Project
               </Link>
             </div>
+          </div>
+        </div>
+
+        {/* Right — mirror card on terracotta panel */}
+        <div
+          className="flex min-h-[24rem] w-full items-center justify-center px-4 py-10 xs:px-5 sm:min-h-[28rem] sm:px-8 sm:py-12 md:min-h-[calc(100dvh-5rem)] md:px-10 md:py-10 lg:px-12 lg:py-12"
+          style={{ backgroundColor: HERO_TERRACOTTA }}
+        >
+          <div className="animate-fade-up delay-200 flex h-auto min-h-[22rem] w-full max-w-[18rem] items-stretch xs:max-w-[19rem] sm:min-h-[26rem] sm:max-w-[22rem] md:h-[75%] md:min-h-[24rem] md:max-w-[24rem] lg:max-w-[28rem] xl:max-w-[30rem]">
+            <HeroMirrorCard />
           </div>
         </div>
       </section>
