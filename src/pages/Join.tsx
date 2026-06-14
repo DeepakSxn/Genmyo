@@ -1,20 +1,16 @@
 import { useState } from "react";
+import { isValid, parse } from "date-fns";
 import { z } from "zod";
 import Layout from "@/components/Layout";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import SearchableCountrySelect from "@/components/SearchableCountrySelect";
+import DateOfBirthPicker from "@/components/DateOfBirthPicker";
+import { cn } from "@/lib/utils";
 import { ArrowRight, CheckCircle } from "lucide-react";
 
-const WHATSAPP_REDIRECT_URL = "https://wa.me/message/Y4GOKBIGBWUUM1?text=HI";
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
 // Same-origin path; Vercel (prod) and Vite (dev) proxy this to the AWS register API.
@@ -229,7 +225,12 @@ const formSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required").max(50, "Must be less than 50 characters"),
   surname: z.string().trim().min(1, "Surname is required").max(50, "Must be less than 50 characters"),
   email: z.string().trim().email("Please enter a valid email").max(255),
-  dob: z.string().regex(/^\d{2}\/\d{2}\/\d{2}$/, "Use format dd/mm/yy"),
+  dob: z
+    .string()
+    .min(1, "Please select your date of birth")
+    .regex(/^\d{2}\/\d{2}\/\d{4}$/, "Use format dd/mm/yyyy")
+    .refine((val) => isValid(parse(val, "dd/MM/yyyy", new Date())), "Please enter a valid date")
+    .refine((val) => parse(val, "dd/MM/yyyy", new Date()) <= new Date(), "Date of birth cannot be in the future"),
   countryCode: z.string().min(1, "Select a country code"),
   whatsapp: z
     .string()
@@ -298,7 +299,6 @@ const Join = () => {
       document.body.removeChild(iframe);
     }, 1000);
 
-    window.open(WHATSAPP_REDIRECT_URL, "_blank");
     setSubmitted(true);
   };
 
@@ -341,7 +341,7 @@ const Join = () => {
 
       submitToGoogleFormAndFinish(fields);
     } catch {
-      // If the API is unreachable, still complete Google Form + WhatsApp flow.
+      // If the API is unreachable, still complete Google Form submission.
       submitToGoogleFormAndFinish(fields);
     } finally {
       setIsSubmitting(false);
@@ -352,34 +352,23 @@ const Join = () => {
     return (
       <Layout>
         <section className="section-padding bg-background min-h-[70vh] flex items-center">
-          <div className="container-narrow text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/20 mb-6 animate-fade-up">
-              <CheckCircle className="text-accent" size={32} />
+          <div className="container-narrow w-full px-1 sm:px-0">
+            <div className="mx-auto max-w-lg text-center">
+            <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent/20 mb-6 sm:mb-8 animate-fade-up">
+              <CheckCircle className="text-accent" size={28} />
             </div>
-            <h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-4 animate-fade-up delay-100">
-              Thanks! WhatsApp should open in a new tab.
-            </h1>
-            <p className="text-muted-foreground animate-fade-up delay-200 mb-6">
-              If it didn't open,{" "}
-              <a
-                href={WHATSAPP_REDIRECT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-accent underline"
-              >
-                click here
-              </a>.
-            </p>
-            <div className="bg-accent/10 border border-accent/20 rounded-lg p-5 text-left animate-fade-up delay-300">
-              <p className="text-sm font-medium text-foreground mb-2">
-                ✨ One more step to activate The Mirror:
+            <div className="space-y-3 sm:space-y-4 animate-fade-up delay-100">
+              <p className="font-serif text-xl text-foreground sm:text-2xl md:text-3xl">
+                Hi {formData.firstName},
               </p>
-              <p className="text-sm text-muted-foreground">
-                Once WhatsApp opens, send a message like{" "}
-                <span className="font-semibold text-accent">"Hello"</span> or{" "}
-                <span className="font-semibold text-accent">"Mirror"</span> to start your journey.
-                The Mirror won't activate until it hears from you!
+              <p className="font-serif text-lg text-foreground sm:text-xl md:text-2xl">
+                Thank you for joining GenMyō.
               </p>
+              <p className="text-base leading-relaxed text-muted-foreground pt-1 sm:text-lg sm:pt-2">
+                We take a moment to welcome each person individually before your journey begins.
+                You will hear from us shortly.
+              </p>
+            </div>
             </div>
           </div>
         </section>
@@ -390,21 +379,21 @@ const Join = () => {
   return (
     <Layout>
       <section className="section-padding bg-background min-h-[70vh] flex items-center">
-        <div className="container-narrow">
-          <div className="max-w-lg mx-auto">
-            <div className="text-center mb-10">
+        <div className="container-narrow w-full">
+          <div className="mx-auto w-full max-w-lg px-1 sm:px-0">
+            <div className="mb-8 text-center sm:mb-10">
               <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
                 Join The Mirror Project
               </p>
-              <h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-4">
+              <h1 className="font-serif text-2xl font-medium text-foreground mb-3 sm:text-3xl sm:mb-4 md:text-4xl">
                 Start Your Journey
               </h1>
-              <p className="text-muted-foreground">
+              <p className="text-sm text-muted-foreground sm:text-base">
                 Fill in your details and we'll connect with you on WhatsApp.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">
@@ -458,15 +447,13 @@ const Join = () => {
                 <Label htmlFor="dob">
                   Date of Birth <span className="text-accent">*</span>
                 </Label>
-                <Input
+                <DateOfBirthPicker
                   id="dob"
-                  placeholder="dd/mm/yy"
-                  inputMode="numeric"
                   value={formData.dob}
-                  onChange={(e) => handleChange("dob", e.target.value)}
-                  className={errors.dob ? "border-destructive" : ""}
+                  onChange={(value) => handleChange("dob", value)}
+                  hasError={!!errors.dob}
                 />
-                <p className="text-xs text-muted-foreground">Format: dd/mm/yy (e.g. 15/08/90)</p>
+                <p className="text-xs text-muted-foreground">Format: dd/mm/yyyy</p>
                 {errors.dob && <p className="text-sm text-destructive">{errors.dob}</p>}
               </div>
 
@@ -474,36 +461,24 @@ const Join = () => {
                 <Label>
                   WhatsApp Number <span className="text-accent">*</span>
                 </Label>
-                <div className="grid grid-cols-[180px_1fr] gap-2">
-                  <Select
+                <div className="grid grid-cols-1 gap-2 min-[480px]:grid-cols-[minmax(0,9.5rem)_1fr] sm:grid-cols-[minmax(0,10.5rem)_1fr] md:grid-cols-[minmax(0,11.25rem)_1fr]">
+                  <SearchableCountrySelect
+                    options={COUNTRY_CODES}
                     value={formData.countryCode}
                     onValueChange={(value) => handleChange("countryCode", value)}
-                  >
-                    <SelectTrigger
-                      className={errors.countryCode ? "border-destructive" : ""}
-                      aria-label="Country code"
-                    >
-                      <SelectValue placeholder="Country code" />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-72">
-                      {COUNTRY_CODES.map((c) => (
-                        <SelectItem key={c.id} value={c.id}>
-                          <span className="inline-flex items-center gap-2">
-                            <span aria-hidden>{c.flag}</span>
-                            <span>{c.code}</span>
-                            <span className="text-muted-foreground">{c.country}</span>
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    variant="countryCode"
+                    placeholder="Country code"
+                    searchPlaceholder="Search country or code…"
+                    hasError={!!errors.countryCode}
+                    aria-label="Country code"
+                  />
                   <Input
                     id="whatsapp"
                     placeholder="234 567 8900"
                     inputMode="tel"
                     value={formData.whatsapp}
                     onChange={(e) => handleChange("whatsapp", e.target.value)}
-                    className={errors.whatsapp ? "border-destructive" : ""}
+                    className={cn("min-w-0", errors.whatsapp ? "border-destructive" : "")}
                     aria-label="WhatsApp number"
                   />
                 </div>
@@ -520,27 +495,16 @@ const Join = () => {
                   <Label htmlFor="country">
                     Country <span className="text-accent">*</span>
                   </Label>
-                  <Select
+                  <SearchableCountrySelect
+                    options={COUNTRY_CODES}
                     value={formData.country}
                     onValueChange={(value) => handleChange("country", value)}
-                  >
-                    <SelectTrigger
-                      id="country"
-                      className={errors.country ? "border-destructive" : ""}
-                    >
-                      <SelectValue placeholder="Select country" />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-72">
-                      {COUNTRY_CODES.map((c) => (
-                        <SelectItem key={`country-${c.country}`} value={c.country}>
-                          <span className="inline-flex items-center gap-2">
-                            <span aria-hidden>{c.flag}</span>
-                            <span>{c.country}</span>
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    variant="country"
+                    placeholder="Select country"
+                    searchPlaceholder="Search country…"
+                    hasError={!!errors.country}
+                    id="country"
+                  />
                   {errors.country && (
                     <p className="text-sm text-destructive">{errors.country}</p>
                   )}
@@ -585,7 +549,7 @@ const Join = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-full py-6 text-base gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="h-auto w-full rounded-full py-5 text-sm gap-2 disabled:cursor-not-allowed disabled:opacity-60 sm:py-6 sm:text-base"
               >
                 {isSubmitting ? "Submitting…" : "Join & Connect on WhatsApp"}
                 <ArrowRight size={18} />

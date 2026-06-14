@@ -23,7 +23,7 @@ function onFormSubmit(e) {
     payload: JSON.stringify(payload),
     muteHttpExceptions: true,
   });
-  Logger.log("register status=" + res.getResponseCode() + " body=" + res.getContentText());
+  Logger.log("register status=" + res.getResponseCode() + "body=" + res.getContentText());
 }
 
 function buildRegisterPayload(e) {
