@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
-import HeroMirrorCard, { HERO_ACCENT, HERO_CREAM, HERO_TERRACOTTA } from "@/components/HeroMirrorCard";
+import HeroMirrorPanel from "@/components/HeroMirrorPanel";
+import { HERO_ACCENT, HERO_CREAM, HERO_TERRACOTTA } from "@/components/HeroMirrorCard";
 import { ArrowRight, MessageCircle, Star } from "lucide-react";
 
 const Index = () => {
@@ -60,7 +61,7 @@ const Index = () => {
           style={{ backgroundColor: HERO_TERRACOTTA }}
         >
           <div className="animate-fade-up delay-200 flex h-auto min-h-[22rem] w-full max-w-[18rem] items-stretch xs:max-w-[19rem] sm:min-h-[26rem] sm:max-w-[22rem] md:h-[75%] md:min-h-[24rem] md:max-w-[24rem] lg:max-w-[28rem] xl:max-w-[30rem]">
-            <HeroMirrorCard />
+            <HeroMirrorPanel />
           </div>
         </div>
       </section>
