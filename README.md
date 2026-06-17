@@ -1,4 +1,4 @@
-# Genmyo Path
+# GenMyo
 
 ## Project info
 

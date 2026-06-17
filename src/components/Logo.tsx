@@ -13,7 +13,9 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
       <div ref={ref} className={`flex items-center ${className}`}>
         <img
           src={logoImage}
-          alt="GENMYŌ"
+          alt="GenMyo"
+          width={1920}
+          height={430}
           style={{ height: size, width: "auto" }}
           className="dark:invert"
         />

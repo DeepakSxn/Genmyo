@@ -2,6 +2,7 @@ import { useState } from "react";
 import { isValid, parse } from "date-fns";
 import { z } from "zod";
 import Layout from "@/components/Layout";
+import { SEO } from "@/components/SEO";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -351,6 +352,11 @@ const Join = () => {
   if (submitted) {
     return (
       <Layout>
+        <SEO
+          title="Join — Start Your Free AI Reflection on WhatsApp"
+          description="Sign up for The Mirror Project in under 2 minutes. GenMyo sends you daily AI-guided reflection prompts on WhatsApp — no app to download, no subscription needed."
+          canonical="/join"
+        />
         <section className="section-padding bg-background min-h-[70vh] flex items-center">
           <div className="container-narrow w-full px-1 sm:px-0">
             <div className="mx-auto max-w-lg text-center">
@@ -362,12 +368,11 @@ const Join = () => {
                 Hi {formData.firstName},
               </p>
               <p className="font-serif text-lg text-foreground sm:text-xl md:text-2xl">
-                Thank you for joining GenMyō.
+                Thank you for joining GenMyo.
               </p>
-              <p className="text-base leading-relaxed text-muted-foreground pt-1 sm:text-lg sm:pt-2">
-                We take a moment to welcome each person individually before your journey begins.
-                You will hear from us shortly.
-              </p>
+              <h2 className="font-serif text-base text-foreground sm:text-lg md:text-xl leading-relaxed">
+                You're in — send "Hello" or "Mirror" on WhatsApp to start your first reflection session
+              </h2>
             </div>
             </div>
           </div>
@@ -378,6 +383,11 @@ const Join = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Join — Start Your Free AI Reflection on WhatsApp"
+        description="Sign up for The Mirror Project in under 2 minutes. GenMyo sends you daily AI-guided reflection prompts on WhatsApp — no app to download, no subscription needed."
+        canonical="/join"
+      />
       <section className="section-padding bg-background min-h-[70vh] flex items-center">
         <div className="container-narrow w-full">
           <div className="mx-auto w-full max-w-lg px-1 sm:px-0">
@@ -386,7 +396,7 @@ const Join = () => {
                 Join The Mirror Project
               </p>
               <h1 className="font-serif text-2xl font-medium text-foreground mb-3 sm:text-3xl sm:mb-4 md:text-4xl">
-                Start Your Journey
+                Join The Mirror Project — free daily AI reflection on WhatsApp
               </h1>
               <p className="text-sm text-muted-foreground sm:text-base">
                 Fill in your details and we'll connect with you on WhatsApp.

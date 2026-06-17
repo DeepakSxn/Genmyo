@@ -81,7 +81,9 @@ const HeroMirrorCard = ({ className }: HeroMirrorCardProps) => (
 
       <img
         src={logoImage}
-        alt="GENMYŌ"
+        alt="GenMyo"
+        width={1920}
+        height={430}
         className="mt-8 h-5 w-auto opacity-70 sm:mt-10 sm:h-6 md:mt-12 md:h-7"
       />
     </div>

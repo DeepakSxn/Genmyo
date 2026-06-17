@@ -1,12 +1,45 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import { SEO } from "@/components/SEO";
 import HeroMirrorPanel from "@/components/HeroMirrorPanel";
 import { HERO_ACCENT, HERO_CREAM, HERO_TERRACOTTA } from "@/components/HeroMirrorCard";
 import { ArrowRight, MessageCircle, Star } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "GenMyo",
+  url: "https://www.genmyo.ai",
+};
+
+const mirrorProjectSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "The Mirror Project by GenMyo",
+  operatingSystem: "WhatsApp",
+  applicationCategory: "HealthApplication",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  description:
+    "A guided WhatsApp experience delivering short daily AI reflection prompts. Sessions take 2 minutes. No app download required.",
+};
 
 const Index = () => {
   return (
     <Layout>
+      <SEO
+        title="AI-Powered Guided Reflection & Inner Wellness"
+        description="GenMyo is an AI wellness platform that guides you through daily 2-minute reflections on WhatsApp — no app needed. Build clarity, resilience and better habits, one prompt at a time."
+        canonical="/"
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(mirrorProjectSchema)}</script>
+      </Helmet>
       {/* Hero Section */}
       <section className="grid min-h-[calc(100dvh-4rem)] grid-cols-1 sm:min-h-[calc(100dvh-5rem)] md:grid-cols-2 lg:min-h-[calc(100dvh-5rem)]">
         {/* Left — copy & CTAs */}
@@ -27,14 +60,14 @@ const Index = () => {
             >
               Your AI-powered guide for{" "}
               <span style={{ color: HERO_ACCENT }}>clarity,</span>{" "}
-              <span style={{ color: HERO_ACCENT }}>resilience</span> and better daily decisions.
+              <span style={{ color: HERO_ACCENT }}>resilience</span> and better daily decisions — on WhatsApp.
             </h1>
             <p
               className="mb-7 max-w-lg animate-fade-up delay-200 text-[0.95rem] leading-relaxed sm:mb-8 sm:text-base md:mb-10 md:text-lg lg:text-xl"
               style={{ color: "#6B6B6B" }}
             >
               A calm, reflective space to pause, understand yourself, and move forward, without
-              pressure or judgement. Start in two minutes on WhatsApp.
+              pressure or judgement.
             </p>
             <div className="flex animate-fade-up flex-col gap-3 delay-300 sm:flex-row sm:flex-wrap sm:gap-4">
               <Link
@@ -303,9 +336,9 @@ const Index = () => {
 
             <div className="grid grid-cols-2 gap-5">
               {[
-                { stat: "2 min", label: "Average daily session time" },
-                { stat: "89%", label: "Members returned the next day" },
-                { stat: "0", label: "Apps to download" },
+                { stat: "2 min", label: "2-minute daily reflection sessions" },
+                { stat: "89%", label: "89% of users return the next day" },
+                { stat: "0", label: "Zero apps — works directly on WhatsApp" },
                 { stat: "∞", label: "No pressure, no judgement" },
               ].map((item, i) => (
                 <div
@@ -327,7 +360,7 @@ const Index = () => {
       <section className="section-padding bg-primary text-primary-foreground">
         <div className="container-narrow text-center">
           <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6">
-            Ready to pause and reflect?
+            Start your free daily reflection on WhatsApp today
           </h2>
           <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-10">
             Join the Mirror Project. Your first guided session takes less than two minutes.

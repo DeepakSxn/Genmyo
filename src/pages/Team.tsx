@@ -1,12 +1,46 @@
 import personaRajit from "@/assets/Rajit.png";
 import personaSid from "@/assets/sid.png";
 import Layout from "@/components/Layout";
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+
+const teamSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      name: "Rajit Punshi",
+      jobTitle: "Founder",
+      worksFor: { "@type": "Organization", name: "GenMyo" },
+      description:
+        "25+ years of global leadership in governance, risk and systems design. Founded GenMyo as an AI-first platform for inner development.",
+      image: "https://www.genmyo.ai/Rajit.png",
+      sameAs: [],
+    },
+    {
+      "@type": "Person",
+      name: "Sid Punshi",
+      jobTitle: "Head of Product & Growth",
+      worksFor: { "@type": "Organization", name: "GenMyo" },
+      image: "https://www.genmyo.ai/sid.png",
+      sameAs: [],
+    },
+  ],
+};
 
 const Team = () => {
   return (
     <Layout>
+      <SEO
+        title="The Roadmap - From Whatsapp To a Full AI-driven Platform"
+        description="GenMyo was founded by Rajit Punshi, a 25-year global leadership veteran, and Sid Punshi, a product and growth specialist. Meet the team building AI-first human development tools."
+        canonical="/team"
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(teamSchema)}</script>
+      </Helmet>
       {/* Hero */}
       <section className="bg-gradient-hero section-padding">
         <div className="container-narrow text-center">
@@ -26,9 +60,9 @@ const Team = () => {
       <section className="section-padding bg-background">
         <div className="container-wide px-6 md:px-12">
           <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start mb-10 md:mb-12">
+            <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start mb-10 md:mb-12">
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden flex-shrink-0 bg-secondary">
-                <img src={personaRajit} alt="Rajit Punshi" className="w-full h-full object-cover" />
+                <img src={personaRajit} alt="Rajit Punshi, Founder of GenMyo — AI wellness platform" className="w-full h-full object-cover" width={1080} height={1080} loading="lazy" />
               </div>
               <div>
                 <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
@@ -41,13 +75,7 @@ const Team = () => {
             </div>
             <div className="space-y-8 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Rajit Punshi is the Founder and Architect of GenMyo. With 25+ years of
-                global leadership experience across governance, risk, and complex systems
-                design, he has built frameworks that strengthen accountability, resilience,
-                and long-term trust across institutions worldwide. Having trained over
-                2,000 professionals and senior executives, and recognised among the Top 50
-                Operational Risk Professionals globally, Rajit has spent his career
-                understanding how systems behave under pressure.
+                Rajit Punshi is the Founder and Architect of GenMyo. With 25+ years of global leadership experience across governance, risk, and complex systems design, he has built frameworks that strengthen accountability, resilience, and long-term trust across institutions worldwide. Having trained over 2,000 professionals and senior executives, and recognised among the Top 50 Operational Risk Professionals globally, Rajit has spent his career understanding how systems behave under pressure.
               </p>
               <p>
                 Across generations, he observed a deeper structural gap: Gen Z navigating
@@ -67,9 +95,9 @@ const Team = () => {
       <section className="section-padding bg-cream">
         <div className="container-wide px-6 md:px-12">
           <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start mb-10 md:mb-12">
+            <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start mb-10 md:mb-12">
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden flex-shrink-0 bg-secondary">
-                <img src={personaSid} alt="Sid Punshi" className="w-full h-full object-cover" />
+                <img src={personaSid} alt="Sid Punshi, Head of Product and Growth at GenMyo" className="w-full h-full object-cover" width={816} height={1001} loading="lazy" />
               </div>
               <div>
                 <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
@@ -82,16 +110,16 @@ const Team = () => {
             </div>
             <div className="space-y-8 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Sid brings professional experience spanning AI, fintech, data analytics, 
-                and product development, alongside first-hand experience in the wellness 
-                space and a genuine understanding of the challenges younger generations 
+                Sid brings professional experience spanning AI, fintech, data analytics,
+                and product development, alongside first-hand experience in the wellness
+                space and a genuine understanding of the challenges younger generations
                 face around mental wellbeing, identity, and digital overload.
               </p>
               <p>
                 He leads product design, user experience, and growth strategy for GenMyo,
-                ensuring the platform resonates with Gen Z and Millennial users. His 
-                contribution keeps GenMyo practical, relatable, and grounded in real user 
-                behaviour, ensuring that what is built is not just well-structured, but 
+                ensuring the platform resonates with Gen Z and Millennial users. His
+                contribution keeps GenMyo practical, relatable, and grounded in real user
+                behaviour, ensuring that what is built is not just well-structured, but
                 genuinely usable in everyday life.
               </p>
             </div>

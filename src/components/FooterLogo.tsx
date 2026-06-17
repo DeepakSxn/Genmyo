@@ -13,6 +13,9 @@ const FooterLogo = forwardRef<HTMLDivElement, FooterLogoProps>(
         <img
           src={footerLogoImage}
           alt="GenMyo"
+          width={1400}
+          height={364}
+          loading="lazy"
           style={{ height: size, width: "auto" }}
         />
       </div>

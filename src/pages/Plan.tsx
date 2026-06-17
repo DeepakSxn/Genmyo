@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import { SEO } from "@/components/SEO";
 import { ArrowRight, Circle } from "lucide-react";
 import phaseCrawl from "@/assets/phase-crawl.jpg";
 import phaseWalk from "@/assets/phase-walk.jpg";
@@ -13,6 +14,7 @@ const Plan = () => {
       timeline: "Now",
       status: "active",
       image: phaseCrawl,
+      alt: "Phase 1 — The Mirror Project: guided WhatsApp reflection sessions helping users build daily self-awareness habits",
       description:
         "A free, lightweight experience designed to help you build small but meaningful habits of self-reflection.",
       outcome:
@@ -24,6 +26,7 @@ const Plan = () => {
       timeline: "Coming Soon",
       status: "upcoming",
       image: phaseWalk,
+      alt: "Phase 2 — Personalised Growth: AI that adapts to your reflection patterns and delivers tailored prompts over time",
       description:
         "AI-enhanced experiences that adapt to you, making every interaction more relevant and more useful over time.",
       outcome:
@@ -35,6 +38,7 @@ const Plan = () => {
       timeline: "On the Horizon",
       status: "future",
       image: phaseRun,
+      alt: "Phase 3 — The Full GenMyo Platform: expert content, structured inner-development pathways and community spaces",
       description:
         "A complete ecosystem for sustained inner development, combining AI-driven pathways, a curated repository of expert-led content and resources, and a supportive community.",
       outcome:
@@ -44,6 +48,11 @@ const Plan = () => {
 
   return (
     <Layout>
+      <SEO
+        title="The Roadmap — From WhatsApp Reflection to Full AI Wellness Platform"
+        description="See how GenMyo evolves from The Mirror Project (live on WhatsApp) to personalised AI growth pathways and a full inner wellness platform. Join us at the beginning."
+        canonical="/plan"
+      />
       {/* Hero */}
       <section className="bg-gradient-hero section-padding">
         <div className="container-narrow text-center">
@@ -81,7 +90,10 @@ const Plan = () => {
                     >
                       <img 
                         src={phase.image} 
-                        alt={phase.title}
+                        alt={phase.alt}
+                        width={512}
+                        height={512}
+                        loading="lazy"
                         className="w-full h-full object-cover"
                       />
                     </div>

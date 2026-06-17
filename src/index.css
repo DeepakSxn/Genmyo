@@ -127,6 +127,11 @@
     font-family: var(--font-serif);
     @apply font-medium tracking-tight;
   }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @layer components {

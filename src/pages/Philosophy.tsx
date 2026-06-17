@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import { SEO } from "@/components/SEO";
 import { ArrowRight, Quote } from "lucide-react";
 import personaAisha from "@/assets/persona-aisha.jpg";
 import personaDavid from "@/assets/persona-david.jpg";
@@ -11,6 +12,7 @@ const Philosophy = () => {
       age: 22,
       generation: "Gen Z",
       image: personaAisha,
+      alt: "Aisha, 22, navigating career uncertainty — a GenMyo user finding daily clarity through AI-guided reflection",
       challenge: "Career Uncertainty",
       story:
         "100+ applications. 90% rejection rate. Anxious and questioning her purpose. Therapy helps her process, meditation apps calm her briefly, but nothing addresses why she feels lost or how to rebuild confidence.",
@@ -20,6 +22,7 @@ const Philosophy = () => {
       age: 43,
       generation: "Millennial",
       image: personaDavid,
+      alt: "David, 43, recovering from burnout — using GenMyo's WhatsApp reflections to manage life transition",
       challenge: "Burnout & Transition",
       story:
         "Facing redundancy after 15 years. Burnt out, financially stressed, relationship strained. Wellness apps offer temporary relief before the weight returns. Nothing helps him navigate what comes next.",
@@ -51,6 +54,11 @@ const Philosophy = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Our Philosophy — Why We Build Differently"
+        description="GenMyo was built on one belief: genuine inner growth comes from building capacity, not consuming content. Discover the principles behind our AI-guided reflection approach."
+        canonical="/philosophy"
+      />
       {/* Hero */}
       <section className="bg-gradient-hero section-padding">
         <div className="container-narrow text-center">
@@ -138,7 +146,10 @@ const Philosophy = () => {
                 <div className="aspect-[4/3] overflow-hidden bg-secondary">
                   <img
                     src={persona.image}
-                    alt={`${persona.name}, ${persona.age}`}
+                    alt={persona.alt}
+                    width={800}
+                    height={608}
+                    loading="lazy"
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
                 </div>
