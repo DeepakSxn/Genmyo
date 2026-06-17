@@ -1,6 +1,6 @@
 # GenMyo
 
-## Project info
+## Project 
 
 ## How can I edit this code?
 
