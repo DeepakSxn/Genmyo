@@ -5,34 +5,32 @@ const HERO_TERRACOTTA = "#B07346";
 const HERO_CREAM = "#FFF9F0";
 const HERO_TEXT = "#2D2D2D";
 const HERO_ACCENT = "#B57E5D";
-const HERO_GLOW = "#F2D07D";
 
-const LotusIcon = ({ className }: { className?: string }) => (
+const MirrorCardLogo = ({ className }: { className?: string }) => (
   <svg
-    viewBox="0 0 64 72"
+    width="64"
+    height="64"
+    viewBox="0 0 100 100"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn("relative z-10 h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14", className)}
+    className={cn("relative z-10 h-[5.5rem] w-[5.5rem] sm:h-24 sm:w-24", className)}
     aria-hidden
   >
-    <path
-      d="M32 18C26 18 21 23 19 30C17 37 20 43 25 47C28 43 30 37 32 32C34 37 36 43 39 47C44 43 47 37 45 30C43 23 38 18 32 18Z"
-      stroke={HERO_TEXT}
-      strokeWidth="1.25"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M32 32C27 32 22 36 20 43C24 39 28 37 32 37C36 37 40 39 44 43C42 36 37 32 32 32Z"
-      stroke={HERO_TEXT}
-      strokeWidth="1.25"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M32 37V54M25 49C28 51 32 52 32 52C32 52 36 51 39 49"
-      stroke={HERO_TEXT}
-      strokeWidth="1.25"
-      strokeLinecap="round"
-    />
+    <defs>
+      <radialGradient id="hero-mirror-suno" cx="50%" cy="42%" r="50%">
+        <stop offset="0%" stopColor="#F4C95D" />
+        <stop offset="55%" stopColor="#F4C95D" />
+        <stop offset="100%" stopColor="#F7DD9A" stopOpacity="0" />
+      </radialGradient>
+    </defs>
+    <circle cx="50" cy="40" r="34" fill="url(#hero-mirror-suno)" />
+    <g fill="none" stroke="#3A3128" strokeWidth="2.4" strokeLinejoin="round" strokeLinecap="round">
+      <path d="M50 78 C 30 74, 13 66, 9 52 C 22 47, 38 52, 50 78 Z" />
+      <path d="M50 78 C 70 74, 87 66, 91 52 C 78 47, 62 52, 50 78 Z" />
+      <path d="M50 78 C 40 66, 33 54, 36 42 C 45 48, 50 60, 50 78 Z" />
+      <path d="M50 78 C 60 66, 67 54, 64 42 C 55 48, 50 60, 50 78 Z" />
+      <path d="M50 78 C 44 64, 44 46, 50 33 C 56 46, 56 64, 50 78 Z" />
+    </g>
   </svg>
 );
 
@@ -43,24 +41,19 @@ type HeroMirrorCardProps = {
 const HeroMirrorCard = ({ className }: HeroMirrorCardProps) => (
   <div
     className={cn(
-      "flex h-full w-full flex-col",
-      "bg-[radial-gradient(ellipse_at_center,#FFFEF9_0%,#FFF9F0_45%,#F5EBDD_100%)]",
-      "px-7 py-10 xs:px-8 sm:px-10 sm:py-12 md:px-12 md:py-14 lg:px-16 lg:py-20 xl:py-20",
+      "flex h-full w-full flex-col overflow-hidden bg-[#FDFAF5]",
+      "px-8 py-10 sm:px-10 sm:py-12",
       className
     )}
   >
-    <div className="flex flex-1 flex-col items-center justify-between text-center">
-      <div className="relative flex items-center justify-center pt-1 sm:pt-2">
-        <div
-          className="absolute h-14 w-14 rounded-full blur-2xl sm:h-[4.5rem] sm:w-[4.5rem]"
-          style={{ backgroundColor: `${HERO_GLOW}99` }}
-        />
-        <LotusIcon />
+    <div className="flex min-h-0 flex-1 flex-col items-center justify-between text-center">
+      <div className="relative flex items-center justify-center">
+        <MirrorCardLogo />
       </div>
 
-      <div className="flex flex-1 flex-col items-center justify-center px-1 sm:px-2">
+      <div className="flex flex-1 flex-col items-center justify-center px-2 sm:px-3">
         <h2
-          className="font-serif text-[1.35rem] font-medium leading-[1.28] xs:text-[1.5rem] sm:text-[1.65rem] md:text-[1.85rem] lg:text-[2rem]"
+          className="font-serif text-[1.75rem] font-medium leading-[1.22] xs:text-[1.9rem] sm:text-[2.125rem]"
           style={{ color: HERO_TEXT }}
         >
           You deserve
@@ -71,7 +64,7 @@ const HeroMirrorCard = ({ className }: HeroMirrorCardProps) => (
           </em>
         </h2>
         <p
-          className="mt-5 max-w-[12.5rem] font-sans text-[0.75rem] leading-[1.6] xs:max-w-[13.5rem] xs:text-[0.8rem] sm:mt-6 sm:max-w-[15rem] sm:leading-[1.65] md:mt-7 md:max-w-[17rem] md:text-[0.85rem]"
+          className="mt-5 max-w-[16rem] font-sans text-[0.9rem] leading-[1.6] xs:max-w-[17rem] xs:text-[0.95rem] sm:mt-6 sm:max-w-[18rem] sm:text-[1rem]"
           style={{ color: `${HERO_TEXT}CC` }}
         >
           The Mirror is an AI companion built to help you slow down, reflect, and feel more like
@@ -84,7 +77,7 @@ const HeroMirrorCard = ({ className }: HeroMirrorCardProps) => (
         alt="GenMyo"
         width={1920}
         height={430}
-        className="mt-8 h-5 w-auto opacity-70 sm:mt-10 sm:h-6 md:mt-12 md:h-7"
+        className="mt-8 h-6 w-auto opacity-70 sm:mt-10 sm:h-7"
       />
     </div>
   </div>

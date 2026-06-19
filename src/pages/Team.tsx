@@ -17,7 +17,7 @@ const teamSchema = {
       description:
         "25+ years of global leadership in governance, risk and systems design. Founded GenMyo as an AI-first platform for inner development.",
       image: "https://www.genmyo.ai/Rajit.png",
-      sameAs: [],
+      sameAs: ["https://www.linkedin.com/in/rajit-punshi-337490/"],
     },
     {
       "@type": "Person",
@@ -25,7 +25,7 @@ const teamSchema = {
       jobTitle: "Head of Product & Growth",
       worksFor: { "@type": "Organization", name: "GenMyo" },
       image: "https://www.genmyo.ai/sid.png",
-      sameAs: [],
+      sameAs: ["https://www.linkedin.com/in/sidharthpunshi/"],
     },
   ],
 };
@@ -68,9 +68,17 @@ const Team = () => {
                 <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
                   Founder
                 </p>
-                <h2 className="font-serif text-4xl md:text-5xl font-medium text-foreground mb-10">
+                <h2 className="font-serif text-4xl md:text-5xl font-medium text-foreground mb-4">
                   Rajit Punshi
                 </h2>
+                <a
+                  href="https://www.linkedin.com/in/rajit-punshi-337490/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-1.5 block text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hover:underline"
+                >
+                  LinkedIn
+                </a>
               </div>
             </div>
             <div className="space-y-8 text-lg text-muted-foreground leading-relaxed">
@@ -103,9 +111,17 @@ const Team = () => {
                 <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
                   Founding Team: Product and Growth
                 </p>
-                <h2 className="font-serif text-4xl md:text-5xl font-medium text-foreground mb-10">
+                <h2 className="font-serif text-4xl md:text-5xl font-medium text-foreground mb-4">
                   Sid Punshi
                 </h2>
+                <a
+                  href="https://www.linkedin.com/in/sidharthpunshi/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-1.5 block text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hover:underline"
+                >
+                  LinkedIn
+                </a>
               </div>
             </div>
             <div className="space-y-8 text-lg text-muted-foreground leading-relaxed">

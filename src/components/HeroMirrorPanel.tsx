@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import HeroMirrorCard from "@/components/HeroMirrorCard";
+import HeroPhoneShell from "@/components/HeroPhoneShell";
 import { cn } from "@/lib/utils";
 
 const DEMO_COMPLETE = "GENMYO_MIRROR_DEMO_COMPLETE";
@@ -32,32 +33,37 @@ const HeroMirrorPanel = () => {
   }, []);
 
   return (
-    <div className="relative h-full min-h-[22rem] w-full sm:min-h-[26rem] md:min-h-[24rem]">
-      <iframe
-        src="/mirror-demo.html?embed=1"
-        title="The Mirror — conversation preview"
+    <div className="relative h-full w-full">
+      <div
         className={cn(
-          "absolute inset-0 h-full w-full border-0 bg-transparent transition-opacity duration-1000 ease-out",
+          "absolute inset-0 transition-opacity duration-1000 ease-out",
           showCard ? "pointer-events-none opacity-0" : "opacity-100"
         )}
-        onLoad={() => setDemoReady(true)}
         aria-hidden={showCard}
-      />
+      >
+        <HeroPhoneShell className="h-full w-full">
+          <iframe
+            src="/mirror-demo.html?embed=1"
+            title="The Mirror — conversation preview"
+            className="absolute inset-0 block h-full w-full border-0 bg-transparent"
+            onLoad={() => setDemoReady(true)}
+            scrolling="no"
+          />
 
-      {!demoReady && !showCard && (
-        <div
-          className="absolute inset-0 animate-pulse bg-[radial-gradient(ellipse_at_center,#FFFEF9_0%,#FFF9F0_45%,#F5EBDD_100%)]"
-          aria-hidden
-        />
-      )}
+          {!demoReady && (
+            <div className="absolute inset-0 bg-[#F2EBE3]" aria-hidden />
+          )}
+        </HeroPhoneShell>
+      </div>
 
       <div
         className={cn(
-          "absolute inset-0 flex transition-opacity duration-1000 ease-out",
+          "absolute inset-0 transition-opacity duration-1000 ease-out",
           showCard ? "opacity-100" : "pointer-events-none opacity-0"
         )}
+        aria-hidden={!showCard}
       >
-        <HeroMirrorCard className="h-full" />
+        <HeroMirrorCard className="hero-mirror-card-final h-full w-full rounded-none" />
       </div>
     </div>
   );

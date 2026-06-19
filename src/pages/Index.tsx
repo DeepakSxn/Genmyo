@@ -88,12 +88,12 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Right — mirror card on terracotta panel */}
+        {/* Right — mirror demo / card on terracotta panel */}
         <div
-          className="flex min-h-[24rem] w-full items-center justify-center px-4 py-10 xs:px-5 sm:min-h-[28rem] sm:px-8 sm:py-12 md:min-h-[calc(100dvh-5rem)] md:px-10 md:py-10 lg:px-12 lg:py-12"
+          className="flex min-h-[28rem] w-full items-center justify-center overflow-hidden px-4 py-10 xs:px-5 sm:min-h-[32rem] sm:px-8 sm:py-12 md:min-h-[calc(100dvh-5rem)] md:px-10 md:py-10 lg:px-12 lg:py-12"
           style={{ backgroundColor: HERO_TERRACOTTA }}
         >
-          <div className="animate-fade-up delay-200 flex h-auto min-h-[22rem] w-full max-w-[18rem] items-stretch xs:max-w-[19rem] sm:min-h-[26rem] sm:max-w-[22rem] md:h-[75%] md:min-h-[24rem] md:max-w-[24rem] lg:max-w-[28rem] xl:max-w-[30rem]">
+          <div className="animate-fade-up delay-200 relative aspect-[9/19.5] h-auto w-full max-w-[21.75rem] max-h-[min(46rem,72vh)] shrink-0 overflow-visible md:max-h-[min(46rem,calc(100dvh-8rem))]">
             <HeroMirrorPanel />
           </div>
         </div>
