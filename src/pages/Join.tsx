@@ -1,40 +1,32 @@
 import { useState } from "react";
-import { isValid, parse } from "date-fns";
 import { z } from "zod";
 import Layout from "@/components/Layout";
-import { SEO } from "@/components/SEO";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import SearchableCountrySelect from "@/components/SearchableCountrySelect";
-import DateOfBirthPicker from "@/components/DateOfBirthPicker";
-import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CountryCodeCombobox from "@/components/CountryCodeCombobox";
+import CountryNameCombobox from "@/components/CountryNameCombobox";
+import { useToast } from "@/components/ui/use-toast";
 import { ArrowRight, CheckCircle } from "lucide-react";
 
+const ADMIN_EMAIL = "hello@genmyo.ai";
+
+const WHATSAPP_REDIRECT_URL = "https://wa.me/message/Y4GOKBIGBWUUM1?text=HI";
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
-// Same-origin path; Vercel (prod) and Vite (dev) proxy this to the AWS register API.
 const REGISTRATION_API_URL = "/api/register";
 
-function buildRegistrationPayload(
-  data: FormData,
-  fullWhatsapp: string
-): Record<string, string> {
-  return {
-    "entry.1907368519": data.firstName,
-    "entry.1208177102": data.surname,
-    "entry.44984313": data.email,
-    "entry.1640555608": data.dob,
-    "entry.1030588086": fullWhatsapp,
-    "entry.1418652324": data.country,
-    "entry.142785906": data.city,
-    "entry.79544609": data.context || "",
-  };
-}
-
 // Country codes with flag emoji + country name. Sorted by country name.
-const COUNTRY_CODES_RAW: { code: string; flag: string; country: string }[] = [
+const COUNTRY_CODES: { code: string; flag: string; country: string }[] = [
   { code: "+93", flag: "🇦🇫", country: "Afghanistan" },
   { code: "+355", flag: "🇦🇱", country: "Albania" },
   { code: "+213", flag: "🇩🇿", country: "Algeria" },
@@ -193,7 +185,7 @@ const COUNTRY_CODES_RAW: { code: string; flag: string; country: string }[] = [
   { code: "+380", flag: "🇺🇦", country: "Ukraine" },
   { code: "+971", flag: "🇦🇪", country: "United Arab Emirates" },
   { code: "+44", flag: "🇬🇧", country: "United Kingdom" },
-  { code: "+1", flag: "🇺🇸", country: "United States" },
+  { code: "+1 ", flag: "🇺🇸", country: "United States" },
   { code: "+598", flag: "🇺🇾", country: "Uruguay" },
   { code: "+998", flag: "🇺🇿", country: "Uzbekistan" },
   { code: "+58", flag: "🇻🇪", country: "Venezuela" },
@@ -203,35 +195,12 @@ const COUNTRY_CODES_RAW: { code: string; flag: string; country: string }[] = [
   { code: "+263", flag: "🇿🇼", country: "Zimbabwe" },
 ];
 
-// Unique id per row (Canada and US both use +1).
-type CountryCodeOption = { id: string; code: string; flag: string; country: string };
-
-const COUNTRY_CODES: CountryCodeOption[] = COUNTRY_CODES_RAW.map((entry) => {
-  const code = entry.code.trim();
-  return {
-    ...entry,
-    code,
-    id: `${entry.country}::${code}`,
-  };
-});
-
-function dialCodeFromSelectId(selectId: string): string {
-  const match = COUNTRY_CODES.find((c) => c.id === selectId);
-  if (match) return match.code;
-  const fromId = selectId.split("::")[1];
-  return fromId ?? selectId;
-}
 
 const formSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required").max(50, "Must be less than 50 characters"),
   surname: z.string().trim().min(1, "Surname is required").max(50, "Must be less than 50 characters"),
   email: z.string().trim().email("Please enter a valid email").max(255),
-  dob: z
-    .string()
-    .min(1, "Please select your date of birth")
-    .regex(/^\d{2}\/\d{2}\/\d{4}$/, "Use format dd/mm/yyyy")
-    .refine((val) => isValid(parse(val, "dd/MM/yyyy", new Date())), "Please enter a valid date")
-    .refine((val) => parse(val, "dd/MM/yyyy", new Date()) <= new Date(), "Date of birth cannot be in the future"),
+  dob: z.string().regex(/^\d{2}\/\d{2}\/\d{2}$/, "Use format dd/mm/yy"),
   countryCode: z.string().min(1, "Select a country code"),
   whatsapp: z
     .string()
@@ -246,7 +215,26 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+const businessSchema = z.object({
+  name: z.string().trim().min(1, "Please enter your name").max(100, "Name is too long"),
+  email: z.string().trim().email("Please enter a valid email").max(255, "Email is too long"),
+  phoneCode: z.string().min(1, "Select a region code"),
+  phone: z
+    .string()
+    .trim()
+    .min(1, "Contact number is required")
+    .max(20, "Please enter a valid number")
+    .regex(/^[0-9\s\-()]+$/, "Digits only (no region code here)"),
+  company: z.string().trim().min(1, "Please enter your company").max(120, "Company name is too long"),
+  role: z.string().trim().max(120, "Role is too long").optional(),
+  teamSize: z.string().trim().max(50).optional(),
+  notes: z.string().trim().max(1000, "Notes are too long").optional(),
+});
+
+type BusinessData = z.infer<typeof businessSchema>;
+
 const Join = () => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     surname: "",
@@ -262,6 +250,63 @@ const Join = () => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const [business, setBusiness] = useState<BusinessData>({
+    name: "",
+    email: "",
+    phoneCode: "",
+    phone: "",
+    company: "",
+    role: "",
+    teamSize: "",
+    notes: "",
+  });
+  const [businessErrors, setBusinessErrors] = useState<Partial<Record<keyof BusinessData, string>>>({});
+
+  const handleBusinessChange = (field: keyof BusinessData, value: string) => {
+    setBusiness((prev) => ({ ...prev, [field]: value }));
+    if (businessErrors[field]) {
+      setBusinessErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const handleBusinessSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = businessSchema.safeParse(business);
+    if (!result.success) {
+      const fieldErrors: Partial<Record<keyof BusinessData, string>> = {};
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as keyof BusinessData;
+        if (!fieldErrors[field]) fieldErrors[field] = issue.message;
+      });
+      setBusinessErrors(fieldErrors);
+      return;
+    }
+    setBusinessErrors({});
+
+    const { name, email, phoneCode, phone, company, role, teamSize, notes } = result.data;
+    const subject = `Business enquiry from ${company}`;
+    const bodyLines = [
+      "A new business enquiry has come in:",
+      "",
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Contact number: ${phoneCode} ${phone}`,
+      `Company: ${company}`,
+      role ? `Role: ${role}` : null,
+      teamSize ? `Team size: ${teamSize}` : null,
+      notes ? `Notes: ${notes}` : null,
+    ].filter(Boolean);
+    const mailto = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+
+    window.location.href = mailto;
+    toast({
+      title: "Opening your email app",
+      description: `Your enquiry is ready to send to ${ADMIN_EMAIL}. Just hit send.`,
+    });
+  };
 
   const handleChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -318,8 +363,29 @@ const Join = () => {
       return;
     }
 
-    const fullWhatsapp = `${dialCodeFromSelectId(formData.countryCode)} ${formData.whatsapp}`.trim();
-    const fields = buildRegistrationPayload(formData, fullWhatsapp);
+    const fullName = `${formData.firstName} ${formData.surname}`.trim();
+    const fullWhatsapp = `${formData.countryCode} ${formData.whatsapp}`.trim();
+    const contextPayload = [
+      `DOB: ${formData.dob}`,
+      `Country: ${formData.country}`,
+      `City: ${formData.city}`,
+      formData.context ? `Notes: ${formData.context}` : "",
+    ]
+      .filter(Boolean)
+      .join(" | ");
+
+    const fields: Record<string, string> = {
+      "entry.1907368519": fullName,
+      "entry.44984313": formData.email,
+      "entry.1030588086": fullWhatsapp,
+      "entry.79544609": contextPayload,
+      
+      // Backward compatibility keys from the old schema:
+      "entry.1208177102": formData.surname,
+      "entry.1640555608": formData.dob,
+      "entry.1418652324": formData.country,
+      "entry.142785906": formData.city,
+    };
 
     setIsSubmitting(true);
     try {
@@ -337,12 +403,13 @@ const Join = () => {
           ...prev,
           whatsapp: "This number is already registered.",
         }));
+        setIsSubmitting(false);
         return;
       }
 
       submitToGoogleFormAndFinish(fields);
-    } catch {
-      // If the API is unreachable, still complete Google Form submission.
+    } catch (err) {
+      // Fallback: still post to Google Forms even if API is down
       submitToGoogleFormAndFinish(fields);
     } finally {
       setIsSubmitting(false);
@@ -352,29 +419,14 @@ const Join = () => {
   if (submitted) {
     return (
       <Layout>
-        <SEO
-          title="Join — Start Your Free AI Reflection on WhatsApp"
-          description="Sign up for The Mirror Project in under 2 minutes. GenMyo sends you daily AI-guided reflection prompts on WhatsApp — no app to download, no subscription needed."
-          canonical="/join"
-        />
-        <section className="section-padding bg-background min-h-[70vh] flex items-center">
-          <div className="container-narrow w-full px-1 sm:px-0">
-            <div className="mx-auto max-w-lg text-center">
-            <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent/20 mb-6 sm:mb-8 animate-fade-up">
-              <CheckCircle className="text-accent" size={28} />
-            </div>
-            <div className="space-y-3 sm:space-y-4 animate-fade-up delay-100">
-              <p className="font-serif text-xl text-foreground sm:text-2xl md:text-3xl">
-                Hi {formData.firstName},
-              </p>
-              <p className="font-serif text-lg text-foreground sm:text-xl md:text-2xl">
-                Thank you for joining GenMyo.
-              </p>
-              <h2 className="font-serif text-base text-foreground sm:text-lg md:text-xl leading-relaxed">
-                You're in — send "Hello" or "Mirror" on WhatsApp to start your first reflection session
-              </h2>
-            </div>
-            </div>
+        <section className="bg-background min-h-[65vh] flex items-center justify-center">
+          <div className="text-center px-6 animate-fade-up">
+            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground font-light leading-snug">
+              Hi {formData.firstName}.
+              <span className="block mt-2 text-muted-foreground font-sans text-lg md:text-xl font-normal">
+                You will hear from The Mirror soon.
+              </span>
+            </h1>
           </div>
         </section>
       </Layout>
@@ -383,27 +435,29 @@ const Join = () => {
 
   return (
     <Layout>
-      <SEO
-        title="Join — Start Your Free AI Reflection on WhatsApp"
-        description="Sign up for The Mirror Project in under 2 minutes. GenMyo sends you daily AI-guided reflection prompts on WhatsApp — no app to download, no subscription needed."
-        canonical="/join"
-      />
       <section className="section-padding bg-background min-h-[70vh] flex items-center">
-        <div className="container-narrow w-full">
-          <div className="mx-auto w-full max-w-lg px-1 sm:px-0">
-            <div className="mb-8 text-center sm:mb-10">
-              <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
-                Join The Mirror Project
-              </p>
-              <h1 className="font-serif text-2xl font-medium text-foreground mb-3 sm:text-3xl sm:mb-4 md:text-4xl">
-                Join The Mirror Project — free daily AI reflection on WhatsApp
-              </h1>
-              <p className="text-sm text-muted-foreground sm:text-base">
-                Fill in your details and we'll connect with you on WhatsApp.
-              </p>
-            </div>
+        <div className="container-narrow">
+          <div className="max-w-lg mx-auto">
+            <Tabs defaultValue="individual" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-10">
+                <TabsTrigger value="individual">Individual</TabsTrigger>
+                <TabsTrigger value="business">Business</TabsTrigger>
+              </TabsList>
 
-            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+              <TabsContent value="individual">
+                <div className="text-center mb-10">
+                  <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
+                    Join The Mirror Project
+                  </p>
+                  <h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-4">
+                    Start Your Journey
+                  </h1>
+                  <p className="text-muted-foreground">
+                    Fill in your details and we'll connect with you on WhatsApp.
+                  </p>
+                </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">
@@ -457,13 +511,15 @@ const Join = () => {
                 <Label htmlFor="dob">
                   Date of Birth <span className="text-accent">*</span>
                 </Label>
-                <DateOfBirthPicker
+                <Input
                   id="dob"
+                  placeholder="dd/mm/yy"
+                  inputMode="numeric"
                   value={formData.dob}
-                  onChange={(value) => handleChange("dob", value)}
-                  hasError={!!errors.dob}
+                  onChange={(e) => handleChange("dob", e.target.value)}
+                  className={errors.dob ? "border-destructive" : ""}
                 />
-                <p className="text-xs text-muted-foreground">Format: dd/mm/yyyy</p>
+                <p className="text-xs text-muted-foreground">Format: dd/mm/yy (e.g. 15/08/90)</p>
                 {errors.dob && <p className="text-sm text-destructive">{errors.dob}</p>}
               </div>
 
@@ -471,16 +527,14 @@ const Join = () => {
                 <Label>
                   WhatsApp Number <span className="text-accent">*</span>
                 </Label>
-                <div className="grid grid-cols-1 gap-2 min-[480px]:grid-cols-[minmax(0,9.5rem)_1fr] sm:grid-cols-[minmax(0,10.5rem)_1fr] md:grid-cols-[minmax(0,11.25rem)_1fr]">
-                  <SearchableCountrySelect
-                    options={COUNTRY_CODES}
+                <div className="grid grid-cols-[180px_1fr] gap-2">
+                  <CountryCodeCombobox
+                    countries={COUNTRY_CODES}
                     value={formData.countryCode}
-                    onValueChange={(value) => handleChange("countryCode", value)}
-                    variant="countryCode"
+                    onChange={(value) => handleChange("countryCode", value)}
                     placeholder="Country code"
-                    searchPlaceholder="Search country or code…"
+                    ariaLabel="Country code"
                     hasError={!!errors.countryCode}
-                    aria-label="Country code"
                   />
                   <Input
                     id="whatsapp"
@@ -488,7 +542,7 @@ const Join = () => {
                     inputMode="tel"
                     value={formData.whatsapp}
                     onChange={(e) => handleChange("whatsapp", e.target.value)}
-                    className={cn("min-w-0", errors.whatsapp ? "border-destructive" : "")}
+                    className={errors.whatsapp ? "border-destructive" : ""}
                     aria-label="WhatsApp number"
                   />
                 </div>
@@ -505,15 +559,14 @@ const Join = () => {
                   <Label htmlFor="country">
                     Country <span className="text-accent">*</span>
                   </Label>
-                  <SearchableCountrySelect
-                    options={COUNTRY_CODES}
-                    value={formData.country}
-                    onValueChange={(value) => handleChange("country", value)}
-                    variant="country"
-                    placeholder="Select country"
-                    searchPlaceholder="Search country…"
-                    hasError={!!errors.country}
+                  <CountryNameCombobox
                     id="country"
+                    countries={COUNTRY_CODES}
+                    value={formData.country}
+                    onChange={(value) => handleChange("country", value)}
+                    placeholder="Select country"
+                    ariaLabel="Country"
+                    hasError={!!errors.country}
                   />
                   {errors.country && (
                     <p className="text-sm text-destructive">{errors.country}</p>
@@ -541,7 +594,7 @@ const Join = () => {
                 <Label htmlFor="context">What made you interested in GenMyo?</Label>
                 <Textarea
                   id="context"
-                  placeholder="Optional — share what brought you here"
+                  placeholder="Optional: share what brought you here"
                   value={formData.context}
                   onChange={(e) => handleChange("context", e.target.value)}
                   rows={3}
@@ -551,7 +604,7 @@ const Join = () => {
               </div>
 
               {submitError && (
-                <p className="text-sm text-destructive rounded-lg border border-destructive/30 bg-destructive/5 p-4">
+                <p className="text-sm text-destructive rounded-lg border border-destructive/30 bg-destructive/5 p-4 animate-fade-in">
                   {submitError}
                 </p>
               )}
@@ -559,12 +612,167 @@ const Join = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="h-auto w-full rounded-full py-5 text-sm gap-2 disabled:cursor-not-allowed disabled:opacity-60 sm:py-6 sm:text-base"
+                className="w-full rounded-full py-6 text-base gap-2 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isSubmitting ? "Submitting…" : "Join & Connect on WhatsApp"}
+                {isSubmitting ? "Submitting..." : "Join & Connect on WhatsApp"}
                 <ArrowRight size={18} />
               </Button>
             </form>
+              </TabsContent>
+
+              <TabsContent value="business">
+                <div className="text-center mb-10">
+                  <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
+                    GenMyo for Business
+                  </p>
+                  <h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-4">
+                    Enquire for Your Team
+                  </h1>
+                  <p className="text-muted-foreground">
+                    Tell us about your organisation and we'll be in touch to arrange a walkthrough.
+                  </p>
+                </div>
+
+                <form onSubmit={handleBusinessSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="biz-name">
+                        Name <span className="text-accent">*</span>
+                      </Label>
+                      <Input
+                        id="biz-name"
+                        placeholder="Your name"
+                        value={business.name}
+                        onChange={(e) => handleBusinessChange("name", e.target.value)}
+                        className={businessErrors.name ? "border-destructive" : ""}
+                      />
+                      {businessErrors.name && (
+                        <p className="text-sm text-destructive">{businessErrors.name}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="biz-email">
+                        Work Email <span className="text-accent">*</span>
+                      </Label>
+                      <Input
+                        id="biz-email"
+                        type="email"
+                        placeholder="you@company.com"
+                        value={business.email}
+                        onChange={(e) => handleBusinessChange("email", e.target.value)}
+                        className={businessErrors.email ? "border-destructive" : ""}
+                      />
+                      {businessErrors.email && (
+                        <p className="text-sm text-destructive">{businessErrors.email}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>
+                      Contact Number <span className="text-accent">*</span>
+                    </Label>
+                    <div className="grid grid-cols-[180px_1fr] gap-2">
+                      <CountryCodeCombobox
+                        countries={COUNTRY_CODES}
+                        value={business.phoneCode}
+                        onChange={(value) => handleBusinessChange("phoneCode", value)}
+                        placeholder="Country code"
+                        ariaLabel="Country code"
+                        hasError={!!businessErrors.phoneCode}
+                      />
+                      <Input
+                        id="biz-phone"
+                        type="tel"
+                        placeholder="Contact number"
+                        value={business.phone}
+                        onChange={(e) => handleBusinessChange("phone", e.target.value)}
+                        className={businessErrors.phone ? "border-destructive" : ""}
+                      />
+                    </div>
+                    {(businessErrors.phoneCode || businessErrors.phone) && (
+                      <p className="text-sm text-destructive">
+                        {businessErrors.phoneCode || businessErrors.phone}
+                      </p>
+                    )}
+                  </div>
+
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="biz-company">
+                        Company <span className="text-accent">*</span>
+                      </Label>
+                      <Input
+                        id="biz-company"
+                        placeholder="Company name"
+                        value={business.company}
+                        onChange={(e) => handleBusinessChange("company", e.target.value)}
+                        className={businessErrors.company ? "border-destructive" : ""}
+                      />
+                      {businessErrors.company && (
+                        <p className="text-sm text-destructive">{businessErrors.company}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="biz-role">
+                        Role <span className="text-muted-foreground">(optional)</span>
+                      </Label>
+                      <Input
+                        id="biz-role"
+                        placeholder="e.g. Head of People"
+                        value={business.role}
+                        onChange={(e) => handleBusinessChange("role", e.target.value)}
+                        className={businessErrors.role ? "border-destructive" : ""}
+                      />
+                      {businessErrors.role && (
+                        <p className="text-sm text-destructive">{businessErrors.role}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="biz-team">
+                      Team Size <span className="text-muted-foreground">(optional)</span>
+                    </Label>
+                    <Input
+                      id="biz-team"
+                      placeholder="e.g. 50-200"
+                      value={business.teamSize}
+                      onChange={(e) => handleBusinessChange("teamSize", e.target.value)}
+                      className={businessErrors.teamSize ? "border-destructive" : ""}
+                    />
+                    {businessErrors.teamSize && (
+                      <p className="text-sm text-destructive">{businessErrors.teamSize}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="biz-notes">
+                      Notes <span className="text-muted-foreground">(optional)</span>
+                    </Label>
+                    <Textarea
+                      id="biz-notes"
+                      placeholder="Anything you'd like us to know"
+                      value={business.notes}
+                      onChange={(e) => handleBusinessChange("notes", e.target.value)}
+                      rows={3}
+                      className={businessErrors.notes ? "border-destructive" : ""}
+                    />
+                    {businessErrors.notes && (
+                      <p className="text-sm text-destructive">{businessErrors.notes}</p>
+                    )}
+                  </div>
+
+                  <Button type="submit" className="w-full rounded-full py-6 text-base gap-2">
+                    Send Enquiry
+                    <ArrowRight size={18} />
+                  </Button>
+                </form>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </section>

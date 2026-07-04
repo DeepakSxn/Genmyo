@@ -1,0 +1,113 @@
+import { useState } from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+export interface CountryOption {
+  code: string;
+  flag: string;
+  country: string;
+}
+
+interface CountryNameComboboxProps {
+  countries: CountryOption[];
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  ariaLabel?: string;
+  hasError?: boolean;
+  id?: string;
+}
+
+const CountryNameCombobox = ({
+  countries,
+  value,
+  onChange,
+  placeholder = "Select country",
+  ariaLabel = "Country",
+  hasError = false,
+  id,
+}: CountryNameComboboxProps) => {
+  const [open, setOpen] = useState(false);
+  const selected = countries.find((c) => c.country === value);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          id={id}
+          type="button"
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          aria-label={ariaLabel}
+          className={cn(
+            "w-full justify-between font-normal",
+            !selected && "text-muted-foreground",
+            hasError && "border-destructive"
+          )}
+        >
+          {selected ? (
+            <span className="inline-flex items-center gap-2 truncate">
+              <span aria-hidden>{selected.flag}</span>
+              <span>{selected.country}</span>
+            </span>
+          ) : (
+            placeholder
+          )}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[--radix-popover-trigger-width] min-w-[240px] p-0" align="start">
+        <Command
+          filter={(itemValue, search) =>
+            itemValue.toLowerCase().includes(search.toLowerCase()) ? 1 : 0
+          }
+        >
+          <CommandInput placeholder="Search country..." />
+          <CommandList>
+            <CommandEmpty>No country found.</CommandEmpty>
+            <CommandGroup>
+              {countries.map((c) => (
+                <CommandItem
+                  key={`country-${c.country}`}
+                  value={c.country}
+                  onSelect={() => {
+                    onChange(c.country);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      selected?.country === c.country ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  <span className="inline-flex items-center gap-2">
+                    <span aria-hidden>{c.flag}</span>
+                    <span>{c.country}</span>
+                  </span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+export default CountryNameCombobox;

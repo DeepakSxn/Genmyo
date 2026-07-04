@@ -1,17 +1,14 @@
 import { Link } from "react-router-dom";
-import FooterLogo from "./FooterLogo";
 import { Linkedin, Facebook } from "lucide-react";
 
 const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
-      <div className="container-wide px-4 py-12 sm:px-6 sm:py-16 md:px-12 md:py-24">
-        <div className="grid grid-cols-1 gap-10 sm:gap-12 md:grid-cols-4 md:gap-8">
+      <div className="container-wide px-6 md:px-12 py-16 md:py-24">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="mb-6">
-              <FooterLogo size={60} />
-            </div>
+            <h3 className="font-serif text-3xl font-medium mb-4">GenMyo</h3>
             <p className="text-primary-foreground/70 max-w-md leading-relaxed">
               An AI-led platform designed to support lasting human development 
               through personalized reflection, guidance, and growth.
@@ -27,7 +24,6 @@ const Footer = () => {
               {[
                 { href: "/", label: "Home" },
                 { href: "/philosophy", label: "Our Philosophy" },
-                { href: "/plan", label: "The Plan" },
                 { href: "/team", label: "Team" },
               ].map((link) => (
                 <li key={link.href}>
@@ -68,7 +64,7 @@ const Footer = () => {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="https://www.facebook.com/61585943121705"
+                href="https://www.facebook.com/genmyo"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
@@ -85,11 +81,12 @@ const Footer = () => {
             © {new Date().getFullYear()} GenMyo. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-primary-foreground/50">
-          <Link to="/terms" className="hover:text-primary-foreground transition-colors">
-              Privacy & Terms
-            
-          </Link>
-           
+            <a href="#" className="hover:text-primary-foreground transition-colors">
+              Privacy
+            </a>
+            <Link to="/terms" className="hover:text-primary-foreground transition-colors">
+              Terms
+            </Link>
           </div>
         </div>
       </div>

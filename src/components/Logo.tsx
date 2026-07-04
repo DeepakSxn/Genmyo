@@ -5,19 +5,18 @@ interface LogoProps {
   className?: string;
   showText?: boolean;
   size?: number;
+  invert?: boolean;
 }
 
 const Logo = forwardRef<HTMLDivElement, LogoProps>(
-  ({ className = "", size = 32 }, ref) => {
+  ({ className = "", size = 32, invert = false }, ref) => {
     return (
       <div ref={ref} className={`flex items-center ${className}`}>
         <img
           src={logoImage}
-          alt="GenMyo"
-          width={1920}
-          height={430}
+          alt="GENMYŌ"
           style={{ height: size, width: "auto" }}
-          className="dark:invert"
+          className={invert ? "invert" : "dark:invert"}
         />
       </div>
     );

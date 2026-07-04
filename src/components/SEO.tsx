@@ -3,33 +3,42 @@ import { Helmet } from "react-helmet-async";
 interface SEOProps {
   title: string;
   description: string;
-  canonical: string;
+  canonical?: string;
+  ogType?: string;
   ogImage?: string;
+  twitterCard?: string;
 }
 
-const BASE_URL = "https://www.genmyo.ai";
-const DEFAULT_IMAGE = `${BASE_URL}/og-image.jpg`;
-
-export function SEO({
+export const SEO = ({
   title,
   description,
   canonical,
-  ogImage = DEFAULT_IMAGE,
-}: SEOProps) {
-  const fullTitle = `${title} | GenMyo`;
+  ogType = "website",
+  ogImage,
+  twitterCard = "summary_large_image",
+}: SEOProps) => {
+  const siteUrl = "https://www.genmyo.ai";
+  const canonicalUrl = canonical ? `${siteUrl}${canonical.startsWith("/") ? "" : "/"}${canonical}` : siteUrl;
 
   return (
     <Helmet>
-      <title>{fullTitle}</title>
+      {/* Standard metadata tags */}
+      <title>{title ? `${title} | GenMyo` : "GenMyo"}</title>
       <meta name="description" content={description} />
-      <link rel="canonical" href={`${BASE_URL}${canonical}`} />
-      <meta property="og:title" content={fullTitle} />
+      {canonical && <link rel="canonical" href={canonicalUrl} />}
+
+      {/* Open Graph metadata */}
+      <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:url" content={`${BASE_URL}${canonical}`} />
-      <meta property="og:image" content={ogImage} />
-      <meta name="twitter:title" content={fullTitle} />
+      <meta property="og:type" content={ogType} />
+      {ogImage && <meta property="og:image" content={ogImage} />}
+      <meta property="og:url" content={canonicalUrl} />
+
+      {/* Twitter Card metadata */}
+      <meta name="twitter:card" content={twitterCard} />
+      <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage} />
+      {ogImage && <meta name="twitter:image" content={ogImage} />}
     </Helmet>
   );
-}
+};

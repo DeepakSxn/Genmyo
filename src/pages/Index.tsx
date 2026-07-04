@@ -1,105 +1,269 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
-import { SEO } from "@/components/SEO";
-import HeroMirrorPanel from "@/components/HeroMirrorPanel";
-import { HERO_ACCENT, HERO_CREAM, HERO_TERRACOTTA } from "@/components/HeroMirrorCard";
-import { ArrowRight, MessageCircle, Star } from "lucide-react";
-import { Helmet } from "react-helmet-async";
 
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "GenMyo",
-  url: "https://www.genmyo.ai",
-};
+import {
+  ArrowRight,
+  MessageCircle,
+  Star,
+} from "lucide-react";
 
-const mirrorProjectSchema = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "The Mirror Project by GenMyo",
-  operatingSystem: "WhatsApp",
-  applicationCategory: "HealthApplication",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-  description:
-    "A guided WhatsApp experience delivering short daily AI reflection prompts. Sessions take 2 minutes. No app download required.",
-};
+import WalkthroughDialog from "@/components/WalkthroughDialog";
+import genmyoOrb from "@/assets/genmyo-orb-gold.png";
 
-const Index = () => {
+
+
+/* ── Mirror Portrait card (outcome, IP-safe) ── */
+const PortraitCard = () => {
+  const C = 2 * Math.PI * 40;
+  const offset = C * (1 - 0.42);
+  const dims = [
+    { name: "Clarity", value: 58, delta: "+6" },
+    { name: "Belonging", value: 44, delta: "+3" },
+    { name: "Purpose", value: 61, delta: "+8" },
+  ];
   return (
-    <Layout>
-      <SEO
-        title="AI-Powered Guided Reflection & Inner Wellness"
-        description="GenMyo is an AI wellness platform that guides you through daily 2-minute reflections on WhatsApp — no app needed. Build clarity, resilience and better habits, one prompt at a time."
-        canonical="/"
-      />
-      <Helmet>
-        <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(mirrorProjectSchema)}</script>
-      </Helmet>
-      {/* Hero Section */}
-      <section className="grid min-h-[calc(100dvh-4rem)] grid-cols-1 sm:min-h-[calc(100dvh-5rem)] md:grid-cols-2 lg:min-h-[calc(100dvh-5rem)]">
-        {/* Left — copy & CTAs */}
-        <div
-          className="flex items-center px-4 py-12 xs:px-5 sm:px-8 sm:py-16 md:px-10 md:py-16 lg:px-16 lg:py-20 xl:py-24"
-          style={{ backgroundColor: HERO_CREAM }}
-        >
-          <div className="mx-auto w-full max-w-xl md:mx-0">
-            <p
-              className="mb-4 animate-fade-up text-[0.65rem] font-medium uppercase tracking-[0.18em] xs:text-xs sm:mb-5 sm:tracking-[0.2em] md:mb-6 md:text-sm"
-              style={{ color: HERO_ACCENT }}
-            >
-              Inner Development, Reimagined
+    <div className="bg-card rounded-3xl overflow-hidden border border-border shadow-[var(--shadow-elevated)]">
+      <div className="flex gap-2 px-5 py-4 border-b border-border bg-secondary">
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+      </div>
+      <div className="p-7">
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <p className="text-[0.65rem] tracking-[0.14em] uppercase text-primary font-bold">
+              Mirror Portrait
             </p>
-            <h1
-              className="mb-5 animate-fade-up delay-100 font-serif text-[1.75rem] font-medium leading-[1.15] xs:text-3xl sm:mb-6 sm:text-4xl sm:leading-[1.12] md:mb-7 md:text-[2.35rem] lg:mb-8 lg:text-5xl xl:text-6xl 2xl:text-7xl"
-              style={{ color: "#2D2D2D" }}
-            >
-              Your AI-powered guide for{" "}
-              <span style={{ color: HERO_ACCENT }}>clarity,</span>{" "}
-              <span style={{ color: HERO_ACCENT }}>resilience</span> and better daily decisions — on WhatsApp.
-            </h1>
-            <p
-              className="mb-7 max-w-lg animate-fade-up delay-200 text-[0.95rem] leading-relaxed sm:mb-8 sm:text-base md:mb-10 md:text-lg lg:text-xl"
-              style={{ color: "#6B6B6B" }}
-            >
-              A calm, reflective space to pause, understand yourself, and move forward, without
-              pressure or judgement.
-            </p>
-            <div className="flex animate-fade-up flex-col gap-3 delay-300 sm:flex-row sm:flex-wrap sm:gap-4">
-              <Link
-                to="/join"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 sm:w-auto sm:px-7 md:px-8 md:py-4 md:text-base"
-              >
-                <MessageCircle size={18} />
-                Start your first session
-              </Link>
-              <Link
-                to="/plan"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary/80 sm:w-auto sm:px-7 md:px-8 md:py-4 md:text-base"
-                style={{ backgroundColor: HERO_CREAM }}
-              >
-                Learn about the Mirror Project
-              </Link>
+            <p className="text-xs text-muted-foreground mt-0.5">Day 7 · Snapshot</p>
+          </div>
+          <span className="text-[0.65rem] font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary">
+            ▲ Steady
+          </span>
+        </div>
+
+        <div className="grid grid-cols-[auto_1fr] gap-6 items-center">
+          <div className="relative w-32 h-32">
+            <div
+              className="absolute inset-2 rounded-full"
+              style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.18), transparent 70%)" }}
+            />
+            <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="hsl(var(--sand))" strokeWidth="7" />
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="url(#ring-grad)"
+                strokeWidth="7"
+                strokeLinecap="round"
+                strokeDasharray={C}
+                strokeDashoffset={offset}
+                className="[transition:stroke-dashoffset_1.2s_ease]"
+              />
+              <defs>
+                <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="hsl(var(--warm-brown))" />
+                  <stop offset="1" stopColor="hsl(var(--primary))" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-0 grid place-content-center text-center">
+              <div className="font-serif text-4xl leading-none text-foreground">42</div>
+              <div className="text-[0.55rem] tracking-[0.14em] uppercase text-primary font-bold mt-1.5">
+                Resilience
+              </div>
             </div>
+          </div>
+
+          <div className="space-y-3.5">
+            {dims.map((d) => (
+              <div key={d.name}>
+                <div className="flex items-baseline justify-between mb-1">
+                  <span className="text-xs text-muted-foreground">{d.name}</span>
+                  <span className="text-xs font-semibold text-foreground">
+                    {d.value}
+                    <span className="text-primary font-medium ml-1.5">▲ {d.delta}</span>
+                  </span>
+                </div>
+                <div className="h-1.5 w-full rounded-full bg-sand overflow-hidden">
+                  <div className="h-full rounded-full bg-primary" style={{ width: `${d.value}%` }} />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Right — mirror demo / card on terracotta panel */}
+        <div className="mt-6 pt-5 border-t border-border flex items-center justify-between">
+          <div>
+            <p className="text-[0.6rem] tracking-[0.12em] uppercase text-muted-foreground">
+              Growth from baseline
+            </p>
+            <p className="font-serif text-2xl text-foreground leading-none mt-1">+14%</p>
+          </div>
+          <p className="text-xs text-muted-foreground italic max-w-[52%] text-right leading-snug">
+            "Recovery after stress is stabilising."
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ── Cohort wellbeing card (teams, aggregate-only) ── */
+const TeamViz = () => {
+  const bars = [
+    { label: "W1", v: 46 },
+    { label: "W2", v: 55 },
+    { label: "W3", v: 52 },
+    { label: "W4", v: 68 },
+    { label: "W5", v: 74 },
+    { label: "W6", v: 82 },
+  ];
+  const benchmark = 60;
+  const kpis = [
+    { label: "Reflecting", value: "78%", delta: "+5" },
+    { label: "Avg resilience", value: "64", delta: "+9" },
+    { label: "Participation", value: "84%", delta: "+7" },
+  ];
+  return (
+    <div className="bg-card rounded-3xl overflow-hidden border border-border shadow-[var(--shadow-elevated)]">
+      <div className="flex gap-2 px-5 py-4 border-b border-border bg-secondary">
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+      </div>
+      <div className="p-7">
+        <div className="flex items-start justify-between mb-5">
+          <div>
+            <p className="text-[0.65rem] tracking-[0.14em] uppercase text-primary font-bold">
+              Cohort wellbeing · aggregate
+            </p>
+            <p className="font-serif text-2xl text-foreground leading-none mt-2">
+              +18% <span className="text-base text-muted-foreground font-sans">wellbeing in 6 weeks</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="relative h-32 mb-2">
+          <div
+            className="absolute left-0 right-0 border-t border-dashed border-primary/40"
+            style={{ bottom: `${benchmark}%` }}
+          >
+            <span className="absolute -top-4 right-0 text-[0.55rem] text-primary/70 font-medium">
+              Benchmark
+            </span>
+          </div>
+          <div className="flex items-end gap-2 h-full">
+            {bars.map((b, i) => (
+              <div key={b.label} className="flex-1 flex flex-col items-center justify-end h-full">
+                <div
+                  className={`w-full rounded-t-md ${i === bars.length - 1 ? "bg-primary" : "bg-primary/35"}`}
+                  style={{ height: `${b.v}%` }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex gap-2 mb-6">
+          {bars.map((b) => (
+            <span key={b.label} className="flex-1 text-center text-[0.6rem] text-muted-foreground">
+              {b.label}
+            </span>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-3 gap-3 pt-5 border-t border-border">
+          {kpis.map((k) => (
+            <div key={k.label}>
+              <p className="text-[0.55rem] tracking-[0.1em] uppercase text-muted-foreground mb-1">
+                {k.label}
+              </p>
+              <div className="flex items-baseline gap-1">
+                <span className="font-serif text-xl text-foreground leading-none">{k.value}</span>
+                <span className="text-[0.6rem] font-semibold text-primary">▲ {k.delta}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+
+const Index = () => {
+  const howItWorks = [
+    ["First", "Say hello on WhatsApp", "A short reflection to begin. No download, no form."],
+    ["Daily", "Receive your prompt", "Two minutes. A question, a small practice, tuned to you."],
+    ["Over time", "Watch clarity build", "Your reflections form a picture only you can see."],
+    ["When ready", "Talk to a real guide", "A matched mentor, already briefed. Optional, always."],
+  ];
+
+  return (
+    <Layout>
+      {/* Hero — series.so style, black / gold, with the Mirror animation */}
+      <section className="relative overflow-hidden -mt-20 text-primary-foreground min-h-screen flex items-center bg-hero-dark">
+        {/* Ambient glow */}
         <div
-          className="flex min-h-[28rem] w-full items-center justify-center overflow-hidden px-4 py-10 xs:px-5 sm:min-h-[32rem] sm:px-8 sm:py-12 md:min-h-[calc(100dvh-5rem)] md:px-10 md:py-10 lg:px-12 lg:py-12"
-          style={{ backgroundColor: HERO_TERRACOTTA }}
-        >
-          <div className="animate-fade-up delay-200 relative aspect-[9/19.5] h-auto w-full max-w-[21.75rem] max-h-[min(46rem,72vh)] shrink-0 overflow-visible md:max-h-[min(46rem,calc(100dvh-8rem))]">
-            <HeroMirrorPanel />
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(60% 60% at 70% 40%, hsl(var(--gold) / 0.12), transparent 70%)" }}
+        />
+
+        {/* Content */}
+        <div className="relative w-full max-w-[1400px] mx-auto px-6 md:px-12 lg:px-20 py-32 lg:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7 flex flex-col items-center text-center">
+              <img
+                src={genmyoOrb}
+                alt="GenMyo"
+                width={64}
+                height={64}
+                className="mb-6 w-16 h-16 animate-fade-up"
+              />
+
+              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-primary-foreground animate-fade-up delay-100 leading-[1.02] text-center">
+                Wellness apps read
+                <br />
+                your <span className="text-primary-foreground/40">mood.</span>
+                <span className="block h-3 md:h-4" aria-hidden="true" />
+                <span className="text-gold italic">We read your story.</span>
+              </h1>
+
+
+              <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center items-center animate-fade-up delay-300">
+                <Link
+                  to="/join"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
+                >
+                  <MessageCircle size={18} />
+                  Start your first session
+                </Link>
+                <Link
+                  to="/philosophy"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium border border-primary-foreground/40 text-primary-foreground rounded-full hover:bg-primary-foreground/10 transition-colors"
+                >
+                  Learn more
+                </Link>
+              </div>
+            </div>
+
+            {/* Mirror phone animation */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end animate-fade-up delay-200">
+              <iframe
+                src="/mirror-demo.html?v=4"
+                title="The Mirror conversation"
+                className="w-[360px] h-[720px] max-w-full border-0 bg-transparent"
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Editorial Intro: GenMyo brand + Mirror Project as first step */}
+
+      {/* Editorial intro */}
       <section className="section-padding bg-background">
         <div className="container-narrow text-center">
           <p className="text-sm font-medium tracking-widest uppercase text-accent mb-6">
@@ -116,120 +280,89 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Where you are now. Where you're going. */}
-      <section className="section-padding bg-sand">
+      {/* For you — a guide that remembers who you are */}
+      <section id="for-you" className="section-padding bg-primary text-primary-foreground scroll-mt-20">
         <div className="container-wide px-6 md:px-12">
-          <div className="max-w-3xl mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div>
+              <p className="text-sm font-medium tracking-widest uppercase text-primary-foreground/80 mb-4">
+                For you
+              </p>
+              <h2 className="heading-section mb-6">
+                A guide that remembers who you are.
+              </h2>
+              <p className="text-lg text-primary-foreground/80 leading-relaxed mb-8">
+                It starts with one honest question and grows into a portrait, your resilience, your
+                patterns, the story you inherited. Reflect on WhatsApp; go deeper in a space of your
+                own.
+              </p>
+              <Link
+                to="/join"
+                className="inline-flex items-center gap-2 px-8 py-4 text-base font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
+              >
+                Start free
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+            <PortraitCard />
+          </div>
+        </div>
+      </section>
+
+      {/* For businesses & employers */}
+      <section id="for-business" className="section-padding bg-cream scroll-mt-20">
+        <div className="container-wide px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="lg:order-2">
+              <p className="text-sm font-medium tracking-widest uppercase text-primary mb-4">
+                For businesses &amp; employers
+              </p>
+              <h2 className="heading-section text-foreground mb-6">
+                Wellbeing your people actually use.
+              </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                WhatsApp is already where your team is. You see anonymous, aggregate wellbeing, never
+                an individual. Human support where it's earned.
+              </p>
+              <WalkthroughDialog />
+
+            </div>
+            <div className="lg:order-1">
+              <TeamViz />
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      {/* How it works */}
+      <section className="section-padding bg-background">
+        <div className="container-wide px-6 md:px-12">
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
+              How it works
+            </p>
             <h2 className="heading-section text-foreground mb-6">
-              Where you are now. Where you're going.
+              On WhatsApp. No app to be downloaded.
             </h2>
             <p className="text-body-large">
-              A guided, evolving experience that grows with you, from your first reflection to a
-              deeply personalised practice.
+              Guided reflection that builds clarity, resilience and better habits, then deepens into
+              pathways and real human mentorship.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Phase 1 — Live */}
-            <div className="bg-primary text-primary-foreground rounded-3xl p-8 md:p-10 flex flex-col">
-              <p className="text-sm tracking-wide text-primary-foreground/70 mb-4">01 — Now</p>
-              <span className="inline-flex w-fit items-center px-4 py-1.5 rounded-full bg-primary-foreground/15 text-primary-foreground text-xs font-medium tracking-widest uppercase mb-8">
-                Live
-              </span>
-              <h3 className="font-serif text-3xl font-medium mb-5">The Mirror Project</h3>
-              <p className="text-primary-foreground/80 leading-relaxed mb-8">
-                A simple, guided WhatsApp experience that helps you pause, reflect, and think more
-                clearly, in just a few minutes a day.
-              </p>
-              <ul className="space-y-3 mb-8 text-primary-foreground/90">
-                {[
-                  "Respond to short reflection prompts",
-                  "Get gentle, guided responses",
-                  "Build a daily habit of clarity",
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="text-primary-foreground/60">—</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="border-t border-primary-foreground/20 pt-6 mt-auto">
-                <p className="font-serif italic text-primary-foreground/90 mb-6">
-                  Start understanding your thoughts, one small moment at a time.
-                </p>
-                <Link
-                  to="/join"
-                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
-                >
-                  Join now
-                  <ArrowRight size={16} />
-                </Link>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {howItWorks.map(([label, title, desc]) => (
+              <div
+                key={label}
+                className="bg-cream rounded-2xl p-7 border border-border"
+              >
+                <div className="font-serif text-lg text-accent mb-3">{label}</div>
+                <h4 className="font-medium text-foreground mb-2">{title}</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
               </div>
-            </div>
-
-            {/* Phase 2 */}
-            <div className="bg-cream rounded-3xl p-8 md:p-10 flex flex-col">
-              <p className="text-sm tracking-wide text-muted-foreground mb-4">02 — In Production</p>
-              <span className="inline-flex w-fit items-center px-4 py-1.5 rounded-full bg-accent/15 text-accent text-xs font-medium tracking-widest uppercase mb-8">
-                Coming Soon
-              </span>
-              <h3 className="font-serif text-3xl font-medium text-foreground mb-5">
-                Personalised Growth
-              </h3>
-              <p className="text-muted-foreground leading-relaxed mb-8">
-                Your experience becomes more tailored over time, based on what you share, how you
-                think, and what you need.
-              </p>
-              <ul className="space-y-3 mb-8 text-foreground/90">
-                {[
-                  "Pattern recognition from your reflections",
-                  "Adaptive prompts to your growth areas",
-                  "Progress you can actually feel",
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="text-muted-foreground">—</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="border-t border-border pt-6 mt-auto">
-                <p className="text-foreground font-medium">
-                  Move from one-off reflections to a consistent, personalised journey.
-                </p>
-              </div>
-            </div>
-
-            {/* Phase 3 */}
-            <div className="bg-cream rounded-3xl p-8 md:p-10 flex flex-col">
-              <p className="text-sm tracking-wide text-muted-foreground mb-4">03 — Coming Soon</p>
-              <span className="inline-flex w-fit items-center px-4 py-1.5 rounded-full bg-accent/15 text-accent text-xs font-medium tracking-widest uppercase mb-8">
-                On The Horizon
-              </span>
-              <h3 className="font-serif text-3xl font-medium text-foreground mb-5">
-                The Full Platform
-              </h3>
-              <p className="text-muted-foreground leading-relaxed mb-8">
-                A deeper ecosystem combining guided AI experiences, expert insights, and structured
-                growth pathways.
-              </p>
-              <ul className="space-y-3 mb-8 text-foreground/90">
-                {[
-                  "Expert-led content & guidance",
-                  "Structured personal growth pathways",
-                  "Community & peer reflection spaces",
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="text-muted-foreground">—</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="border-t border-border pt-6 mt-auto">
-                <p className="text-foreground font-medium">
-                  Sustain and deepen your personal growth over time.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -305,81 +438,21 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Why we built this */}
-      <section className="section-padding bg-background">
-        <div className="container-wide px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div>
-              <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
-                Why We Built This
-              </p>
-              <h2 className="heading-section text-foreground mb-8">
-                Built for the quiet moments between decisions.
-              </h2>
-              <p className="text-body-large mb-6">
-                GenMyo was created as a quieter alternative to modern wellness culture. In a world
-                shaped by noise and constant performance, we wanted to build a space where people
-                could simply pause and think.
-              </p>
-              <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
-                We're not here to optimise you. We're here to help you understand yourself, gently,
-                and at your own pace.
-              </p>
-              <Link
-                to="/philosophy"
-                className="inline-flex items-center gap-2 px-8 py-4 text-base font-medium bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
-              >
-                Read our story
-                <ArrowRight size={16} />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-2 gap-5">
-              {[
-                { stat: "2 min", label: "2-minute daily reflection sessions" },
-                { stat: "89%", label: "89% of users return the next day" },
-                { stat: "0", label: "Zero apps — works directly on WhatsApp" },
-                { stat: "∞", label: "No pressure, no judgement" },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="bg-cream rounded-2xl p-8 flex flex-col items-center justify-center text-center min-h-[180px]"
-                >
-                  <span className="font-serif text-4xl md:text-5xl font-medium text-accent block mb-3">
-                    {item.stat}
-                  </span>
-                  <p className="text-sm text-muted-foreground">{item.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
+      {/* Closing */}
       <section className="section-padding bg-primary text-primary-foreground">
         <div className="container-narrow text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6">
-            Start your free daily reflection on WhatsApp today
+          <h2 className="font-serif text-4xl md:text-5xl font-medium mb-8 leading-tight">
+            Stop tracking your mood.
+            <br />
+            Start understanding your story.
           </h2>
-          <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-10">
-            Join the Mirror Project. Your first guided session takes less than two minutes.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/join"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-accent text-accent-foreground rounded-full hover:opacity-90 transition-opacity"
-            >
-              <MessageCircle size={18} />
-              Start on WhatsApp
-            </Link>
-            <Link
-              to="/philosophy"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium border border-primary-foreground/30 rounded-full hover:bg-primary-foreground/10 transition-colors"
-            >
-              Learn more first
-            </Link>
-          </div>
+          <Link
+            to="/join"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-accent text-accent-foreground rounded-full hover:opacity-90 transition-opacity"
+          >
+            <MessageCircle size={18} />
+            Begin free on WhatsApp
+          </Link>
         </div>
       </section>
     </Layout>

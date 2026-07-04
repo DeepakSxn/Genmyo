@@ -13,9 +13,6 @@ export default {
       },
     },
     extend: {
-      screens: {
-        xs: "475px",
-      },
       fontFamily: {
         serif: ['Cormorant Garamond', 'Georgia', 'serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -61,6 +58,10 @@ export default {
         "deep-brown": "hsl(var(--deep-brown))",
         terracotta: "hsl(var(--terracotta))",
         "soft-white": "hsl(var(--soft-white))",
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          foreground: "hsl(var(--gold-foreground))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
