@@ -388,6 +388,24 @@ const Join = () => {
       "entry.142785906": formData.city,
     };
 
+    const triggerEmailNotification = () => {
+      // Trigger Resend email notification asynchronously
+      fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          fullName,
+          email: formData.email,
+          whatsapp: fullWhatsapp,
+          dob: formData.dob,
+          country: formData.country,
+          city: formData.city,
+          context: formData.context,
+        }),
+      }).catch((err) => console.error("Email notification error:", err));
+    };
+
     setIsSubmitting(true);
     try {
       const response = await fetch(REGISTRATION_API_URL, {
@@ -408,27 +426,11 @@ const Join = () => {
         return;
       }
 
-      if (response.ok) {
-        // Trigger Resend email notification asynchronously
-        fetch("/api/send-email", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            firstName: formData.firstName,
-            fullName,
-            email: formData.email,
-            whatsapp: fullWhatsapp,
-            dob: formData.dob,
-            country: formData.country,
-            city: formData.city,
-            context: formData.context,
-          }),
-        }).catch((err) => console.error("Email notification error:", err));
-      }
-
+      triggerEmailNotification();
       submitToGoogleFormAndFinish(fields);
     } catch (err) {
       // Fallback: still post to Google Forms even if API is down
+      triggerEmailNotification();
       submitToGoogleFormAndFinish(fields);
     } finally {
       setIsSubmitting(false);

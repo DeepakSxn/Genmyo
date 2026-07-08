@@ -84,10 +84,7 @@ export default async function handler(
               Hi ${firstName || "there"},
             </h1>
             <p style="font-size: 16px; line-height: 1.6; margin: 0 0 16px; color: #4A463E;">
-              Thank you for taking the first step to join GenMyō. We have received your request and the Mirror is ready for you.
-            </p>
-            <p style="font-size: 16px; line-height: 1.6; margin: 0 0 16px; color: #4A463E;">
-              You will receive a WhatsApp message from <strong>The Mirror</strong> soon to guide you through your daily 2-minute reflections.
+              Thank you for taking the first step to join GenMyō. We have received your request and are currently reviewing it.
             </p>
             <p style="font-size: 16px; line-height: 1.6; margin: 0 0 24px; color: #4A463E;">
               In the meantime, feel free to explore our philosophy or read notes on inner wellness from our team on the blog.
@@ -127,13 +124,13 @@ export default async function handler(
       },
       body: JSON.stringify([
         {
-          from: "GenMyō <admin@genmyo.ai>",
+          from: "GenMyō <noreply@genmyo.ai>",
           to: ["hello@genmyo.ai"],
           subject: `New GenMyō Registration: ${fullName}`,
           html: adminHtml,
         },
         {
-          from: "GenMyō <admin@genmyo.ai>",
+          from: "GenMyō <noreply@genmyo.ai>",
           to: [email],
           subject: "Welcome to GenMyō",
           html: welcomeHtml,
