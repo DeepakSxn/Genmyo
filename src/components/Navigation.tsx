@@ -25,6 +25,7 @@ const Navigation = () => {
 
   const links = [
     { href: "/", label: "Home" },
+    { href: "/team", label: "Team" },
   ];
 
   const sectionLinks = [
@@ -46,8 +47,8 @@ const Navigation = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
-  // On the home route the hero is dark (black/gold); render light nav until scrolled.
-  const overDark = location.pathname === "/" && !isScrolled;
+  // On the home route and partners route the hero is dark (black/gold); render light nav until scrolled.
+  const overDark = (location.pathname === "/" || location.pathname === "/partners") && !isScrolled;
 
   return (
     <nav
@@ -98,8 +99,18 @@ const Navigation = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* CTA Buttons */}
+          <div className="hidden md:flex items-center gap-3">
+            <Link
+              to="/partners"
+              className={`inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium rounded-full border transition-all ${
+                overDark
+                  ? "border-white/30 text-white hover:bg-white/10"
+                  : "border-gold text-gold hover:bg-gold/10"
+              }`}
+            >
+              Partners
+            </Link>
             <Link
               to="/join"
               className="inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
@@ -145,13 +156,22 @@ const Navigation = () => {
                   {s.label}
                 </button>
               ))}
-              <Link
-                to="/join"
-                onClick={() => setIsOpen(false)}
-                className="inline-flex items-center justify-center px-6 py-3 mt-4 text-sm font-medium bg-gold text-gold-foreground rounded-full"
-              >
-                Join Now
-              </Link>
+              <div className="flex flex-col gap-3 mt-4">
+                <Link
+                  to="/partners"
+                  onClick={() => setIsOpen(false)}
+                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium border border-gold text-gold rounded-full hover:bg-gold/10"
+                >
+                  Partners
+                </Link>
+                <Link
+                  to="/join"
+                  onClick={() => setIsOpen(false)}
+                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium bg-gold text-gold-foreground rounded-full"
+                >
+                  Join Now
+                </Link>
+              </div>
             </div>
           </div>
         )}

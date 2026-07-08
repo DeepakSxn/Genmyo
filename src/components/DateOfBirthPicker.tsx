@@ -120,7 +120,7 @@ const BirthCalendar = ({
       <div
         className={cn(
           "grid gap-2",
-          isMobile ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-2"
+          isMobile ? "grid-cols-[1.4fr_1fr]" : "grid-cols-[1.4fr_1fr]"
         )}
       >
         <div className="space-y-1.5">
@@ -168,10 +168,9 @@ const BirthCalendar = ({
             date > today || date < new Date(MIN_BIRTH_YEAR, 0, 1)
           }
           showOutsideDays={false}
-          fixedWeeks
           className={cn(
-            "w-full rounded-md bg-popover p-0",
-            isMobile ? "min-w-0" : "min-w-[22rem]"
+            "w-full rounded-md bg-popover p-1.5",
+            isMobile ? "min-w-0" : "min-w-[18.5rem]"
           )}
           classNames={getDayGridClassNames(isMobile)}
         />
@@ -244,7 +243,7 @@ const DateOfBirthPicker = ({ value, onChange, hasError, id }: DateOfBirthPickerP
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent
-        className="w-auto min-w-[22rem] border-border bg-popover p-4 shadow-md"
+        className="w-auto min-w-[18.5rem] border-border bg-popover p-4 shadow-md"
         align="start"
         sideOffset={4}
         collisionPadding={16}

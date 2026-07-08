@@ -15,6 +15,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CountryCodeCombobox from "@/components/CountryCodeCombobox";
 import CountryNameCombobox from "@/components/CountryNameCombobox";
+import DateOfBirthPicker from "@/components/DateOfBirthPicker";
 import { useToast } from "@/components/ui/use-toast";
 import { ArrowRight, CheckCircle } from "lucide-react";
 
@@ -200,7 +201,7 @@ const formSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required").max(50, "Must be less than 50 characters"),
   surname: z.string().trim().min(1, "Surname is required").max(50, "Must be less than 50 characters"),
   email: z.string().trim().email("Please enter a valid email").max(255),
-  dob: z.string().regex(/^\d{2}\/\d{2}\/\d{2}$/, "Use format dd/mm/yy"),
+  dob: z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, "Use format dd/mm/yyyy"),
   countryCode: z.string().min(1, "Select a country code"),
   whatsapp: z
     .string()
@@ -407,6 +408,23 @@ const Join = () => {
         return;
       }
 
+      if (response.ok) {
+        // Trigger Resend email notification asynchronously
+        fetch("/api/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fullName,
+            email: formData.email,
+            whatsapp: fullWhatsapp,
+            dob: formData.dob,
+            country: formData.country,
+            city: formData.city,
+            context: formData.context,
+          }),
+        }).catch((err) => console.error("Email notification error:", err));
+      }
+
       submitToGoogleFormAndFinish(fields);
     } catch (err) {
       // Fallback: still post to Google Forms even if API is down
@@ -511,15 +529,13 @@ const Join = () => {
                 <Label htmlFor="dob">
                   Date of Birth <span className="text-accent">*</span>
                 </Label>
-                <Input
+                <DateOfBirthPicker
                   id="dob"
-                  placeholder="dd/mm/yy"
-                  inputMode="numeric"
                   value={formData.dob}
-                  onChange={(e) => handleChange("dob", e.target.value)}
-                  className={errors.dob ? "border-destructive" : ""}
+                  onChange={(value) => handleChange("dob", value)}
+                  hasError={!!errors.dob}
                 />
-                <p className="text-xs text-muted-foreground">Format: dd/mm/yy (e.g. 15/08/90)</p>
+                <p className="text-xs text-muted-foreground">Format: dd/mm/yyyy (e.g. 15/08/1990)</p>
                 {errors.dob && <p className="text-sm text-destructive">{errors.dob}</p>}
               </div>
 
