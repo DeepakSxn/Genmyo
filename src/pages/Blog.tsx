@@ -80,11 +80,11 @@ export const BLOG_POSTS: BlogPostData[] = [
     title: "What a hundred honest conversations taught us",
     description: "We did not ask people what app they wanted. We asked what growing actually means to them. The answers changed what we are building.",
     author: "Sid",
-    role: "Co-founder, GenMyō",
+    role: "Founding Team: Product and Growth, GenMyō",
     avatar: sidImage,
     readTime: "4 min read",
     datePublished: "2026-07-01",
-    authorJobTitle: "Co-founder",
+    authorJobTitle: "Founding Team: Product and Growth",
     lead: "Before we wrote a line of product, we spent months doing something unfashionable: listening without pitching.",
     content: (
       <>
@@ -99,22 +99,17 @@ export const BLOG_POSTS: BlogPostData[] = [
           1. Wellness is not a perk. It is the development need.
         </h4>
         <p>
-          When we asked people what they most wanted to develop in themselves, we expected skills: leadership, communication, technical depth. Instead, nearly two thirds named their mental and emotional wellness first, ahead of any professional skill. Read that again. The thing people most want to grow is not on any corporate training catalogue. They are not asking to be more okay.
+          When we asked people what they most wanted to develop in themselves, we expected skills: leadership, communication, technical depth. Instead, nearly two thirds named their mental and emotional wellness first, ahead of any professional skill. Read that again. The thing people most want to grow is not on any corporate training catalogue. They are not asking to be more productive. They are asking to understand themselves better.
         </p>
 
         <h4 className="font-serif text-xl md:text-2xl font-medium mt-10 mb-4 text-[#1C1A16]">
           2. People do not want to be tracked. They want to be understood.
         </h4>
         <p>
-          Almost everyone we spoke to had tried a wellness app. Almost everyone had abandoned it. The pattern behind the churn was consistent: mood scores, streaks and dashboards measure you, but they do not know you. One conversation summed it up perfectly:
+          Almost everyone we spoke to had tried a wellness app, and many had tried an AI chatbot too. Almost everyone had abandoned them. Mood scores, streaks and dashboards measure you, but they do not know you. The chatbots were worse in a particular way: fluent, generic advice, the kind you could find in any article, with no sense of the patterns across time or the deeper behaviour underneath a person's words. People could tell us what an app had recorded about them, and in the same breath tell us it understood nothing about why they felt the way they did.
         </p>
-
-        <blockquote className="border-l-[3px] border-[#C2A053] pl-6 my-6 font-serif italic text-xl md:text-2xl text-[#1C1A16]">
-          "The app knows I slept badly. It has no idea why I cannot say no to my father."
-        </blockquote>
-
         <p>
-          That sentence is the gap in this entire industry. Mood is a reading. Story is an understanding. Every product measures the first; almost none attempts the second. The moment we tested reflections that responded to a person's actual chapter of life, the reaction changed from polite interest to something closer to being seen.
+          That is the gap in this entire industry. Mood is a reading. Story is an understanding. Every product measures the first; almost none attempts the second. The moment we tested reflections that responded to a person's actual chapter of life, the reaction changed from polite interest to something closer to being seen.
         </p>
 
         <h4 className="font-serif text-xl md:text-2xl font-medium mt-10 mb-4 text-[#1C1A16]">
@@ -124,7 +119,7 @@ export const BLOG_POSTS: BlogPostData[] = [
           People told us they could not sustain 40-minute sessions, weekly journals, or anything that felt like homework. What they could sustain was two minutes, inside an app they already open fifty times a day. Depth, we learned, is not a function of session length. It is a function of consistency multiplied by relevance. A short reflection that lands exactly where you are does more than an hour of generic content.
         </p>
         <p>
-          These three findings are now the spine of GenMyō: wellness as the first development need, story over mood, and a daily two-minute rhythm on WhatsApp. None of it came from a brainstorm. All of it came from people generous enough to tell us the truth.
+          These three findings are now the spine of GenMyō: wellness as the first development need, story over mood, and consistency over intensity. The daily two-minute rhythm on WhatsApp is how we chose to answer them, but the findings themselves came first. None of it came from a brainstorm. All of it came from people generous enough to tell us the truth.
         </p>
         <p>
           The research continues with every cohort we run, and honestly, being proven wrong by real people is the best part of this job. If you would like to be one of the people who shapes what GenMyō becomes, begin your reflection. We are listening.
