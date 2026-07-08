@@ -414,6 +414,7 @@ const Join = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            firstName: formData.firstName,
             fullName,
             email: formData.email,
             whatsapp: fullWhatsapp,
