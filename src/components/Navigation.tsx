@@ -25,7 +25,6 @@ const Navigation = () => {
 
   const links = [
     { href: "/", label: "Home" },
-    { href: "/team", label: "Team" },
   ];
 
   const sectionLinks = [
