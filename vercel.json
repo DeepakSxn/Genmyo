@@ -2,17 +2,6 @@
   "cleanUrls": true,
   "redirects": [
     {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.genmyo.ai"
-        }
-      ],
-      "destination": "https://genmyo.ai/:path*",
-      "permanent": true
-    },
-    {
       "source": "/whatsapp-journaling",
       "destination": "/emotional-check-in",
       "permanent": true
