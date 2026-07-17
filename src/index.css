@@ -129,6 +129,10 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
@@ -206,6 +210,14 @@
 
   .link-underline:hover::after {
     @apply scale-x-100 origin-left;
+  }
+
+  /* Navbar glass effect — explicit vendor prefixes for cross-env compat */
+  .nav-scrolled {
+    background-color: hsl(40 30% 97% / 0.95);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    will-change: transform;
   }
 }
 

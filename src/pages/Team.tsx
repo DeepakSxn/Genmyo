@@ -34,9 +34,8 @@ const Team = () => {
   return (
     <Layout>
       <SEO
-        title="The Roadmap - From Whatsapp To a Full AI-driven Platform"
-        description="GenMyo was founded by Rajit Punshi, a 25-year global leadership veteran, and Sid Punshi, a product and growth specialist. Meet the team building AI-first human development tools."
-        canonical="/team"
+        title="The People Behind GenMyo — Team & Founders"
+        description="Meet the small team building The Mirror Project. Who we are, what we've built before, and why we chose to make something quiet."
       />
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(teamSchema)}</script>

@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import { SEO } from "@/components/SEO";
 import { ArrowRight, Compass, Shield, Users, Sparkles } from "lucide-react";
 
 const Philosophy = () => {
   return (
     <Layout>
+      <SEO
+        title="Our Philosophy — Why GenMyo Is Quiet on Purpose"
+        description="Wellness got loud. We went the other way. Why GenMyo asks questions instead of giving advice, why there's no streak, no feed, and no optimisation score — and what 'inner alignment' actually means to us."
+      />
       {/* Hero */}
       <section className="bg-gradient-hero section-padding">
         <div className="container-narrow text-center">
@@ -15,8 +20,7 @@ const Philosophy = () => {
             Why GenMyo Exists
           </h1>
           <p className="text-body-large max-w-2xl mx-auto animate-fade-up delay-200">
-            A quieter alternative to modern wellness culture, built to help people
-            pause, hear themselves clearly, and grow at their own pace.
+            GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice.
           </p>
         </div>
       </section>
@@ -118,6 +122,40 @@ const Philosophy = () => {
       </section>
 
 
+      {/* Exploration Guides */}
+      <section className="section-padding bg-background border-t border-border/40">
+        <div className="container-narrow">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <h2 className="font-serif text-2xl md:text-3xl text-foreground font-medium mb-3">
+              Guides on Inner Wellness & Growth
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Explore our articles and research on self-reflection, mindfulness, and quiet development.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto text-center sm:text-left">
+            <Link to="/feeling-disconnected" className="p-4 rounded-xl border border-border/60 hover:border-accent/40 bg-cream/40 transition-colors block text-sm font-medium text-foreground">
+              Feeling Disconnected from Yourself →
+            </Link>
+            <Link to="/feeling-stuck" className="p-4 rounded-xl border border-border/60 hover:border-accent/40 bg-cream/40 transition-colors block text-sm font-medium text-foreground">
+              What to Do When Feeling Stuck →
+            </Link>
+            <Link to="/self-awareness" className="p-4 rounded-xl border border-border/60 hover:border-accent/40 bg-cream/40 transition-colors block text-sm font-medium text-foreground">
+              How to Practice Self-Awareness →
+            </Link>
+            <Link to="/inner-alignment" className="p-4 rounded-xl border border-border/60 hover:border-accent/40 bg-cream/40 transition-colors block text-sm font-medium text-foreground">
+              A Guide to Inner Alignment →
+            </Link>
+            <Link to="/quiet-wellness" className="p-4 rounded-xl border border-border/60 hover:border-accent/40 bg-cream/40 transition-colors block text-sm font-medium text-foreground">
+              Understanding Quiet Wellness →
+            </Link>
+            <Link to="/guided-reflection" className="p-4 rounded-xl border border-border/60 hover:border-accent/40 bg-cream/40 transition-colors block text-sm font-medium text-foreground">
+              Guided Reflection Practices →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="section-padding bg-primary text-primary-foreground">
         <div className="container-narrow text-center">
@@ -126,15 +164,21 @@ const Philosophy = () => {
           </h2>
           <p className="text-xl text-primary-foreground/80 max-w-xl mx-auto mb-10">
             The best way to understand what we're building is to experience
-            it. Join The Mirror Project and begin the journey.
+            it. Start reflecting natively inside WhatsApp today.
           </p>
-          <Link
-            to="/join"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
-          >
-            Join The Mirror Project
-            <ArrowRight size={18} />
-          </Link>
+          <div className="flex flex-col items-center">
+            <Link
+              to="/join"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
+            >
+              Start your reflection →
+            </Link>
+            <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
+              Free · No app, no account, no card
+              <br />
+              Your reflections are private. <Link to="/privacy" className="underline hover:text-gold transition-colors font-medium">What we store →</Link>
+            </p>
+          </div>
         </div>
       </section>
     </Layout>

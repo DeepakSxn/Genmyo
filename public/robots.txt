@@ -10,24 +10,27 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-# Block AI scrapers and crawlers
+# Allow AI scrapers and search bots for AI Overview and Search indexing (GEO)
 User-agent: GPTBot
-Disallow: /
+Allow: /
 
 User-agent: ClaudeBot
-Disallow: /
+Allow: /
 
 User-agent: PerplexityBot
-Disallow: /
+Allow: /
 
-User-agent: CCBot
-Disallow: /
+User-agent: OAI-SearchBot
+Allow: /
 
 User-agent: Google-Extended
-Disallow: /
+Allow: /
+
+User-agent: CCBot
+Allow: /
 
 User-agent: Applebot-Extended
-Disallow: /
+Allow: /
 
 User-agent: *
 Allow: /

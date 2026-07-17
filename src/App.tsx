@@ -1,46 +1,33 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import ScrollToTop from "./components/ScrollToTop";
-import Index from "./pages/Index";
-import Philosophy from "./pages/Philosophy";
-import NotFound from "./pages/NotFound";
-import Join from "./pages/Join";
-import Team from "./pages/Team";
-import Terms from "./pages/Terms";
-import Partners from "./pages/Partners";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
+import { AppRoutes } from "./AppRoutes";
+import { initGA } from "@/lib/analytics";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Toaster as Sonner />
-        <BrowserRouter>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/philosophy" element={<Philosophy />} />
-            <Route path="/join" element={<Join />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/partners" element={<Partners />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </HelmetProvider>
-);
+const App = () => {
+  useEffect(() => {
+    initGA();
+  }, []);
+
+  return (
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Toaster as Sonner />
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  );
+};
 
 export default App;

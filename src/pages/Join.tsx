@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import Layout from "@/components/Layout";
+import { SEO } from "@/components/SEO";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,17 @@ import CountryCodeCombobox from "@/components/CountryCodeCombobox";
 import CountryNameCombobox from "@/components/CountryNameCombobox";
 import DateOfBirthPicker from "@/components/DateOfBirthPicker";
 import { useToast } from "@/components/ui/use-toast";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
+import { ArrowRight, CheckCircle, MessageCircle } from "lucide-react";
+import { 
+  trackCTAView, 
+  trackCTAClickWhatsApp, 
+  trackReflectionStarted,
+  trackFormStart,
+  trackFormFieldFocus,
+  trackDesktopQRShown,
+  trackWhatsAppRedirectFired
+} from "@/lib/analytics";
 
 const ADMIN_EMAIL = "hello@genmyo.ai";
 
@@ -198,10 +209,10 @@ const COUNTRY_CODES: { code: string; flag: string; country: string }[] = [
 
 
 const formSchema = z.object({
-  firstName: z.string().trim().min(1, "First name is required").max(50, "Must be less than 50 characters"),
-  surname: z.string().trim().min(1, "Surname is required").max(50, "Must be less than 50 characters"),
-  email: z.string().trim().email("Please enter a valid email").max(255),
-  dob: z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, "Use format dd/mm/yyyy"),
+  firstName: z.string().trim().min(1, "Name is required").max(100, "Must be less than 100 characters"),
+  surname: z.string().optional(),
+  email: z.string().optional(),
+  dob: z.string().optional(),
   countryCode: z.string().min(1, "Select a country code"),
   whatsapp: z
     .string()
@@ -209,8 +220,8 @@ const formSchema = z.object({
     .min(1, "WhatsApp number is required")
     .max(20, "Please enter a valid number")
     .regex(/^[0-9\s\-()]+$/, "Digits only (no country code here)"),
-  country: z.string().trim().min(1, "Country is required").max(100),
-  city: z.string().trim().min(1, "City is required").max(100),
+  country: z.string().optional(),
+  city: z.string().optional(),
   context: z.string().max(500, "Please keep it under 500 characters").optional(),
 });
 
@@ -236,6 +247,32 @@ type BusinessData = z.infer<typeof businessSchema>;
 
 const Join = () => {
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+  const [sessionToken, setSessionToken] = useState("");
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  const [hasTrackedFormStart, setHasTrackedFormStart] = useState(false);
+
+  useEffect(() => {
+    trackCTAView("join_page", "/join");
+    
+    // Generate unique session token
+    const token = "genmyo_ref_" + Math.random().toString(36).substring(2, 10).toUpperCase();
+    setSessionToken(token);
+
+    // Device check
+    const ua = window.navigator.userAgent;
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
+    setIsMobileDevice(isMobile);
+  }, []);
+
+  const handleFieldFocus = (fieldName: string) => {
+    if (!hasTrackedFormStart) {
+      trackFormStart("individual_registration");
+      setHasTrackedFormStart(true);
+    }
+    trackFormFieldFocus("individual_registration", fieldName);
+  };
+
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     surname: "",
@@ -245,7 +282,7 @@ const Join = () => {
     whatsapp: "",
     country: "",
     city: "",
-    context: "",
+    context: searchParams.get("context") || "",
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -364,12 +401,19 @@ const Join = () => {
       return;
     }
 
-    const fullName = `${formData.firstName} ${formData.surname}`.trim();
+    const fullName = formData.firstName.trim();
+    const emailValue = formData.email || "no-email@genmyo.ai";
+    const dobValue = formData.dob || "01/01/2000";
+    const countryValue = formData.country || "N/A";
+    const cityValue = formData.city || "N/A";
+    const surnameValue = formData.surname || "";
+
     const fullWhatsapp = `${formData.countryCode} ${formData.whatsapp}`.trim();
     const contextPayload = [
-      `DOB: ${formData.dob}`,
-      `Country: ${formData.country}`,
-      `City: ${formData.city}`,
+      `DOB: ${dobValue}`,
+      `Country: ${countryValue}`,
+      `City: ${cityValue}`,
+      `Token: ${sessionToken}`,
       formData.context ? `Notes: ${formData.context}` : "",
     ]
       .filter(Boolean)
@@ -377,15 +421,15 @@ const Join = () => {
 
     const fields: Record<string, string> = {
       "entry.1907368519": fullName,
-      "entry.44984313": formData.email,
+      "entry.44984313": emailValue,
       "entry.1030588086": fullWhatsapp,
       "entry.79544609": contextPayload,
       
       // Backward compatibility keys from the old schema:
-      "entry.1208177102": formData.surname,
-      "entry.1640555608": formData.dob,
-      "entry.1418652324": formData.country,
-      "entry.142785906": formData.city,
+      "entry.1208177102": surnameValue,
+      "entry.1640555608": dobValue,
+      "entry.1418652324": countryValue,
+      "entry.142785906": cityValue,
     };
 
     const triggerEmailNotification = () => {
@@ -394,14 +438,14 @@ const Join = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName: formData.firstName,
+          firstName: fullName,
           fullName,
-          email: formData.email,
+          email: emailValue,
           whatsapp: fullWhatsapp,
-          dob: formData.dob,
-          country: formData.country,
-          city: formData.city,
-          context: formData.context,
+          dob: dobValue,
+          country: countryValue,
+          city: cityValue,
+          context: formData.context ? `${formData.context} (Token: ${sessionToken})` : `Token: ${sessionToken}`,
         }),
       }).catch((err) => console.error("Email notification error:", err));
     };
@@ -437,17 +481,80 @@ const Join = () => {
     }
   };
 
+  useEffect(() => {
+    if (submitted && !isMobileDevice) {
+      trackDesktopQRShown("individual_registration");
+    }
+  }, [submitted, isMobileDevice]);
+
   if (submitted) {
+    const waUrl = `https://wa.me/message/Y4GOKBIGBWUUM1?text=${encodeURIComponent(
+      formData.context 
+        ? `I'm ready to start my first reflection. My thought: ${formData.context} [Token: ${sessionToken}]`
+        : `I'm ready to start my first reflection. [Token: ${sessionToken}]`
+    )}`;
+    
+    const handleRedirectClick = () => {
+      trackCTAClickWhatsApp("join_success_page", waUrl);
+      trackWhatsAppRedirectFired("individual_registration", sessionToken);
+      trackReflectionStarted("form_success");
+    };
+
     return (
       <Layout>
         <section className="bg-background min-h-[65vh] flex items-center justify-center">
-          <div className="text-center px-6 animate-fade-up">
+          <div className="text-center px-6 animate-fade-up max-w-lg mx-auto">
             <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground font-light leading-snug">
               Hi {formData.firstName}.
-              <span className="block mt-2 text-muted-foreground font-sans text-lg md:text-xl font-normal">
-                You will hear from The Mirror soon.
-              </span>
             </h1>
+            <p className="mt-4 text-[#4A463E] text-base md:text-lg leading-relaxed font-serif">
+              Your details have been saved. To begin your first reflection, follow the steps below to connect on WhatsApp.
+            </p>
+            
+            {!isMobileDevice ? (
+              <div className="mt-8 flex flex-col items-center gap-4 bg-cream p-6 rounded-2xl border border-border/80 max-w-sm mx-auto animate-fade-in">
+                <p className="text-sm font-medium text-foreground">Scan with your phone to start on WhatsApp</p>
+                <div className="bg-white p-3 rounded-xl shadow-sm border border-border/40">
+                  <img
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(waUrl)}`}
+                    alt="Scan to start reflection on WhatsApp"
+                    className="w-[180px] h-[180px]"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Or continue on this device:
+                </p>
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-2 text-sm font-medium border border-border/80 bg-background text-foreground rounded-full hover:bg-secondary/40 transition-colors"
+                  onClick={handleRedirectClick}
+                >
+                  <MessageCircle size={16} />
+                  Open WhatsApp Web →
+                </a>
+              </div>
+            ) : (
+              <div className="mt-8">
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-[#B0703E] text-white rounded-full hover:opacity-90 transition-opacity"
+                  onClick={handleRedirectClick}
+                >
+                  <MessageCircle size={18} />
+                  Start your reflection on WhatsApp →
+                </a>
+              </div>
+            )}
+            
+            <p className="text-xs text-muted-foreground mt-8 leading-relaxed">
+              Free &middot; No app, no account, no card
+              <br />
+              Your reflections are private. <a href="/privacy" className="underline hover:text-[#B0703E]">What we store &rarr;</a>
+            </p>
           </div>
         </section>
       </Layout>
@@ -456,6 +563,10 @@ const Join = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Start Your First Reflection — Free, on WhatsApp | GenMyo"
+        description="Send one message and your first Mirror Project reflection begins. Free, about 6 minutes, entirely in WhatsApp. No account, no download, no card."
+      />
       <section className="section-padding bg-background min-h-[70vh] flex items-center">
         <div className="container-narrow">
           <div className="max-w-lg mx-auto">
@@ -473,170 +584,96 @@ const Join = () => {
                   <h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-4">
                     Start Your Journey
                   </h1>
-                  <p className="text-muted-foreground">
-                    Fill in your details and we'll connect with you on WhatsApp.
+                  <p className="text-sm text-muted-foreground">
+                    Save your baseline, details, and context before starting.
                   </p>
                 </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">
-                    First Name <span className="text-accent">*</span>
-                  </Label>
-                  <Input
-                    id="firstName"
-                    placeholder="First name"
-                    value={formData.firstName}
-                    onChange={(e) => handleChange("firstName", e.target.value)}
-                    className={errors.firstName ? "border-destructive" : ""}
-                  />
-                  {errors.firstName && (
-                    <p className="text-sm text-destructive">{errors.firstName}</p>
-                  )}
-                </div>
+             <form onSubmit={handleSubmit} className="space-y-6">
+               <div className="space-y-2">
+                 <Label htmlFor="firstName">
+                   Your Name <span className="text-accent">*</span>
+                 </Label>
+                 <Input
+                   id="firstName"
+                   placeholder="Your Name"
+                   value={formData.firstName}
+                   onChange={(e) => handleChange("firstName", e.target.value)}
+                   onFocus={() => handleFieldFocus("firstName")}
+                   className={errors.firstName ? "border-destructive" : ""}
+                 />
+                 {errors.firstName && (
+                   <p className="text-sm text-destructive">{errors.firstName}</p>
+                 )}
+               </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="surname">
-                    Surname <span className="text-accent">*</span>
-                  </Label>
-                  <Input
-                    id="surname"
-                    placeholder="Surname"
-                    value={formData.surname}
-                    onChange={(e) => handleChange("surname", e.target.value)}
-                    className={errors.surname ? "border-destructive" : ""}
-                  />
-                  {errors.surname && (
-                    <p className="text-sm text-destructive">{errors.surname}</p>
-                  )}
-                </div>
-              </div>
+               <div className="space-y-2" onFocusCapture={() => handleFieldFocus("whatsapp")}>
+                 <Label>
+                   WhatsApp Number <span className="text-accent">*</span>
+                 </Label>
+                 <div className="grid grid-cols-[180px_1fr] gap-2">
+                   <CountryCodeCombobox
+                     countries={COUNTRY_CODES}
+                     value={formData.countryCode}
+                     onChange={(value) => handleChange("countryCode", value)}
+                     placeholder="Country code"
+                     ariaLabel="Country code"
+                     hasError={!!errors.countryCode}
+                   />
+                   <Input
+                     id="whatsapp"
+                     placeholder="234 567 8900"
+                     inputMode="tel"
+                     value={formData.whatsapp}
+                     onChange={(e) => handleChange("whatsapp", e.target.value)}
+                     onFocus={() => handleFieldFocus("whatsapp")}
+                     className={errors.whatsapp ? "border-destructive" : ""}
+                     aria-label="WhatsApp number"
+                   />
+                 </div>
+                 {errors.countryCode && (
+                   <p className="text-sm text-destructive">{errors.countryCode}</p>
+                 )}
+                 {errors.whatsapp && (
+                   <p className="text-sm text-destructive">{errors.whatsapp}</p>
+                 )}
+               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="email">
-                  Email <span className="text-accent">*</span>
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={formData.email}
-                  onChange={(e) => handleChange("email", e.target.value)}
-                  className={errors.email ? "border-destructive" : ""}
-                />
-                {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
-              </div>
+               <div className="space-y-2">
+                 <Label htmlFor="context">What's been sitting with you lately?</Label>
+                 <Textarea
+                   id="context"
+                   placeholder="Optional: share one thing that is on your mind right now"
+                   value={formData.context}
+                   onChange={(e) => handleChange("context", e.target.value)}
+                   onFocus={() => handleFieldFocus("context")}
+                   rows={3}
+                   className={errors.context ? "border-destructive" : ""}
+                 />
+                 {errors.context && <p className="text-sm text-destructive">{errors.context}</p>}
+               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="dob">
-                  Date of Birth <span className="text-accent">*</span>
-                </Label>
-                <DateOfBirthPicker
-                  id="dob"
-                  value={formData.dob}
-                  onChange={(value) => handleChange("dob", value)}
-                  hasError={!!errors.dob}
-                />
-                <p className="text-xs text-muted-foreground">Format: dd/mm/yyyy (e.g. 15/08/1990)</p>
-                {errors.dob && <p className="text-sm text-destructive">{errors.dob}</p>}
-              </div>
+               {submitError && (
+                 <p className="text-sm text-destructive rounded-lg border border-destructive/30 bg-destructive/5 p-4 animate-fade-in">
+                   {submitError}
+                 </p>
+               )}
 
-              <div className="space-y-2">
-                <Label>
-                  WhatsApp Number <span className="text-accent">*</span>
-                </Label>
-                <div className="grid grid-cols-[180px_1fr] gap-2">
-                  <CountryCodeCombobox
-                    countries={COUNTRY_CODES}
-                    value={formData.countryCode}
-                    onChange={(value) => handleChange("countryCode", value)}
-                    placeholder="Country code"
-                    ariaLabel="Country code"
-                    hasError={!!errors.countryCode}
-                  />
-                  <Input
-                    id="whatsapp"
-                    placeholder="234 567 8900"
-                    inputMode="tel"
-                    value={formData.whatsapp}
-                    onChange={(e) => handleChange("whatsapp", e.target.value)}
-                    className={errors.whatsapp ? "border-destructive" : ""}
-                    aria-label="WhatsApp number"
-                  />
-                </div>
-                {errors.countryCode && (
-                  <p className="text-sm text-destructive">{errors.countryCode}</p>
-                )}
-                {errors.whatsapp && (
-                  <p className="text-sm text-destructive">{errors.whatsapp}</p>
-                )}
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="country">
-                    Country <span className="text-accent">*</span>
-                  </Label>
-                  <CountryNameCombobox
-                    id="country"
-                    countries={COUNTRY_CODES}
-                    value={formData.country}
-                    onChange={(value) => handleChange("country", value)}
-                    placeholder="Select country"
-                    ariaLabel="Country"
-                    hasError={!!errors.country}
-                  />
-                  {errors.country && (
-                    <p className="text-sm text-destructive">{errors.country}</p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="city">
-                    City <span className="text-accent">*</span>
-                  </Label>
-                  <Input
-                    id="city"
-                    placeholder="City"
-                    value={formData.city}
-                    onChange={(e) => handleChange("city", e.target.value)}
-                    className={errors.city ? "border-destructive" : ""}
-                  />
-                  {errors.city && (
-                    <p className="text-sm text-destructive">{errors.city}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="context">What made you interested in GenMyo?</Label>
-                <Textarea
-                  id="context"
-                  placeholder="Optional: share what brought you here"
-                  value={formData.context}
-                  onChange={(e) => handleChange("context", e.target.value)}
-                  rows={3}
-                  className={errors.context ? "border-destructive" : ""}
-                />
-                {errors.context && <p className="text-sm text-destructive">{errors.context}</p>}
-              </div>
-
-              {submitError && (
-                <p className="text-sm text-destructive rounded-lg border border-destructive/30 bg-destructive/5 p-4 animate-fade-in">
-                  {submitError}
-                </p>
-              )}
-
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full rounded-full py-6 text-base gap-2 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isSubmitting ? "Submitting..." : "Join & Connect on WhatsApp"}
-                <ArrowRight size={18} />
-              </Button>
-            </form>
+               <div className="space-y-3">
+                 <Button
+                   type="submit"
+                   disabled={isSubmitting}
+                   className="w-full rounded-full py-6 text-base gap-2 disabled:cursor-not-allowed disabled:opacity-60 bg-gold text-gold-foreground hover:opacity-90 transition-opacity"
+                 >
+                   {isSubmitting ? "Opening WhatsApp..." : "Open WhatsApp and begin →"}
+                 </Button>
+                 
+                 <div className="text-center text-xs text-muted-foreground space-y-1">
+                   <p>We'll open WhatsApp and your first reflection begins.</p>
+                   <p className="text-accent">We never message you first.</p>
+                 </div>
+               </div>
+             </form>
               </TabsContent>
 
               <TabsContent value="business">

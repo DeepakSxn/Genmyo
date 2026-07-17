@@ -1,15 +1,73 @@
 {
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.genmyo.ai"
+        }
+      ],
+      "destination": "https://genmyo.ai/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/whatsapp-journaling",
+      "destination": "/emotional-check-in",
+      "permanent": true
+    },
+    {
+      "source": "/ai-journaling",
+      "destination": "/emotional-check-in",
+      "permanent": true
+    },
+    {
+      "source": "/reflection-prompt-generator",
+      "destination": "/join",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/register",
       "destination": "https://hb4ngs4y66.execute-api.ap-south-1.amazonaws.com/register"
     },
     {
-      "source": "/((?!mirror-demo\\.html).*)",
-      "destination": "/"
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
+    },
+    {
+      "source": "/llms.txt",
+      "destination": "/llms.txt"
+    },
+    {
+      "source": "/mirror-demo.html",
+      "destination": "/mirror-demo.html"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
     }
   ],
   "headers": [
+    {
+      "source": "/:path*",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    },
+    {
+      "source": "/((?!mirror-demo).*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    },
     {
       "source": "/assets/(.*)",
       "headers": [
@@ -17,22 +75,29 @@
       ]
     },
     {
-      "source": "/mirror-demo.html",
+      "source": "/sitemap.xml",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Content-Type", "value": "text/html; charset=utf-8" }
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
       ]
     },
     {
-      "source": "/((?!mirror-demo\\.html).*)",
+      "source": "/robots.txt",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
+      ]
+    },
+    {
+      "source": "/llms.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
+      ]
+    },
+    {
+      "source": "/mirror-demo.html",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Content-Type", "value": "text/html; charset=utf-8" }
       ]
     }
   ]
 }
-

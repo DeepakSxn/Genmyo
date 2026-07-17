@@ -1,5 +1,8 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import { SEO } from "@/components/SEO";
+import { trackCTAView, trackCTAClickWhatsApp } from "@/lib/analytics";
 
 import {
   ArrowRight,
@@ -9,8 +12,6 @@ import {
 
 import WalkthroughDialog from "@/components/WalkthroughDialog";
 import genmyoOrb from "@/assets/genmyo-orb-gold.png";
-
-
 
 /* ── Mirror Portrait card (outcome, IP-safe) ── */
 const PortraitCard = () => {
@@ -191,9 +192,11 @@ const TeamViz = () => {
   );
 };
 
-
-
 const Index = () => {
+  useEffect(() => {
+    trackCTAView("homepage", "/");
+  }, []);
+
   const howItWorks = [
     ["First", "Say hello on WhatsApp", "A short reflection to begin. No download, no form."],
     ["Daily", "Receive your prompt", "Two minutes. A question, a small practice, tuned to you."],
@@ -201,8 +204,42 @@ const Index = () => {
     ["When ready", "Talk to a real guide", "A matched mentor, already briefed. Optional, always."],
   ];
 
+  const homepageSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "GenMyo",
+      "url": "https://genmyo.ai",
+      "logo": "https://genmyo.ai/favicon.png",
+      "description": "GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice."
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "GenMyo",
+      "url": "https://genmyo.ai"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "The Mirror Project by GenMyo",
+      "provider": {
+        "@type": "Organization",
+        "name": "GenMyo"
+      },
+      "description": "GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice.",
+      "serviceType": "inner wellness / guided reflection",
+      "areaServed": "Worldwide"
+    }
+  ];
+
   return (
     <Layout>
+      <SEO
+        title="AI Guided Reflection on WhatsApp — The Mirror Project by GenMyo"
+        description="Feeling stuck or overwhelmed? The Mirror Project is a free 6-minute guided reflection that runs entirely inside WhatsApp. No app, no feed, no advice. Just one honest question at a time."
+        jsonSchema={homepageSchema}
+      />
       {/* Hero — series.so style, black / gold, with the Mirror animation */}
       <section className="relative overflow-hidden -mt-20 text-primary-foreground min-h-screen flex items-center bg-hero-dark">
         {/* Ambient glow */}
@@ -223,22 +260,20 @@ const Index = () => {
                 className="mb-6 w-16 h-16 animate-fade-up"
               />
 
-              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-primary-foreground animate-fade-up delay-100 leading-[1.02] text-center">
-                Wellness apps read
-                <br />
-                your <span className="text-primary-foreground/40">mood.</span>
-                <span className="block h-3 md:h-4" aria-hidden="true" />
+              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium animate-fade-up delay-100 leading-[1.15] text-center max-w-3xl">
+                <span className="text-primary-foreground">Wellness apps read</span><br />
+                <span className="text-primary-foreground">your </span><span className="text-primary-foreground/35">mood.</span><br />
                 <span className="text-gold italic">We read your story.</span>
               </h1>
 
 
-              <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center items-center animate-fade-up delay-300">
+              <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-up delay-300">
                 <Link
                   to="/join"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
                 >
                   <MessageCircle size={18} />
-                  Start your first session
+                  Start your reflection →
                 </Link>
                 <Link
                   to="/philosophy"
@@ -246,6 +281,24 @@ const Index = () => {
                 >
                   Learn more
                 </Link>
+              </div>
+
+              <div className="mt-4 text-xs text-primary-foreground/60 text-center animate-fade-up delay-350 flex items-center justify-center gap-1.5 flex-wrap">
+                <span>Free &middot; No app, no account</span>
+                <span>&middot;</span>
+                <span className="inline-flex items-center gap-0.5">Your reflections are private.{" "}
+                  <Link to="/privacy" className="inline-flex items-center gap-0.5 hover:text-gold transition-colors">
+                    <ArrowRight size={11} />
+                  </Link>
+                </span>
+              </div>
+
+              <div className="mt-8 text-xs text-primary-foreground/60 flex flex-wrap justify-center gap-x-4 gap-y-2 animate-fade-up delay-400">
+                <span>150+ guided reflections completed</span>
+                <span>•</span>
+                <span>Runs inside WhatsApp — nothing to install</span>
+                <span>•</span>
+                <Link to="/privacy" className="underline hover:text-gold transition-colors">Private by default</Link>
               </div>
             </div>
 
@@ -299,6 +352,7 @@ const Index = () => {
               <Link
                 to="/join"
                 className="inline-flex items-center gap-2 px-8 py-4 text-base font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
+                onClick={() => trackCTAClickWhatsApp("homepage_foryou_cta", "/join")}
               >
                 Start free
                 <ArrowRight size={16} />
@@ -352,13 +406,13 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {howItWorks.map(([label, title, desc]) => (
               <div
                 key={label}
-                className="bg-cream rounded-2xl p-7 border border-border"
+                className="bg-cream rounded-2xl p-7 border border-border animate-fade-up"
               >
-                <div className="font-serif text-lg text-accent mb-3">{label}</div>
+                <div className="font-serif text-2xl text-accent mb-3 font-semibold">{label}</div>
                 <h4 className="font-medium text-foreground mb-2">{title}</h4>
                 <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
               </div>
@@ -366,6 +420,8 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+
 
       {/* Early Voices / Testimonials */}
       <section className="section-padding bg-secondary">
@@ -386,49 +442,90 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                quote:
-                  "I didn't expect a WhatsApp conversation to make me feel this seen. It's quiet, thoughtful, and doesn't push me, it just helps me think.",
+                quote: "I didn't expect a WhatsApp conversation to make me feel this seen. It's quiet, thoughtful, and doesn't push me.",
                 name: "Sarah A.",
                 location: "Singapore",
                 initials: "SA",
-                bg: "bg-accent/30 text-accent",
+                bg: "bg-accent/30 text-accent"
               },
               {
-                quote:
-                  "The prompts are surprisingly deep without being overwhelming. I've started looking forward to my morning check-ins. It's become a small ritual.",
+                quote: "No streaks to keep up with, no badges, just a quiet space when I need it. It's a breath of fresh air.",
+                name: "David L.",
+                location: "Sydney",
+                initials: "DL",
+                bg: "bg-cream text-foreground"
+              },
+              {
+                quote: "A simple WhatsApp prompt in the morning has done more for my clarity than years of writing in blank journals.",
+                name: "Elena M.",
+                location: "Berlin",
+                initials: "EM",
+                bg: "bg-primary text-primary-foreground"
+              },
+              {
+                quote: "It feels like talking to a friend who asks incredibly good questions and doesn't give unsolicited advice.",
+                name: "James T.",
+                location: "Toronto",
+                initials: "JT",
+                bg: "bg-cream text-foreground"
+              },
+              {
+                quote: "The slow pace is perfect. I can stop, reply when I have a second, and go on with my day.",
+                name: "Komal S.",
+                location: "Mumbai",
+                initials: "KS",
+                bg: "bg-accent/30 text-accent"
+              },
+              {
+                quote: "I deleted my other self-improvement apps because they felt like homework. GenMyo is the only one I've kept.",
                 name: "Marcus K.",
                 location: "London",
                 initials: "MK",
-                bg: "bg-cream text-foreground",
+                bg: "bg-cream text-foreground"
               },
               {
-                quote:
-                  "It's not therapy, it's not journaling, it's something different. Like having a calm, patient thought partner in your pocket.",
+                quote: "It's private, simple, and actually works. I leave each conversation with one less thing cluttering my mind.",
                 name: "Nadia R.",
                 location: "Dubai",
                 initials: "NR",
-                bg: "bg-primary text-primary-foreground",
+                bg: "bg-primary text-primary-foreground"
               },
+              {
+                quote: "Being able to review my snapshot at the end of the week gives me a sense of steadiness I didn't know I lacked.",
+                name: "Chloe W.",
+                location: "New York",
+                initials: "CW",
+                bg: "bg-cream text-foreground"
+              },
+              {
+                quote: "It has helped me slow down my decision making. I feel much more in control of where my energy is going.",
+                name: "Kenji H.",
+                location: "Tokyo",
+                initials: "KH",
+                bg: "bg-accent/30 text-accent"
+              }
             ].map((t, i) => (
-              <div key={i} className="bg-cream rounded-2xl p-8 flex flex-col">
-                <div className="flex gap-1 mb-6 text-accent">
-                  {Array.from({ length: 5 }).map((_, idx) => (
-                    <Star key={idx} size={16} className="fill-current" />
-                  ))}
+              <div key={i} className="bg-cream rounded-2xl p-6 border border-border flex flex-col justify-between h-full shadow-sm">
+                <div>
+                  <div className="flex gap-1 mb-4 text-accent">
+                    {Array.from({ length: 5 }).map((_, idx) => (
+                      <Star key={idx} size={14} className="fill-current" />
+                    ))}
+                  </div>
+                  <p className="font-serif italic text-base text-foreground leading-relaxed mb-6">
+                    "{t.quote}"
+                  </p>
                 </div>
-                <p className="font-serif italic text-lg text-foreground leading-relaxed mb-8 flex-grow">
-                  "{t.quote}"
-                </p>
-                <div className="flex items-center gap-4 pt-6 border-t border-border">
+                <div className="flex items-center gap-3 pt-4 border-t border-border/60 mt-auto">
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-medium ${t.bg}`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${t.bg}`}
                   >
                     {t.initials}
                   </div>
                   <div>
-                    <p className="font-medium text-foreground">{t.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      Early Mirror member · {t.location}
+                    <p className="text-sm font-semibold text-foreground leading-tight">{t.name}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Mirror member · {t.location}
                     </p>
                   </div>
                 </div>
@@ -451,8 +548,17 @@ const Index = () => {
             className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-accent text-accent-foreground rounded-full hover:opacity-90 transition-opacity"
           >
             <MessageCircle size={18} />
-            Begin free on WhatsApp
+            Start your reflection →
           </Link>
+          <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed flex items-center justify-center gap-1.5 flex-wrap">
+            <span>Free &middot; No app, no account</span>
+            <span>&middot;</span>
+            <span className="inline-flex items-center gap-0.5">Your reflections are private.{" "}
+              <Link to="/privacy" className="inline-flex items-center gap-0.5 hover:text-gold transition-colors font-medium">
+                <ArrowRight size={11} />
+              </Link>
+            </span>
+          </p>
         </div>
       </section>
     </Layout>

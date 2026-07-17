@@ -1,8 +1,13 @@
 import Layout from "@/components/Layout";
+import { SEO } from "@/components/SEO";
 
 const Terms = () => {
   return (
     <Layout>
+      <SEO
+        title="Terms of Service & AI Ethics Standards | GenMyo"
+        description="Read the terms governing GenMyo, our WhatsApp communications opt-in, and our commitment to global AI safety and ethics standards."
+      />
       <section className="py-16 md:py-24">
         <div className="container-wide px-6 md:px-12 max-w-4xl mx-auto">
           <header className="mb-12">

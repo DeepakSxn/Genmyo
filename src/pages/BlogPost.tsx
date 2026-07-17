@@ -40,7 +40,6 @@ const BlogPost = () => {
         description={post.description}
       />
       <Helmet>
-        <link rel="canonical" href={`https://www.genmyo.ai/blog/${post.slug}`} />
         <script type="application/ld+json">
           {JSON.stringify(jsonLd)}
         </script>

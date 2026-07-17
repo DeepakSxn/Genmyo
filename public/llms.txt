@@ -1,0 +1,28 @@
+# GenMyo
+
+GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice.
+
+## Organization Information
+- **Name:** GenMyo
+- **Mission:** Supporting lasting human development through personalized reflection, guidance, and growth.
+- **Platform:** WhatsApp-native
+- **Core Experience:** The Mirror Project (free guided reflection)
+
+## Core Navigation
+- **Homepage:** https://genmyo.ai/ - The main entry point explaining the product, including a real reflection transcript and service boundaries.
+- **Philosophy:** https://genmyo.ai/philosophy - In-depth look at our approach to guided reflection, slow tech, and the psychology behind our prompts.
+- **Join:** https://genmyo.ai/join - The direct gateway to register and begin a reflection session.
+- **Team:** https://genmyo.ai/team - Who is building GenMyo and our advisory board.
+- **Partners:** https://genmyo.ai/partners - Information for employers, coaches, and therapists looking to integrate GenMyo.
+- **Blog:** https://genmyo.ai/blog - Insights on reflective practice, community stories, and development updates.
+- **Privacy & Trust:** https://genmyo.ai/privacy - What we store, retention policies, human access protocols, and how to delete all your history.
+- **Terms:** https://genmyo.ai/terms - Legal terms of service.
+
+## Inner Wellness Guides
+- **How to Do an Emotional Check-In:** https://genmyo.ai/emotional-check-in - A guide on starting a daily or weekly emotional check-in without app fatigue.
+- **How to Build Self-Awareness:** https://genmyo.ai/self-awareness - Practical guidance on building self-awareness and active reflection.
+- **What to Do When Feeling Stuck:** https://genmyo.ai/feeling-stuck - Steps to navigate feeling stuck, stagnant, or in transition.
+- **A Guide to Inner Alignment:** https://genmyo.ai/inner-alignment - How to align daily habits and decisions with core values.
+- **Understanding Quiet Wellness:** https://genmyo.ai/quiet-wellness - An exploration of slow wellness without streaks, tracking, or optimization pressure.
+- **Guided Reflection Practices:** https://genmyo.ai/guided-reflection - Best practices and methods for guided self-reflection.
+- **Feeling Disconnected from Yourself:** https://genmyo.ai/feeling-disconnected - Understanding and resolving feelings of emotional numbness or autopilot.

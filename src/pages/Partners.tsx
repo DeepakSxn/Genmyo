@@ -20,10 +20,10 @@ import {
 
 const Partners = () => {
   return (
-    <Layout>
+    <Layout showFAQ={false}>
       <SEO
-        title="Partners · GenMyō · Guides, Mentors and Giving Back"
-        description="Partner with GenMyō. Join as a Mindfulness Guide or Mentor, or help wellbeing pay itself forward. Write to hello@genmyo.ai."
+        title="Partners & Collaborators | GenMyo"
+        description="The coaches, practitioners, and organisations we build The Mirror Project alongside — and how to partner with us."
       />
 
       {/* ===== BLACK AND GOLD HERO ===== */}

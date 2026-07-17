@@ -10,8 +10,7 @@ const Footer = () => {
           <div className="md:col-span-2">
             <h3 className="font-serif text-3xl font-medium mb-4">GenMyo</h3>
             <p className="text-primary-foreground/70 max-w-md leading-relaxed">
-              An AI-led platform designed to support lasting human development 
-              through personalized reflection, guidance, and growth.
+              GenMyo is an inner wellness platform delivered through WhatsApp.
             </p>
           </div>
 
@@ -23,18 +22,31 @@ const Footer = () => {
             <ul className="space-y-3">
               {[
                 { href: "/", label: "Home" },
+                { href: "/how-it-works", label: "How It Works" },
+                { href: "#faq", label: "FAQ" },
+                { href: "/emotional-check-in", label: "Emotional Check-In" },
+                { href: "/100-conversations", label: "100 Conversations Report" },
                 { href: "/philosophy", label: "Our Philosophy" },
                 { href: "/partners", label: "Partners" },
                 { href: "/blog", label: "Blog" },
                 { href: "/team", label: "Team" },
               ].map((link) => (
                 <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.href.startsWith("#") ? (
+                    <a
+                      href={link.href}
+                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -83,9 +95,9 @@ const Footer = () => {
             © {new Date().getFullYear()} GenMyo. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-primary-foreground/50">
-            <a href="#" className="hover:text-primary-foreground transition-colors">
+            <Link to="/privacy" className="hover:text-primary-foreground transition-colors">
               Privacy
-            </a>
+            </Link>
             <Link to="/terms" className="hover:text-primary-foreground transition-colors">
               Terms
             </Link>

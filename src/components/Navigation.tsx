@@ -23,26 +23,12 @@ const Navigation = () => {
     setIsOpen(false);
   }, [location]);
 
-  const links = [
-    { href: "/", label: "Home" },
-  ];
+
 
   const sectionLinks = [
     { id: "for-you", label: "For you" },
     { id: "for-business", label: "For business" },
   ];
-
-  const goToSection = (id: string) => {
-    setIsOpen(false);
-    if (location.pathname !== "/") {
-      navigate("/");
-      window.setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      }, 120);
-    } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -53,9 +39,17 @@ const Navigation = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-background/95 backdrop-blur-md border-b border-border"
+          ? "nav-scrolled border-b border-border"
           : "bg-transparent"
       }`}
+      style={
+        isScrolled
+          ? {
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+            }
+          : undefined
+      }
     >
       <div className="container-wide px-6 md:px-12">
         <div className="flex items-center justify-between h-20">
@@ -66,49 +60,56 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-10">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className={`text-sm font-medium transition-colors link-underline ${
-                  overDark
-                    ? isActive(link.href)
-                      ? "text-primary-foreground"
-                      : "text-primary-foreground/70 hover:text-primary-foreground"
-                    : isActive(link.href)
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+            <Link
+              to="/"
+              className={`text-sm font-medium transition-colors link-underline ${overDark
+                ? isActive("/")
+                  ? "text-primary-foreground"
+                  : "text-primary-foreground/70 hover:text-primary-foreground"
+                : isActive("/")
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
                 }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            >
+              Home
+            </Link>
             {sectionLinks.map((s) => (
-              <button
+              <a
                 key={s.id}
-                onClick={() => goToSection(s.id)}
-                className={`text-sm font-medium transition-colors link-underline ${
-                  overDark
-                    ? "text-primary-foreground/70 hover:text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
+                href={`/#${s.id}`}
+                className={`text-sm font-medium transition-colors link-underline ${overDark
+                  ? "text-primary-foreground/70 hover:text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+                  }`}
               >
                 {s.label}
-              </button>
+              </a>
             ))}
             <Link
               to="/partners"
-              className={`text-sm font-medium transition-colors link-underline ${
-                overDark
-                  ? isActive("/partners")
-                    ? "text-primary-foreground"
-                    : "text-primary-foreground/70 hover:text-primary-foreground"
-                  : isActive("/partners")
+              className={`text-sm font-medium transition-colors link-underline ${overDark
+                ? isActive("/partners")
+                  ? "text-primary-foreground"
+                  : "text-primary-foreground/70 hover:text-primary-foreground"
+                : isActive("/partners")
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
-              }`}
+                }`}
             >
               For partners
+            </Link>
+            <Link
+              to="/how-it-works"
+              className={`text-sm font-medium transition-colors link-underline ${overDark
+                ? isActive("/how-it-works")
+                  ? "text-primary-foreground"
+                  : "text-primary-foreground/70 hover:text-primary-foreground"
+                : isActive("/how-it-works")
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+                }`}
+            >
+              How It Works
             </Link>
           </div>
 
@@ -136,39 +137,45 @@ const Navigation = () => {
         {isOpen && (
           <div className="md:hidden py-6 border-t border-border/50 animate-fade-in bg-background">
             <div className="flex flex-col gap-4">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`text-lg font-medium py-2 ${
-                    isActive(link.href)
-                      ? "text-foreground"
-                      : "text-muted-foreground"
+              <Link
+                to="/"
+                onClick={() => setIsOpen(false)}
+                className={`text-lg font-medium py-2 ${isActive("/")
+                  ? "text-foreground"
+                  : "text-muted-foreground"
                   }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              >
+                Home
+              </Link>
               {sectionLinks.map((s) => (
-                <button
+                <a
                   key={s.id}
-                  onClick={() => goToSection(s.id)}
-                  className="text-lg font-medium py-2 text-left text-muted-foreground"
+                  href={`/#${s.id}`}
+                  onClick={() => setIsOpen(false)}
+                  className="text-lg font-medium py-2 text-left text-muted-foreground block"
                 >
                   {s.label}
-                </button>
+                </a>
               ))}
               <Link
                 to="/partners"
                 onClick={() => setIsOpen(false)}
-                className={`text-lg font-medium py-2 ${
-                  isActive("/partners")
-                    ? "text-foreground"
-                    : "text-muted-foreground"
-                }`}
+                className={`text-lg font-medium py-2 ${isActive("/partners")
+                  ? "text-foreground"
+                  : "text-muted-foreground"
+                  }`}
               >
                 For partners
+              </Link>
+              <Link
+                to="/how-it-works"
+                onClick={() => setIsOpen(false)}
+                className={`text-lg font-medium py-2 ${isActive("/how-it-works")
+                  ? "text-foreground"
+                  : "text-muted-foreground"
+                  }`}
+              >
+                How It Works
               </Link>
               <div className="flex flex-col gap-3 mt-4">
                 <Link

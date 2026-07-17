@@ -24,8 +24,8 @@ export const BLOG_POSTS: BlogPostData[] = [
   {
     slug: "the-conversation-after-the-workshop",
     kicker: "Founder's note · July 2026",
-    title: "The conversation after the workshop",
-    description: "I spent years teaching resilience to bank executives. The real learning happened in the corridor afterwards, and it is why GenMyō exists.",
+    title: "The Conversation After the Workshop — Where Real Reflection Starts",
+    description: "The most important thing anyone says at a wellness workshop is usually said afterwards, in the hallway. This is the moment GenMyo was built for.",
     author: "Rajit Punshi",
     role: "Founder & CEO, GenMyō",
     avatar: rajitImage,
@@ -77,8 +77,8 @@ export const BLOG_POSTS: BlogPostData[] = [
   {
     slug: "what-a-hundred-honest-conversations-taught-us",
     kicker: "Research notes · July 2026",
-    title: "What a hundred honest conversations taught us",
-    description: "We did not ask people what app they wanted. We asked what growing actually means to them. The answers changed what we are building.",
+    title: "What 100 Honest Conversations Taught Us About Feeling Stuck",
+    description: "We ran 100 guided reflections before we built anything. Here's the pattern we didn't expect: most people didn't want answers. They wanted a better question.",
     author: "Sid",
     role: "Founding Team: Product and Growth, GenMyō",
     avatar: sidImage,
@@ -155,11 +155,10 @@ const Blog = () => {
   return (
     <Layout>
       <SEO
-        title="Blog · GenMyō · Notes on Inner Wellness"
-        description="Notes on inner wellness from the GenMyō team. Guided reflection, generational patterns, and building clarity in 2 minutes a day on WhatsApp."
+        title="The GenMyo Journal — Notes on Reflection, Clarity & Quiet Growth"
+        description="Essays on self-awareness, honest conversation, and growing at your own pace. Written by the people building The Mirror Project."
       />
       <Helmet>
-        <link rel="canonical" href="https://www.genmyo.ai/blog" />
         <script type="application/ld+json">
           {JSON.stringify(jsonLd)}
         </script>
