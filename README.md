@@ -1,4 +1,4 @@
-# GenMyoAi
+# GenMyo
 
 GenMyo is your home for inner wellness. The Mirror Project is a calm, AI-guided WhatsApp space to pause, reflect, and think clearly
 
