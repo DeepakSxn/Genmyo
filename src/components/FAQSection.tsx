@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ChevronDown } from "lucide-react";
 
 export const FAQSection = () => {
   const faqs = [
@@ -80,14 +79,23 @@ export const FAQSection = () => {
             <h2 className="heading-section text-foreground">Frequently Asked Questions</h2>
           </div>
 
+          {/*
+            Native <details> — not Radix Accordion.
+            Production serves prerendered HTML; Radix leaves closed panels empty and
+            needs client JS to open. <details> works in static HTML and after React mounts.
+          */}
           <div className="bg-white border border-border/80 rounded-3xl p-6 md:p-8 shadow-sm">
-            <Accordion type="single" collapsible className="w-full">
+            <div className="w-full">
               {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`} className="py-2">
-                  <AccordionTrigger className="font-serif text-lg md:text-xl text-[#1C1A16] hover:text-[#B0703E] text-left">
+                <details
+                  key={index}
+                  className="border-b border-border py-2 group last:border-b-0"
+                >
+                  <summary className="flex flex-1 cursor-pointer list-none items-center justify-between py-4 font-serif text-lg md:text-xl font-medium text-[#1C1A16] hover:text-[#B0703E] text-left transition-colors [&::-webkit-details-marker]:hidden">
                     {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-sm md:text-base text-[#4A463E] leading-relaxed pt-2 whitespace-pre-line">
+                    <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 group-open:rotate-180" />
+                  </summary>
+                  <div className="pb-4 pt-2 text-sm md:text-base text-[#4A463E] leading-relaxed whitespace-pre-line">
                     {faq.a.includes("https") || faq.a.includes("Find A Helpline") ? (
                       <>
                         GenMyo is not a crisis monitoring service. If you are in distress, self-harming, or experiencing a mental health emergency, please seek immediate help. You can contact these verified, confidential resources:
@@ -101,10 +109,10 @@ export const FAQSection = () => {
                     ) : (
                       faq.a
                     )}
-                  </AccordionContent>
-                </AccordionItem>
+                  </div>
+                </details>
               ))}
-            </Accordion>
+            </div>
           </div>
           
           <div className="flex justify-center border-t border-border/40 pt-8 mt-10">
