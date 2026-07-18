@@ -3,7 +3,7 @@
  * SSR-safe wrapper for Google Analytics (gtag)
  */
 
-const GA_MEASUREMENT_ID = "G-V7QLD9X13G"; // Default GA4 ID for GenMyo
+const GA_MEASUREMENT_ID = "G-NJ54MSB84D";
 
 export function initGA() {
   if (typeof window === "undefined" || (window as any)._gaInitialized) return;
