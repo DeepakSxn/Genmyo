@@ -14,22 +14,53 @@ const BlogPost = () => {
     return <NotFound />;
   }
 
+  const postUrl = `https://www.genmyo.ai/blog/${post.slug}`;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": postUrl
+    },
     "headline": post.title,
     "description": post.description,
-    "url": `https://www.genmyo.ai/blog/${post.slug}`,
+    "url": postUrl,
     "datePublished": post.datePublished,
+    "dateModified": post.datePublished,
+    "inLanguage": "en",
+    "articleSection": post.kicker.split(" · ")[0],
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://genmyo.ai/og-image.jpg",
+      "width": 1200,
+      "height": 630
+    },
     "author": {
       "@type": "Person",
       "name": post.author,
-      "jobTitle": post.authorJobTitle
+      "jobTitle": post.authorJobTitle,
+      "worksFor": {
+        "@type": "Organization",
+        "name": "GenMyō",
+        "url": "https://www.genmyo.ai"
+      }
     },
     "publisher": {
       "@type": "Organization",
       "name": "GenMyō Pte. Ltd.",
-      "url": "https://www.genmyo.ai"
+      "url": "https://www.genmyo.ai",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://genmyo.ai/favicon.png",
+        "width": 60,
+        "height": 60
+      }
+    },
+    "isPartOf": {
+      "@type": "Blog",
+      "name": "The GenMyō Journal",
+      "url": "https://www.genmyo.ai/blog"
     }
   };
 
@@ -69,9 +100,9 @@ const BlogPost = () => {
           >
             {post.kicker}
           </div>
-          <h2 className="font-serif text-3xl md:text-5xl font-medium leading-tight mb-6 text-[#1C1A16]">
+          <h1 className="font-serif text-3xl md:text-5xl font-medium leading-tight mb-6 text-[#1C1A16]">
             {post.title}
-          </h2>
+          </h1>
           <div className="flex items-center gap-3 mb-8">
             <img
               src={post.avatar}
