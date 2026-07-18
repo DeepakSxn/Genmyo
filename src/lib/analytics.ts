@@ -8,7 +8,13 @@ const GA_MEASUREMENT_ID = "G-NJ54MSB84D";
 export function initGA() {
   if (typeof window === "undefined" || (window as any)._gaInitialized) return;
 
-  // Add script tag dynamically
+  // Prefer the tag already in index.html (required for Google's site detection).
+  // Only inject dynamically if that snippet is missing.
+  if (typeof window.gtag === "function") {
+    (window as any)._gaInitialized = true;
+    return;
+  }
+
   const script = document.createElement("script");
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
@@ -18,7 +24,7 @@ export function initGA() {
   window.gtag = function gtag() {
     window.dataLayer.push(arguments);
   };
-  
+
   window.gtag("js", new Date());
   window.gtag("config", GA_MEASUREMENT_ID, {
     page_path: window.location.pathname,
@@ -105,5 +111,6 @@ declare global {
   interface Window {
     dataLayer: any[];
     gtag: (...args: any[]) => void;
+    _gaInitialized?: boolean;
   }
 }
