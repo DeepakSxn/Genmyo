@@ -212,12 +212,45 @@
     @apply scale-x-100 origin-left;
   }
 
-  /* Navbar glass effect — explicit vendor prefixes for cross-env compat */
-  .nav-scrolled {
+  /* Navbar glass effect — driven by html.is-scrolled (vanilla script in index.html)
+     so it works on prerendered production HTML without React hydration */
+  .nav-scrolled,
+  html.is-scrolled [data-site-nav] {
     background-color: hsl(40 30% 97% / 0.95);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
+    border-bottom: 1px solid hsl(var(--border));
     will-change: transform;
+  }
+
+  /* Light nav chrome over dark heroes until scrolled */
+  [data-site-nav][data-dark-hero] .nav-logo img {
+    filter: invert(1);
+  }
+  html.is-scrolled [data-site-nav][data-dark-hero] .nav-logo img {
+    filter: none;
+  }
+
+  [data-site-nav][data-dark-hero] .nav-link {
+    color: hsl(var(--primary-foreground) / 0.7);
+  }
+  [data-site-nav][data-dark-hero] .nav-link:hover,
+  [data-site-nav][data-dark-hero] .nav-link[data-active="true"] {
+    color: hsl(var(--primary-foreground));
+  }
+  html.is-scrolled [data-site-nav][data-dark-hero] .nav-link {
+    color: hsl(var(--muted-foreground));
+  }
+  html.is-scrolled [data-site-nav][data-dark-hero] .nav-link:hover,
+  html.is-scrolled [data-site-nav][data-dark-hero] .nav-link[data-active="true"] {
+    color: hsl(var(--foreground));
+  }
+
+  [data-site-nav][data-dark-hero] .nav-menu-btn {
+    color: hsl(var(--primary-foreground));
+  }
+  html.is-scrolled [data-site-nav][data-dark-hero] .nav-menu-btn {
+    color: hsl(var(--foreground));
   }
 }
 

@@ -46,6 +46,16 @@
 
   <body>
     <div id="root"></div>
+    <!-- Runs without React so prerendered pages get scroll nav styles on production -->
+    <script>
+      (function () {
+        var sync = function () {
+          document.documentElement.classList.toggle("is-scrolled", window.scrollY > 20);
+        };
+        sync();
+        window.addEventListener("scroll", sync, { passive: true });
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

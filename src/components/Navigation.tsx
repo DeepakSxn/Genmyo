@@ -1,29 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
 
-
-
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
-
-
 
   const sectionLinks = [
     { id: "for-you", label: "For you" },
@@ -32,44 +18,35 @@ const Navigation = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
-  // On the home route and partners route the hero is dark (black/gold); render light nav until scrolled.
-  const overDark = (location.pathname === "/" || location.pathname === "/partners") && !isScrolled;
+  // Home + partners heroes are dark; light nav chrome until html.is-scrolled (see index.css)
+  const darkHero = location.pathname === "/" || location.pathname === "/partners";
+
+  const linkClass = (active: boolean) =>
+    darkHero
+      ? `nav-link text-sm font-medium transition-colors link-underline`
+      : `text-sm font-medium transition-colors link-underline ${
+          active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+        }`;
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "nav-scrolled border-b border-border"
-          : "bg-transparent"
-      }`}
-      style={
-        isScrolled
-          ? {
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-            }
-          : undefined
-      }
+      data-site-nav
+      {...(darkHero ? { "data-dark-hero": "true" } : {})}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
     >
       <div className="container-wide px-6 md:px-12">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <Logo size={30} invert={overDark} />
+            <div className="nav-logo">
+              <Logo size={30} />
+            </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-10">
             <Link
               to="/"
-              className={`text-sm font-medium transition-colors link-underline ${overDark
-                ? isActive("/")
-                  ? "text-primary-foreground"
-                  : "text-primary-foreground/70 hover:text-primary-foreground"
-                : isActive("/")
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-                }`}
+              data-active={isActive("/") ? "true" : undefined}
+              className={linkClass(isActive("/"))}
             >
               Home
             </Link>
@@ -77,43 +54,27 @@ const Navigation = () => {
               <a
                 key={s.id}
                 href={`/#${s.id}`}
-                className={`text-sm font-medium transition-colors link-underline ${overDark
-                  ? "text-primary-foreground/70 hover:text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-                  }`}
+                className={linkClass(false)}
               >
                 {s.label}
               </a>
             ))}
             <Link
               to="/partners"
-              className={`text-sm font-medium transition-colors link-underline ${overDark
-                ? isActive("/partners")
-                  ? "text-primary-foreground"
-                  : "text-primary-foreground/70 hover:text-primary-foreground"
-                : isActive("/partners")
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-                }`}
+              data-active={isActive("/partners") ? "true" : undefined}
+              className={linkClass(isActive("/partners"))}
             >
               For partners
             </Link>
             <Link
               to="/how-it-works"
-              className={`text-sm font-medium transition-colors link-underline ${overDark
-                ? isActive("/how-it-works")
-                  ? "text-primary-foreground"
-                  : "text-primary-foreground/70 hover:text-primary-foreground"
-                : isActive("/how-it-works")
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-                }`}
+              data-active={isActive("/how-it-works") ? "true" : undefined}
+              className={linkClass(isActive("/how-it-works"))}
             >
               How It Works
             </Link>
           </div>
 
-          {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
             <Link
               to="/join"
@@ -123,27 +84,24 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`md:hidden p-2 ${overDark ? "text-primary-foreground" : "text-foreground"}`}
+            className={`nav-menu-btn md:hidden p-2 ${darkHero ? "" : "text-foreground"}`}
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden py-6 border-t border-border/50 animate-fade-in bg-background">
             <div className="flex flex-col gap-4">
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className={`text-lg font-medium py-2 ${isActive("/")
-                  ? "text-foreground"
-                  : "text-muted-foreground"
-                  }`}
+                className={`text-lg font-medium py-2 ${
+                  isActive("/") ? "text-foreground" : "text-muted-foreground"
+                }`}
               >
                 Home
               </Link>
@@ -160,20 +118,18 @@ const Navigation = () => {
               <Link
                 to="/partners"
                 onClick={() => setIsOpen(false)}
-                className={`text-lg font-medium py-2 ${isActive("/partners")
-                  ? "text-foreground"
-                  : "text-muted-foreground"
-                  }`}
+                className={`text-lg font-medium py-2 ${
+                  isActive("/partners") ? "text-foreground" : "text-muted-foreground"
+                }`}
               >
                 For partners
               </Link>
               <Link
                 to="/how-it-works"
                 onClick={() => setIsOpen(false)}
-                className={`text-lg font-medium py-2 ${isActive("/how-it-works")
-                  ? "text-foreground"
-                  : "text-muted-foreground"
-                  }`}
+                className={`text-lg font-medium py-2 ${
+                  isActive("/how-it-works") ? "text-foreground" : "text-muted-foreground"
+                }`}
               >
                 How It Works
               </Link>
