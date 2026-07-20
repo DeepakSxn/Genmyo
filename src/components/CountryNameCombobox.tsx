@@ -44,6 +44,11 @@ const CountryNameCombobox = ({
   const [open, setOpen] = useState(false);
   const selected = countries.find((c) => c.country === value);
 
+  const handleSelect = (countryName: string) => {
+    onChange(countryName);
+    setOpen(false);
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -54,8 +59,9 @@ const CountryNameCombobox = ({
           role="combobox"
           aria-expanded={open}
           aria-label={ariaLabel}
+          suppressHydrationWarning
           className={cn(
-            "w-full justify-between font-normal",
+            "w-full justify-between font-normal px-3",
             !selected && "text-muted-foreground",
             hasError && "border-destructive"
           )}
@@ -73,30 +79,30 @@ const CountryNameCombobox = ({
       </PopoverTrigger>
       <PopoverContent className="w-[--radix-popover-trigger-width] min-w-[240px] p-0" align="start">
         <Command
-          filter={(itemValue, search) =>
-            itemValue.toLowerCase().includes(search.toLowerCase()) ? 1 : 0
-          }
+          filter={(itemValue, search) => {
+            if (!search) return 1;
+            return itemValue.toLowerCase().includes(search.toLowerCase().trim()) ? 1 : 0;
+          }}
         >
           <CommandInput placeholder="Search country..." />
-          <CommandList>
+          <CommandList className="max-h-[240px] overflow-y-auto">
             <CommandEmpty>No country found.</CommandEmpty>
             <CommandGroup>
               {countries.map((c) => (
                 <CommandItem
                   key={`country-${c.country}`}
                   value={c.country}
-                  onSelect={() => {
-                    onChange(c.country);
-                    setOpen(false);
-                  }}
+                  onSelect={() => handleSelect(c.country)}
+                  onClick={() => handleSelect(c.country)}
+                  className="cursor-pointer py-2 px-2 text-xs"
                 >
                   <Check
                     className={cn(
-                      "mr-2 h-4 w-4",
-                      selected?.country === c.country ? "opacity-100" : "opacity-0"
+                      "mr-2 h-4 w-4 shrink-0",
+                      selected?.country === c.country ? "opacity-100 text-[#B0703E]" : "opacity-0"
                     )}
                   />
-                  <span className="inline-flex items-center gap-2">
+                  <span className="inline-flex items-center gap-2 truncate">
                     <span aria-hidden>{c.flag}</span>
                     <span>{c.country}</span>
                   </span>
