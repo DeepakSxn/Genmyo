@@ -4,12 +4,25 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse
 ) {
-  // Only allow POST requests
+  // CORS preflight
+  response.setHeader("Access-Control-Allow-Origin", "https://www.genmyo.ai");
+  response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (request.method === "OPTIONS") {
+    return response.status(200).end();
+  }
+
   if (request.method !== "POST") {
     return response.status(405).json({ error: "Method Not Allowed" });
   }
 
-  const { firstName, fullName, email, whatsapp, dob, country, city, context } = request.body;
+  const { firstName, fullName, email, whatsapp, dob, country, city, context } =
+    request.body || {};
+
+  if (!email) {
+    return response.status(400).json({ error: "Missing required field: email" });
+  }
 
   const apiKey = process.env.resend_api;
   if (!apiKey) {
@@ -17,104 +30,159 @@ export default async function handler(
     return response.status(500).json({ error: "Internal Server Configuration Error" });
   }
 
-  // 1. Construct Admin Notification HTML
-  const adminHtml = `
-    <h2>New Registration Request</h2>
-    <p>A new user has filled out the registration form on the GenMyō website.</p>
-    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; width: 150px;">Full Name:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">${fullName || "N/A"}</td>
-      </tr>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Email:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">${email || "N/A"}</td>
-      </tr>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">WhatsApp:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">${whatsapp || "N/A"}</td>
-      </tr>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Date of Birth:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">${dob || "N/A"}</td>
-      </tr>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Country:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">${country || "N/A"}</td>
-      </tr>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">City:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">${city || "N/A"}</td>
-      </tr>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Context / Notes:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">${context || "N/A"}</td>
-      </tr>
-    </table>
-    <br/>
-    <p style="font-size: 0.85em; color: #888;">This email was automatically generated and sent via GenMyō Serverless registration hook.</p>
-  `;
+  const waUrl = "https://wa.me/message/Y4GOKBIGBWUUM1?text=HI";
 
-  // 2. Construct User Welcome Email HTML
-  const welcomeHtml = `
+  // ─── 1. Admin notification ───────────────────────────────────────────────
+  const adminHtml = `
     <!DOCTYPE html>
     <html>
-    <head>
-      <meta charset="utf-8">
-      <title>Welcome to GenMyō</title>
-    </head>
-    <body style="background-color: #FBF9F4; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #1C1A16; margin: 0; padding: 40px 20px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border: 1px solid rgba(28,26,22,0.08); border-radius: 20px; overflow: hidden; box-shadow: 0 4px 12px rgba(28,26,22,0.03);">
-        <!-- Header -->
+    <body style="font-family: system-ui, sans-serif; color: #1C1A16; padding: 24px;">
+      <h2 style="margin: 0 0 8px;">New GenMyō Registration</h2>
+      <p style="margin: 0 0 20px; color: #555;">A new user completed the join form.</p>
+      <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
         <tr>
-          <td style="padding: 40px 40px 20px; text-align: center;">
-            <span style="font-family: Georgia, serif; font-size: 24px; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: #1C1A16;">GENMYŌ</span>
-          </td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7; font-weight: 600; width: 140px; background: #f9f7f3;">Name</td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7;">${fullName || firstName || "N/A"}</td>
         </tr>
-        <!-- Divider -->
         <tr>
-          <td style="padding: 0 40px;">
-            <div style="height: 1px; background: linear-gradient(90deg, transparent, #B0703E, transparent);"></div>
-          </td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7; font-weight: 600; background: #f9f7f3;">Email</td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7;">${email || "N/A"}</td>
         </tr>
-        <!-- Content -->
         <tr>
-          <td style="padding: 40px 40px 30px;">
-            <h1 style="font-family: Georgia, serif; font-size: 22px; font-weight: 400; line-height: 1.3; margin: 0 0 20px; color: #1C1A16;">
-              Hi ${firstName || "there"},
-            </h1>
-            <p style="font-size: 16px; line-height: 1.6; margin: 0 0 16px; color: #4A463E;">
-              Thank you for taking the first step to join GenMyō. We have received your request and are currently reviewing it.
-            </p>
-            <p style="font-size: 16px; line-height: 1.6; margin: 0 0 24px; color: #4A463E;">
-              In the meantime, feel free to explore our philosophy or read notes on inner wellness from our team on the blog.
-            </p>
-            <!-- CTA Button -->
-            <table align="left" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td align="center" style="border-radius: 30px; background-color: #B0703E;">
-                  <a href="https://www.genmyo.ai/blog" target="_blank" style="display: inline-block; font-size: 14px; font-weight: 600; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 30px; border: 1px solid #B0703E;">
-                    Read our Blog
-                  </a>
-                </td>
-              </tr>
-            </table>
-          </td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7; font-weight: 600; background: #f9f7f3;">WhatsApp</td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7;">${whatsapp || "N/A"}</td>
         </tr>
-        <!-- Footer -->
         <tr>
-          <td style="padding: 20px 40px 40px; border-top: 1px solid rgba(28,26,22,0.06); background-color: #F4F0E7; text-align: center;">
-            <p style="font-size: 12px; line-height: 1.5; margin: 0; color: #8C8678;">
-              © 2026 GenMyō Pte. Ltd. · Non-clinical mindfulness &amp; mentorship<br/>
-              <a href="mailto:hello@genmyo.ai" style="color: #B0703E; text-decoration: none;">hello@genmyo.ai</a> · Singapore
-            </p>
-          </td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7; font-weight: 600; background: #f9f7f3;">Date of Birth</td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7;">${dob || "N/A"}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7; font-weight: 600; background: #f9f7f3;">Country</td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7;">${country || "N/A"}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7; font-weight: 600; background: #f9f7f3;">City</td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7;">${city || "N/A"}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7; font-weight: 600; background: #f9f7f3;">What's on their mind</td>
+          <td style="padding: 8px 12px; border: 1px solid #e0ddd7;">${context || "—"}</td>
         </tr>
       </table>
+      <p style="font-size: 12px; color: #999; margin-top: 20px;">Sent automatically by the GenMyō registration serverless function.</p>
     </body>
     </html>
   `;
 
+  // ─── 2. User welcome email ────────────────────────────────────────────────
+  const welcomeHtml = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Welcome to GenMyō</title>
+    </head>
+    <body style="margin: 0; padding: 0; background-color: #FBF9F4; font-family: 'Helvetica Neue', Arial, sans-serif; color: #1C1A16;">
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #FBF9F4; padding: 40px 16px;">
+        <tr>
+          <td align="center">
+
+            <!-- Card -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; background-color: #ffffff; border-radius: 20px; overflow: hidden; border: 1px solid rgba(28,26,22,0.08);">
+
+              <!-- Header -->
+              <tr>
+                <td style="padding: 40px 40px 24px; text-align: center; background-color: #FDFCF8;">
+                  <p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 26px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: #1C1A16;">GENMYŌ</p>
+                  <div style="margin: 16px auto 0; width: 80px; height: 1px; background: linear-gradient(90deg, transparent, #B0703E, transparent);"></div>
+                </td>
+              </tr>
+
+              <!-- Body -->
+              <tr>
+                <td style="padding: 36px 40px 32px;">
+
+                  <p style="margin: 0 0 20px; font-family: Georgia, serif; font-size: 21px; font-weight: 400; line-height: 1.3; color: #1C1A16;">
+                    Hi ${firstName || "there"},
+                  </p>
+
+                  <p style="margin: 0 0 16px; font-size: 15px; line-height: 1.7; color: #4A463E;">
+                    You're in. The Mirror Project is ready for you.
+                  </p>
+
+                  <p style="margin: 0 0 16px; font-size: 15px; line-height: 1.7; color: #4A463E;">
+                    Your first reflection is waiting — a few honest questions, asked slowly. There's no pressure, no timer, and nothing to prepare.
+                  </p>
+
+                  <p style="margin: 0 0 28px; font-size: 15px; line-height: 1.7; color: #4A463E;">
+                    Just tap the button below to open WhatsApp and send your first message when you're ready.
+                  </p>
+
+                  <!-- Primary CTA -->
+                  <table role="presentation" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="border-radius: 100px; background-color: #B0703E;">
+                        <a href="${waUrl}" target="_blank"
+                           style="display: inline-block; padding: 14px 32px; font-size: 15px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 100px; letter-spacing: 0.01em;">
+                          Start your reflection on WhatsApp →
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <!-- Divider -->
+                  <div style="margin: 32px 0; height: 1px; background-color: rgba(28,26,22,0.07);"></div>
+
+                  <!-- Three small trust points -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="padding: 0 0 10px;">
+                        <p style="margin: 0; font-size: 13px; color: #6B6760; line-height: 1.5;">
+                          <span style="color: #B0703E; font-weight: 600;">Free</span> &nbsp;·&nbsp; No app to download &nbsp;·&nbsp; No reminders or nudges
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p style="margin: 0; font-size: 13px; color: #6B6760; line-height: 1.5;">
+                          Reply <strong>STOP</strong> at any time to end all messages instantly. Reply <strong>DELETE</strong> to erase your history from our systems.
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+
+                </td>
+              </tr>
+
+              <!-- Footer -->
+              <tr>
+                <td style="padding: 20px 40px 32px; background-color: #F4F0E7; border-top: 1px solid rgba(28,26,22,0.06); text-align: center;">
+                  <p style="margin: 0 0 6px; font-size: 12px; line-height: 1.6; color: #8C8678;">
+                    GenMyō is not therapy, not a diagnostic tool, and not a crisis service.<br/>
+                    If you need clinical support, please contact a qualified professional.
+                  </p>
+                  <p style="margin: 8px 0 0; font-size: 12px; color: #8C8678;">
+                    © 2026 GenMyō Pte. Ltd. &nbsp;·&nbsp;
+                    <a href="mailto:hello@genmyo.ai" style="color: #B0703E; text-decoration: none;">hello@genmyo.ai</a>
+                    &nbsp;·&nbsp; Singapore
+                  </p>
+                </td>
+              </tr>
+
+            </table>
+            <!-- /Card -->
+
+          </td>
+        </tr>
+      </table>
+
+    </body>
+    </html>
+  `;
+
+  // ─── 3. Send both emails via Resend batch ─────────────────────────────────
   try {
     const res = await fetch("https://api.resend.com/emails/batch", {
       method: "POST",
@@ -126,13 +194,13 @@ export default async function handler(
         {
           from: "GenMyō <noreply@genmyo.ai>",
           to: ["hello@genmyo.ai"],
-          subject: `New GenMyō Registration: ${fullName}`,
+          subject: `New registration: ${fullName || firstName || email}`,
           html: adminHtml,
         },
         {
           from: "GenMyō <noreply@genmyo.ai>",
           to: [email],
-          subject: "Welcome to GenMyō",
+          subject: "Your reflection is ready — GenMyō",
           html: welcomeHtml,
         },
       ]),
@@ -141,13 +209,13 @@ export default async function handler(
     const data = await res.json();
 
     if (!res.ok) {
-      console.error("Resend API error:", data);
+      console.error("Resend API error:", JSON.stringify(data));
       return response.status(res.status).json({ error: data });
     }
 
-    return response.status(200).json({ success: true, batchId: data.id });
+    return response.status(200).json({ success: true, data });
   } catch (error: any) {
     console.error("Failed to send batch emails via Resend:", error);
-    return response.status(500).json({ error: error.message || "Failed to send batch emails" });
+    return response.status(500).json({ error: error.message || "Failed to send emails" });
   }
 }

@@ -39,6 +39,10 @@
       "destination": "/mirror-demo.html"
     },
     {
+      "source": "/api/send-email",
+      "destination": "/api/send-email"
+    },
+    {
       "source": "/:path*",
       "destination": "/index.html"
     }
