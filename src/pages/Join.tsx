@@ -197,7 +197,7 @@ const COUNTRY_CODES: { code: string; flag: string; country: string }[] = [
   { code: "+380", flag: "🇺🇦", country: "Ukraine" },
   { code: "+971", flag: "🇦🇪", country: "United Arab Emirates" },
   { code: "+44", flag: "🇬🇧", country: "United Kingdom" },
-  { code: "+1 ", flag: "🇺🇸", country: "United States" },
+  { code: "+1", flag: "🇺🇸", country: "United States" },
   { code: "+598", flag: "🇺🇾", country: "Uruguay" },
   { code: "+998", flag: "🇺🇿", country: "Uzbekistan" },
   { code: "+58", flag: "🇻🇪", country: "Venezuela" },
