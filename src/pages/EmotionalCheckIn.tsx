@@ -145,7 +145,7 @@ const EmotionalCheckIn = () => {
           <div className="text-center max-w-2xl mx-auto mb-14">
             <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">The Practice</p>
             <h2 className="heading-section text-foreground mb-4">
-              What questions make for a good emotional check-in?
+              Four questions at the heart of every good emotional check-in
             </h2>
             <p className="text-body-large">
               You don't need to ask all four every time. One honest answer to one honest question is enough.
@@ -202,7 +202,7 @@ const EmotionalCheckIn = () => {
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">The GenMyo Difference</p>
             <h2 className="heading-section text-foreground mb-4">
-              How is GenMyo different from a typical wellness article?
+              A gentle door instead of another article
             </h2>
             <p className="text-body-large">
               Calm, PsychCentral, and therapy blogs give you a 10-tip article and leave you to do the work alone. GenMyo asks the question for you and waits for your answer.

@@ -211,7 +211,12 @@ const COUNTRY_CODES: { code: string; flag: string; country: string }[] = [
 const formSchema = z.object({
   firstName: z.string().trim().min(1, "Name is required").max(100, "Must be less than 100 characters"),
   surname: z.string().optional(),
-  email: z.string().optional(),
+  email: z
+    .string()
+    .trim()
+    .min(1, "Email is required")
+    .email("Please enter a valid email")
+    .max(255, "Email is too long"),
   dob: z.string().optional(),
   countryCode: z.string().min(1, "Select a country code"),
   whatsapp: z
@@ -402,7 +407,7 @@ const Join = () => {
     }
 
     const fullName = formData.firstName.trim();
-    const emailValue = formData.email || "no-email@genmyo.ai";
+    const emailValue = formData.email.trim();
     const dobValue = formData.dob || "01/01/2000";
     const countryValue = formData.country || "N/A";
     const cityValue = formData.city || "N/A";
@@ -604,6 +609,25 @@ const Join = () => {
                  />
                  {errors.firstName && (
                    <p className="text-sm text-destructive">{errors.firstName}</p>
+                 )}
+               </div>
+
+               <div className="space-y-2">
+                 <Label htmlFor="email">
+                   Email <span className="text-accent">*</span>
+                 </Label>
+                 <Input
+                   id="email"
+                   type="email"
+                   placeholder="you@email.com"
+                   autoComplete="email"
+                   value={formData.email}
+                   onChange={(e) => handleChange("email", e.target.value)}
+                   onFocus={() => handleFieldFocus("email")}
+                   className={errors.email ? "border-destructive" : ""}
+                 />
+                 {errors.email && (
+                   <p className="text-sm text-destructive">{errors.email}</p>
                  )}
                </div>
 

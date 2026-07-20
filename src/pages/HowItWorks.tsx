@@ -129,7 +129,7 @@ const HowItWorks = () => {
       <section className="section-padding bg-cream">
         <div className="container-narrow">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="heading-section mb-4">What does a reflection session with GenMyo look like?</h2>
+            <h2 className="heading-section mb-4">Inside a Reflection Session</h2>
             <p className="text-muted-foreground">
               A real, anonymised exchange from The Mirror Project by GenMyo, illustrating how the conversation unfolds.
             </p>
