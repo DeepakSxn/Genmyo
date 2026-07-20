@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, MessageCircle } from "lucide-react";
 import Logo from "./Logo";
 
 const Navigation = () => {
@@ -78,9 +78,11 @@ const Navigation = () => {
           <div className="hidden md:flex items-center gap-3">
             <Link
               to="/join"
-              className="inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
             >
-              Join Now
+              <Menu size={0} className="hidden" />
+              <MessageCircle size={16} />
+              Start on WhatsApp
             </Link>
           </div>
 
@@ -137,9 +139,10 @@ const Navigation = () => {
                 <Link
                   to="/join"
                   onClick={() => setIsOpen(false)}
-                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium bg-gold text-gold-foreground rounded-full"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium bg-gold text-gold-foreground rounded-full"
                 >
-                  Join Now
+                  <MessageCircle size={16} />
+                  Start on WhatsApp
                 </Link>
               </div>
             </div>

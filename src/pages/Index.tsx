@@ -273,7 +273,7 @@ const Index = () => {
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
                 >
                   <MessageCircle size={18} />
-                  Start your reflection →
+                  Start your reflection on WhatsApp →
                 </Link>
                 <Link
                   to="/philosophy"
@@ -548,7 +548,7 @@ const Index = () => {
             className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-accent text-accent-foreground rounded-full hover:opacity-90 transition-opacity"
           >
             <MessageCircle size={18} />
-            Start your reflection →
+            Start your reflection on WhatsApp →
           </Link>
           <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed flex items-center justify-center gap-1.5 flex-wrap">
             <span>Free &middot; No app, no account</span>

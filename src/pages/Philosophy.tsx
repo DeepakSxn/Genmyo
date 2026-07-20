@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
-import { ArrowRight, Compass, Shield, Users, Sparkles } from "lucide-react";
+import { ArrowRight, Compass, Shield, Users, Sparkles, MessageCircle } from "lucide-react";
 
 const Philosophy = () => {
   return (
@@ -171,7 +171,8 @@ const Philosophy = () => {
               to="/join"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
             >
-              Start your reflection →
+              <MessageCircle size={18} />
+              Start your reflection on WhatsApp →
             </Link>
             <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
               Free · No app, no account, no card

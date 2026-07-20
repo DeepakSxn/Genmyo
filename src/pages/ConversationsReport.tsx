@@ -78,7 +78,7 @@ const ConversationsReport = () => {
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#B0703E] text-white rounded-full hover:opacity-90 transition-opacity shadow-sm text-sm font-medium"
             >
               <MessageCircle size={16} />
-              Start your reflection →
+              Start your reflection on WhatsApp →
             </Link>
           </div>
         </div>
@@ -213,7 +213,7 @@ const ConversationsReport = () => {
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
             >
               <MessageCircle size={18} />
-              Start your reflection →
+              Start your reflection on WhatsApp →
             </Link>
             <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
               Free · No app download required

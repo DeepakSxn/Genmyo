@@ -3,7 +3,7 @@ import personaSid from "@/assets/sid.png";
 import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
 const teamSchema = {
@@ -178,8 +178,8 @@ const Team = () => {
             to="/join"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
           >
-            Join The Mirror Project
-            <ArrowRight size={18} />
+            <MessageCircle size={18} />
+            Start your reflection on WhatsApp →
           </Link>
         </div>
       </section>

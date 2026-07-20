@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
 import { Helmet } from "react-helmet-async";
+import { MessageCircle } from "lucide-react";
 import rajitImage from "@/assets/Rajit.png";
 import sidImage from "@/assets/sid.png";
 
@@ -233,9 +234,10 @@ const Blog = () => {
           </h2>
           <Link
             to="/join"
-            className="inline-flex items-center justify-center px-8 py-4 text-sm font-semibold rounded-full bg-[#B0703E] text-white hover:bg-[#965A2C] transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-semibold rounded-full bg-[#B0703E] text-white hover:bg-[#965A2C] transition-colors"
           >
-            Start your free reflection
+            <MessageCircle size={18} />
+            Start your reflection on WhatsApp →
           </Link>
         </div>
       </section>

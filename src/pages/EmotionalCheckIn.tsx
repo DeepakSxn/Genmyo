@@ -305,7 +305,7 @@ const EmotionalCheckIn = () => {
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
             >
               <MessageCircle size={18} />
-              Start your emotional check-in →
+              Start your emotional check-in on WhatsApp →
             </Link>
             <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
               Free · No app, no account, no card
