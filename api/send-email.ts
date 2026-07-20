@@ -30,7 +30,7 @@ export default async function handler(
     return response.status(500).json({ error: "Internal Server Configuration Error" });
   }
 
-  const waUrl = "https://wa.me/message/Y4GOKBIGBWUUM1?text=HI";
+  const waUrl = "https://wa.me/message/Y4GOKBIGBWUUM1?text=hi%20mirror";
 
   // ─── 1. Admin notification ───────────────────────────────────────────────
   const adminHtml = `
