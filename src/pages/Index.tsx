@@ -443,27 +443,18 @@ const Index = () => {
             {[
               {
                 quote: "I didn't expect a WhatsApp conversation to make me feel this seen. It's quiet, thoughtful, and doesn't push me.",
-                name: "Sarah Ahmed",
-                location: "Singapore",
-                initials: "SA",
-                bg: "bg-accent/30 text-accent"
+                attribution: "— an early user, Singapore",
               },
               {
-                quote: "No streaks to keep up with, no badges, just a quiet space when I need it. It's a breath of fresh air.",
-                name: "David Lawson",
-                location: "Sydney",
-                initials: "DL",
-                bg: "bg-cream text-foreground border border-border"
+                quote: "No streaks to keep up with, no badges, just a quiet space when I need it.",
+                attribution: "— an early user, Sydney",
               },
               {
-                quote: "A simple WhatsApp prompt in the morning has done more for my clarity than years of writing in blank journals.",
-                name: "Elena Meyer",
-                location: "Berlin",
-                initials: "EM",
-                bg: "bg-primary text-primary-foreground"
+                quote: "A simple WhatsApp reflection card in the morning has done more for my clarity than years of writing in blank journals.",
+                attribution: "— an early user, London",
               }
             ].map((t, i) => (
-              <div key={i} className="bg-cream rounded-2xl p-6 border border-border flex flex-col justify-between h-full shadow-sm">
+              <div key={i} className="bg-cream rounded-2xl p-7 border border-border flex flex-col justify-between h-full shadow-sm">
                 <div>
                   <div className="flex gap-1 mb-4 text-accent">
                     {Array.from({ length: 5 }).map((_, idx) => (
@@ -474,18 +465,8 @@ const Index = () => {
                     "{t.quote}"
                   </p>
                 </div>
-                <div className="flex items-center gap-3 pt-4 border-t border-border/60 mt-auto">
-                  <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${t.bg}`}
-                  >
-                    {t.initials}
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground leading-tight">{t.name}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      Mirror member · {t.location}
-                    </p>
-                  </div>
+                <div className="pt-4 border-t border-border/60 mt-auto">
+                  <p className="text-sm font-medium text-muted-foreground">{t.attribution}</p>
                 </div>
               </div>
             ))}
