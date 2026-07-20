@@ -443,66 +443,24 @@ const Index = () => {
             {[
               {
                 quote: "I didn't expect a WhatsApp conversation to make me feel this seen. It's quiet, thoughtful, and doesn't push me.",
-                name: "Sarah A.",
+                name: "Sarah Ahmed",
                 location: "Singapore",
                 initials: "SA",
                 bg: "bg-accent/30 text-accent"
               },
               {
                 quote: "No streaks to keep up with, no badges, just a quiet space when I need it. It's a breath of fresh air.",
-                name: "David L.",
+                name: "David Lawson",
                 location: "Sydney",
                 initials: "DL",
-                bg: "bg-cream text-foreground"
+                bg: "bg-cream text-foreground border border-border"
               },
               {
                 quote: "A simple WhatsApp prompt in the morning has done more for my clarity than years of writing in blank journals.",
-                name: "Elena M.",
+                name: "Elena Meyer",
                 location: "Berlin",
                 initials: "EM",
                 bg: "bg-primary text-primary-foreground"
-              },
-              {
-                quote: "It feels like talking to a friend who asks incredibly good questions and doesn't give unsolicited advice.",
-                name: "James T.",
-                location: "Toronto",
-                initials: "JT",
-                bg: "bg-cream text-foreground"
-              },
-              {
-                quote: "The slow pace is perfect. I can stop, reply when I have a second, and go on with my day.",
-                name: "Komal S.",
-                location: "Mumbai",
-                initials: "KS",
-                bg: "bg-accent/30 text-accent"
-              },
-              {
-                quote: "I deleted my other self-improvement apps because they felt like homework. GenMyo is the only one I've kept.",
-                name: "Marcus K.",
-                location: "London",
-                initials: "MK",
-                bg: "bg-cream text-foreground"
-              },
-              {
-                quote: "It's private, simple, and actually works. I leave each conversation with one less thing cluttering my mind.",
-                name: "Nadia R.",
-                location: "Dubai",
-                initials: "NR",
-                bg: "bg-primary text-primary-foreground"
-              },
-              {
-                quote: "Being able to review my snapshot at the end of the week gives me a sense of steadiness I didn't know I lacked.",
-                name: "Chloe W.",
-                location: "New York",
-                initials: "CW",
-                bg: "bg-cream text-foreground"
-              },
-              {
-                quote: "It has helped me slow down my decision making. I feel much more in control of where my energy is going.",
-                name: "Kenji H.",
-                location: "Tokyo",
-                initials: "KH",
-                bg: "bg-accent/30 text-accent"
               }
             ].map((t, i) => (
               <div key={i} className="bg-cream rounded-2xl p-6 border border-border flex flex-col justify-between h-full shadow-sm">
