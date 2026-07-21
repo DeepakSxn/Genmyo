@@ -108,8 +108,8 @@ const PromptGenerator = () => {
       />
 
       {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow text-center">
+      <section className="bg-gradient-hero section-padding min-h-[40vh] flex items-center justify-center">
+        <div className="container-narrow text-center flex flex-col items-center justify-center">
           <p className="text-sm font-medium tracking-widest uppercase text-accent mb-6 animate-fade-up">
             Interactive Tool
           </p>
@@ -228,7 +228,7 @@ const PromptGenerator = () => {
       <section className="section-padding bg-primary text-primary-foreground">
         <div className="container-narrow text-center">
           <h2 className="font-serif text-3xl md:text-4xl font-medium mb-8 leading-tight">
-            Take a 6-minute pause from the noise.
+            Take a 2-minute pause from the noise.
           </h2>
           <div className="flex flex-col items-center">
             <a

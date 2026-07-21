@@ -18,8 +18,8 @@ const Navigation = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
-  // Home + partners heroes are dark; light nav chrome until html.is-scrolled (see index.css)
-  const darkHero = location.pathname === "/" || location.pathname === "/partners";
+  // Home, partners, how-it-works, & linktree heroes are dark; light nav chrome until html.is-scrolled (see index.css)
+  const darkHero = location.pathname === "/" || location.pathname === "/partners" || location.pathname === "/how-it-works" || location.pathname === "/linktree";
 
   const linkClass = (active: boolean) =>
     darkHero
@@ -80,9 +80,7 @@ const Navigation = () => {
               to="/join"
               className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
             >
-              <Menu size={0} className="hidden" />
-              <MessageCircle size={16} />
-              Start on WhatsApp
+              Join
             </Link>
           </div>
 
@@ -96,13 +94,23 @@ const Navigation = () => {
         </div>
 
         {isOpen && (
-          <div className="md:hidden py-6 border-t border-border/50 animate-fade-in bg-background">
-            <div className="flex flex-col gap-4">
+          <div
+            className={`md:hidden px-6 py-6 mt-2 rounded-2xl border shadow-xl animate-fade-in transition-all ${
+              darkHero
+                ? "bg-[#181613]/95 backdrop-blur-md border-primary-foreground/15 text-primary-foreground"
+                : "bg-background/95 backdrop-blur-md border-border/60 text-foreground"
+            }`}
+          >
+            <div className="flex flex-col gap-3">
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className={`text-lg font-medium py-2 ${
-                  isActive("/") ? "text-foreground" : "text-muted-foreground"
+                className={`text-base font-medium py-2 transition-colors ${
+                  isActive("/")
+                    ? "text-gold font-semibold"
+                    : darkHero
+                    ? "text-primary-foreground/80 hover:text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Home
@@ -112,7 +120,11 @@ const Navigation = () => {
                   key={s.id}
                   href={`/#${s.id}`}
                   onClick={() => setIsOpen(false)}
-                  className="text-lg font-medium py-2 text-left text-muted-foreground block"
+                  className={`text-base font-medium py-2 text-left transition-colors ${
+                    darkHero
+                      ? "text-primary-foreground/80 hover:text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                 >
                   {s.label}
                 </a>
@@ -120,8 +132,12 @@ const Navigation = () => {
               <Link
                 to="/partners"
                 onClick={() => setIsOpen(false)}
-                className={`text-lg font-medium py-2 ${
-                  isActive("/partners") ? "text-foreground" : "text-muted-foreground"
+                className={`text-base font-medium py-2 transition-colors ${
+                  isActive("/partners")
+                    ? "text-gold font-semibold"
+                    : darkHero
+                    ? "text-primary-foreground/80 hover:text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 For partners
@@ -129,20 +145,23 @@ const Navigation = () => {
               <Link
                 to="/how-it-works"
                 onClick={() => setIsOpen(false)}
-                className={`text-lg font-medium py-2 ${
-                  isActive("/how-it-works") ? "text-foreground" : "text-muted-foreground"
+                className={`text-base font-medium py-2 transition-colors ${
+                  isActive("/how-it-works")
+                    ? "text-gold font-semibold"
+                    : darkHero
+                    ? "text-primary-foreground/80 hover:text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 How It Works
               </Link>
-              <div className="flex flex-col gap-3 mt-4">
+              <div className="pt-3 border-t border-border/20 mt-2">
                 <Link
                   to="/join"
                   onClick={() => setIsOpen(false)}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium bg-gold text-gold-foreground rounded-full"
+                  className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 text-sm font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
                 >
-                  <MessageCircle size={16} />
-                  Start on WhatsApp
+                  Join
                 </Link>
               </div>
             </div>

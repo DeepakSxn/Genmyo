@@ -24,8 +24,8 @@ const RosebudAlternative = () => {
       />
 
       {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow text-center">
+      <section className="bg-gradient-hero section-padding min-h-[50vh] flex items-center justify-center">
+        <div className="container-narrow text-center flex flex-col items-center justify-center">
           <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-6 animate-fade-up">
             Alternative Comparison
           </p>
@@ -55,7 +55,7 @@ const RosebudAlternative = () => {
 
           <h2 className="font-serif text-2xl font-semibold text-foreground mb-6 text-center">Why Members Choose The Mirror Project</h2>
           <p className="text-muted-foreground leading-relaxed mb-12">
-            The Mirror Project by GenMyo is designed for individuals who find dedicated journaling apps high-maintenance or anxiety-inducing. By moving the conversation into WhatsApp, we eliminate the friction of learning a new interface, notifications, and subscription paywalls. You answer one honest question at a time and leave with clarity in 6 minutes.
+            The Mirror Project by GenMyo is designed for individuals who find dedicated journaling apps high-maintenance or anxiety-inducing. By moving the conversation into WhatsApp, we eliminate the friction of learning a new interface, notifications, and subscription paywalls. You answer one honest question at a time and leave with clarity in 2 minutes.
           </p>
 
           {/* Feature Matrix */}

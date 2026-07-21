@@ -31,8 +31,8 @@ const WhatsAppJournaling = () => {
       />
 
       {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow text-center">
+      <section className="bg-gradient-hero section-padding min-h-[50vh] flex items-center justify-center">
+        <div className="container-narrow text-center flex flex-col items-center justify-center">
           <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-6 animate-fade-up">
             Zero Install Journaling
           </p>
@@ -42,7 +42,7 @@ const WhatsAppJournaling = () => {
           </h1>
           <p className="text-body-large max-w-2xl mx-auto animate-fade-up delay-200">
             Traditional journaling apps demand downloads, log-ins, and paid subscriptions. 
-            The Mirror Project by GenMyo lets you reflect in under 6 minutes, using the chat interface you already use every day.
+            The Mirror Project by GenMyo lets you reflect in under 2 minutes, using the chat interface you already use every day.
           </p>
         </div>
       </section>
@@ -221,7 +221,7 @@ const WhatsAppJournaling = () => {
               Start your reflection on WhatsApp
             </a>
             <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
-              Free · About 6 minutes · No app, no account, no card
+              Free · About 2 minutes · No app, no account, no card
               <br />
               Your reflections are private. <Link to="/privacy" className="underline hover:text-gold transition-colors">What we store →</Link>
             </p>

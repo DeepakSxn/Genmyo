@@ -109,24 +109,24 @@ export default async function handler(
                   </p>
 
                   <p style="margin: 0 0 16px; font-size: 15px; line-height: 1.7; color: #4A463E;">
-                    You're in. The Mirror Project is ready for you.
+                    Your spot is reserved. Thank you for registering for <strong>The Mirror Project by GenMyō</strong>.
                   </p>
 
                   <p style="margin: 0 0 16px; font-size: 15px; line-height: 1.7; color: #4A463E;">
-                    Your first reflection is waiting — a few honest questions, asked slowly. There's no pressure, no timer, and nothing to prepare.
+                    We are opening access in small, intentional cohorts to ensure every reflection space remains quiet and personal. We will send you an update here the moment your access is ready.
                   </p>
 
                   <p style="margin: 0 0 28px; font-size: 15px; line-height: 1.7; color: #4A463E;">
-                    Just tap the button below to open WhatsApp and send your first message when you're ready.
+                    No action is needed right now. If you'd like to reach us in the meantime, simply reply to this email.
                   </p>
 
                   <!-- Primary CTA -->
                   <table role="presentation" cellpadding="0" cellspacing="0">
                     <tr>
                       <td style="border-radius: 100px; background-color: #B0703E;">
-                        <a href="${waUrl}" target="_blank"
+                        <a href="https://genmyo.ai/linktree" target="_blank"
                            style="display: inline-block; padding: 14px 32px; font-size: 15px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 100px; letter-spacing: 0.01em;">
-                          Start your reflection on WhatsApp →
+                          Explore All Handles & Links →
                         </a>
                       </td>
                     </tr>
@@ -140,14 +140,14 @@ export default async function handler(
                     <tr>
                       <td style="padding: 0 0 10px;">
                         <p style="margin: 0; font-size: 13px; color: #6B6760; line-height: 1.5;">
-                          <span style="color: #B0703E; font-weight: 600;">Free</span> &nbsp;·&nbsp; No app to download &nbsp;·&nbsp; No reminders or nudges
+                          <span style="color: #B0703E; font-weight: 600;">Free</span> &nbsp;·&nbsp; No app to download &nbsp;·&nbsp; No spam or aggressive marketing
                         </p>
                       </td>
                     </tr>
                     <tr>
                       <td>
                         <p style="margin: 0; font-size: 13px; color: #6B6760; line-height: 1.5;">
-                          Reply <strong>STOP</strong> at any time to end all messages instantly. Reply <strong>DELETE</strong> to erase your history from our systems.
+                          Reply <strong>STOP</strong> at any time to unsubscribe instantly.
                         </p>
                       </td>
                     </tr>
@@ -160,8 +160,8 @@ export default async function handler(
               <tr>
                 <td style="padding: 20px 40px 32px; background-color: #F4F0E7; border-top: 1px solid rgba(28,26,22,0.06); text-align: center;">
                   <p style="margin: 0 0 6px; font-size: 12px; line-height: 1.6; color: #8C8678;">
-                    GenMyō is not therapy, not a diagnostic tool, and not a crisis service.<br/>
-                    If you need clinical support, please contact a qualified professional.
+                    GenMyō is an inner wellness space delivered through WhatsApp.<br/>
+                    It is not therapy, not a diagnostic tool, and not a crisis service.
                   </p>
                   <p style="margin: 8px 0 0; font-size: 12px; color: #8C8678;">
                     © 2026 GenMyō Pte. Ltd. &nbsp;·&nbsp;
@@ -200,7 +200,7 @@ export default async function handler(
         {
           from: "GenMyō <noreply@genmyo.ai>",
           to: [email],
-          subject: "Your reflection is ready — GenMyō",
+          subject: "Your spot is reserved — GenMyō",
           html: welcomeHtml,
         },
       ]),

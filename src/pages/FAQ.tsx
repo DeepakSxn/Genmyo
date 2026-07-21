@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { MessageCircle } from "lucide-react";
+import { ChevronDown, MessageCircle } from "lucide-react";
 import { trackCTAClickWhatsApp } from "@/lib/analytics";
 
 const FAQ = () => {
@@ -15,7 +14,11 @@ const FAQ = () => {
     },
     {
       q: "What is The Mirror Project?",
-      a: "The Mirror Project is the core introductory experience of GenMyo. It is a free, 6-minute guided reflection session conducted entirely over WhatsApp. By asking a series of thoughtful, slow-paced questions, it helps you pause, clear away mental chatter, and identify what is actually happening in your life right now."
+      a: "The Mirror Project is the core introductory experience of GenMyo. It is a free, 2-minute guided reflection session conducted entirely over WhatsApp. By asking a series of thoughtful, slow-paced questions, it helps you pause, clear away mental chatter, and identify what is actually happening in your life right now."
+    },
+    {
+      q: "Is GenMyo a journaling app or a meditation app?",
+      a: "No. GenMyo is not a journaling app, a diary, or a meditation library. There is no blank page to fill and no content to browse. The Mirror Project by GenMyo guides you through a short reflection by asking questions — you simply answer, at your own pace."
     },
     {
       q: "Is GenMyo safe for deep personal secrets?",
@@ -31,7 +34,7 @@ const FAQ = () => {
     },
     {
       q: "How long does a reflection take?",
-      a: "A standard reflection session takes about 6 minutes. However, because you are in control of the pace, you can take as long as you'd like to reply. The system will never rush or nudge you."
+      a: "A standard reflection session takes about 2 minutes. However, because you are in control of the pace, you can take as long as you'd like to reply. The system will never rush or nudge you."
     },
     {
       q: "Is it private? Can a human read my reflections?",
@@ -66,6 +69,8 @@ const FAQ = () => {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": "https://genmyo.ai/faq#faqpage",
+    "isPartOf": { "@id": "https://genmyo.ai/#website" },
     "mainEntity": faqs.map(faq => ({
       "@type": "Question",
       "name": faq.q,
@@ -85,8 +90,8 @@ const FAQ = () => {
       />
 
       {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow text-center">
+      <section className="bg-gradient-hero section-padding min-h-[45vh] flex items-center justify-center">
+        <div className="container-narrow text-center flex flex-col items-center justify-center">
           <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-6 animate-fade-up">
             Support & Info
           </p>
@@ -103,13 +108,17 @@ const FAQ = () => {
       <section className="section-padding bg-background">
         <div className="container-narrow">
           <div className="bg-white border border-border/80 rounded-3xl p-6 md:p-8 shadow-sm">
-            <Accordion type="single" collapsible className="w-full">
+            <div className="w-full">
               {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`} className="py-2">
-                  <AccordionTrigger className="font-serif text-lg md:text-xl text-[#1C1A16] hover:text-[#B0703E] text-left">
+                <details
+                  key={index}
+                  className="border-b border-border py-2 group last:border-b-0"
+                >
+                  <summary className="flex flex-1 cursor-pointer list-none items-center justify-between py-4 font-serif text-lg md:text-xl font-medium text-[#1C1A16] hover:text-[#B0703E] text-left transition-colors [&::-webkit-details-marker]:hidden">
                     {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-sm md:text-base text-[#4A463E] leading-relaxed pt-2 whitespace-pre-line">
+                    <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 group-open:rotate-180" />
+                  </summary>
+                  <div className="pb-4 pt-2 text-sm md:text-base text-[#4A463E] leading-relaxed whitespace-pre-line">
                     {faq.a.includes("https") || faq.a.includes("Find A Helpline") ? (
                       <>
                         GenMyo is not a crisis monitoring service. If you are in distress, self-harming, or experiencing a mental health emergency, please seek immediate help. You can contact these verified, confidential resources:
@@ -123,14 +132,14 @@ const FAQ = () => {
                     ) : (
                       faq.a
                     )}
-                  </AccordionContent>
-                </AccordionItem>
+                  </div>
+                </details>
               ))}
-            </Accordion>
+            </div>
           </div>
           <div className="flex justify-center border-t border-border/40 pt-8 mt-10">
             <div className="text-muted-foreground text-xs text-center max-w-xl leading-relaxed">
-              <strong>Scope & Safety Boundary:</strong> The Mirror Project by GenMyo is an aid for self-reflection and general wellness. It is not licensed therapy, does not offer clinical diagnosis, and is not a crisis monitoring service. If you are in mental distress or experiencing an emergency, please contact local professional emergency hotlines immediately.
+              <strong>Scope & Safety Boundary:</strong> GenMyo is not therapy, not a diagnostic tool, and not a crisis service. The Mirror Project by GenMyo is an aid for self-reflection and general wellness. It is not licensed therapy, does not offer clinical diagnosis, and is not a crisis monitoring service. If you are in mental distress or experiencing an emergency, please contact local professional emergency hotlines immediately.
             </div>
           </div>
         </div>

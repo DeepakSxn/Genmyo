@@ -10,9 +10,9 @@ interface LayoutProps {
 
 const Layout = ({ children, showFAQ = true }: LayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col w-full overflow-x-hidden bg-background text-foreground">
       <Navigation />
-      <main className="flex-1 pt-20">
+      <main className="flex-1 w-full flex flex-col items-stretch pt-20">
         {children}
         {showFAQ && <FAQSection />}
       </main>

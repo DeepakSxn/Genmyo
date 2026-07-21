@@ -169,15 +169,15 @@
   }
 
   .section-padding {
-    @apply py-20 md:py-32 px-6 md:px-12;
+    @apply py-16 md:py-24 lg:py-28 px-4 sm:px-6 md:px-12 lg:px-16;
   }
 
   .container-narrow {
-    @apply max-w-4xl mx-auto;
+    @apply w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8;
   }
 
   .container-wide {
-    @apply max-w-7xl mx-auto;
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16;
   }
 
   .heading-display {

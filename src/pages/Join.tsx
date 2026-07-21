@@ -250,6 +250,34 @@ const businessSchema = z.object({
 
 type BusinessData = z.infer<typeof businessSchema>;
 
+const joinSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "@id": "https://genmyo.ai/join#howto",
+  "name": "How to start your reflection with The Mirror Project",
+  "description": "A 3-step, 2-minute flow to begin your inner wellness reflection on WhatsApp.",
+  "totalTime": "PT2M",
+  "provider": { "@id": "https://genmyo.ai/#organization" },
+  "isPartOf": { "@id": "https://genmyo.ai/#website" },
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Fill details",
+      "text": "Provide your name and WhatsApp contact info to initialize your reflection session."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Open WhatsApp",
+      "text": "Click the button or scan the QR code to open the WhatsApp conversation."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Answer your first question",
+      "text": "Send the prefilled message and respond to the first guided question at your own pace."
+    }
+  ]
+};
+
 const Join = () => {
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
@@ -507,6 +535,11 @@ const Join = () => {
 
     return (
       <Layout>
+        <SEO
+          title="Start Your First Reflection — Free, on WhatsApp | GenMyo"
+          description="Send one message and your first Mirror Project reflection begins. Free, about 2 minutes, entirely in WhatsApp. No account, no download, no card."
+          jsonSchema={joinSchema}
+        />
         <section className="bg-background min-h-[65vh] flex items-center justify-center">
           <div className="text-center px-6 animate-fade-up max-w-lg mx-auto">
             <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground font-light leading-snug">
@@ -570,10 +603,11 @@ const Join = () => {
     <Layout>
       <SEO
         title="Start Your First Reflection — Free, on WhatsApp | GenMyo"
-        description="Send one message and your first Mirror Project reflection begins. Free, about 6 minutes, entirely in WhatsApp. No account, no download, no card."
+        description="Send one message and your first Mirror Project reflection begins. Free, about 2 minutes, entirely in WhatsApp. No account, no download, no card."
+        jsonSchema={joinSchema}
       />
-      <section className="section-padding bg-background min-h-[70vh] flex items-center">
-        <div className="container-narrow">
+      <section className="section-padding bg-background min-h-[75vh] flex items-center justify-center">
+        <div className="container-narrow flex flex-col items-center justify-center">
           <div className="max-w-lg mx-auto">
             <Tabs defaultValue="individual" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-10">
@@ -693,6 +727,7 @@ const Join = () => {
                  </Button>
                  
                  <div className="text-center text-xs text-muted-foreground space-y-1">
+                   <p>GenMyo is not therapy, not a diagnostic tool, and not a crisis service.</p>
                    <p>We'll open WhatsApp and your first reflection begins.</p>
                    <p className="text-accent">We never message you first.</p>
                  </div>

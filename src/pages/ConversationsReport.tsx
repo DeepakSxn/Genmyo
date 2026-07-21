@@ -10,37 +10,30 @@ const ConversationsReport = () => {
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
+    "@id": "https://genmyo.ai/100-conversations#article",
     "headline": "The 100 Conversations Report: Quantifying the Modern Struggle for Clarity",
-    "description": "Anonymized and quantified findings from 100+ guided reflection conversations. Learn top recurring themes, the advice trap, and common roadblocks to inner alignment.",
+    "description": "An analysis of 108 anonymized guided reflections conducted January–June 2026. Key findings: 89% of participants found a well-formulated question more valuable than direct advice; 74% reported a drop in physical tension after externalising their primary dilemma.",
     "datePublished": "2026-06-30",
     "dateModified": "2026-06-30",
-    "publisher": {
-      "@type": "Organization",
-      "name": "GenMyo",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://genmyo.ai/favicon.png"
-      }
-    }
+    "url": "https://genmyo.ai/100-conversations",
+    "author": { "@id": "https://genmyo.ai/#organization" },
+    "publisher": { "@id": "https://genmyo.ai/#organization" },
+    "about": ["inner wellness", "self-reflection", "guided reflection"],
+    "isAccessibleForFree": true
   };
 
   const datasetSchema = {
     "@context": "https://schema.org",
     "@type": "Dataset",
+    "@id": "https://genmyo.ai/100-conversations#dataset",
     "name": "The 100 Conversations Report Dataset",
     "description": "Anonymized, quantified findings from 108 guided reflection transcripts tracking career alignment anxiety, active procrastination, and internal alignment blockers.",
     "license": "https://creativecommons.org/licenses/by/4.0/",
     "temporalCoverage": "2026-01-01/2026-06-30",
     "spatialCoverage": "Global",
     "datePublished": "2026-06-30",
-    "creator": {
-      "@type": "Organization",
-      "name": "GenMyo"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "GenMyo"
-    }
+    "creator": { "@id": "https://genmyo.ai/#organization" },
+    "publisher": { "@id": "https://genmyo.ai/#organization" }
   };
 
   const combinedSchema = [articleSchema, datasetSchema];
@@ -54,14 +47,17 @@ const ConversationsReport = () => {
       />
 
       {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow text-center">
+      <section className="bg-gradient-hero section-padding min-h-[55vh] flex items-center justify-center">
+        <div className="container-narrow text-center flex flex-col items-center justify-center">
           <p className="text-sm font-medium tracking-widest uppercase text-accent mb-6 animate-fade-up">
             Research Report
           </p>
           <h1 className="heading-display text-foreground mb-6 animate-fade-up delay-100">
             The 100 Conversations Report
           </h1>
+          <p className="font-medium text-lg text-foreground max-w-2xl mx-auto mb-6 p-4 rounded-xl bg-secondary/50 border-l-4 border-accent text-left animate-fade-up delay-120">
+            Across 108 guided reflections, GenMyo found that 89% of people got more value from one well-formed question than from direct advice.
+          </p>
           <p className="text-body-large max-w-2xl mx-auto mb-8 animate-fade-up delay-150 text-muted-foreground">
             Why the wellness industry keeps handing people more content — and why the data says that's the wrong answer. 108 anonymized reflections on what actually helps when you feel stuck.
           </p>
@@ -216,9 +212,9 @@ const ConversationsReport = () => {
               Start your reflection on WhatsApp →
             </Link>
             <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
-              Free · No app download required
+              GenMyo is not therapy, not a diagnostic tool, and not a crisis service.
               <br />
-              All reflections are private and secure. <Link to="/privacy" className="underline hover:text-gold transition-colors font-medium">Read our Privacy Policy →</Link>
+              Free · No app download required · <Link to="/privacy" className="underline hover:text-gold transition-colors font-medium">Read our Privacy Policy →</Link>
             </p>
           </div>
         </div>

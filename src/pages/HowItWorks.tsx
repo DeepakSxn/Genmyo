@@ -10,8 +10,12 @@ const HowItWorks = () => {
   const howToSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",
+    "@id": "https://genmyo.ai/how-it-works#howto",
     "name": "How to Reflect with The Mirror Project by GenMyo",
-    "description": "A 3-step, 6-minute guided reflection entirely on WhatsApp to help you build clarity and resilience.",
+    "description": "A 3-step, 2-minute guided reflection entirely on WhatsApp to help you build clarity and resilience.",
+    "provider": { "@id": "https://genmyo.ai/#organization" },
+    "isPartOf": { "@id": "https://genmyo.ai/#website" },
+    "totalTime": "PT2M",
     "step": [
       {
         "@type": "HowToStep",
@@ -22,7 +26,7 @@ const HowItWorks = () => {
       {
         "@type": "HowToStep",
         "name": "Answer a few honest questions",
-        "text": "Reflect on one prompt at a time. The session is guided slowly, taking about 6 minutes.",
+        "text": "Reflect on one prompt at a time. The session is guided slowly, taking about 2 minutes.",
         "url": "https://genmyo.ai/join"
       },
       {
@@ -37,22 +41,28 @@ const HowItWorks = () => {
   return (
     <Layout>
       <SEO
-        title="How The Mirror Project Works — 3 Steps, 6 Minutes, in WhatsApp"
+        title="How The Mirror Project Works — 3 Steps, 2 Minutes, in WhatsApp"
         description="Send one message. Answer a few honest questions. Leave with one clear next step. Here's exactly what happens in a GenMyo reflection, message by message."
         jsonSchema={howToSchema}
       />
 
-      {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow text-center">
-          <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-6 animate-fade-up">
-            The Experience
-          </p>
-          <h1 className="heading-display text-foreground mb-8 animate-fade-up delay-100">
-            How The Mirror Project Works
+      {/* Hero — Dark series.so style with gold radial glow */}
+      <section className="relative overflow-hidden -mt-20 text-primary-foreground bg-hero-dark min-h-screen flex items-center justify-center pt-24 pb-16">
+        {/* Ambient glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(60% 60% at 70% 40%, hsl(var(--gold) / 0.12), transparent 70%)" }}
+        />
+
+        <div className="relative container-narrow text-center flex flex-col items-center justify-center">
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium animate-fade-up delay-100 leading-[1.18] text-center max-w-3xl mx-auto mb-8">
+            How The Mirror Project <span className="text-gold italic">Works</span>
           </h1>
-          <p className="text-body-large max-w-2xl mx-auto animate-fade-up delay-200">
-            GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice.
+          <p className="font-light text-base md:text-lg text-primary-foreground/90 max-w-2xl mx-auto mb-6 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-left animate-fade-up delay-150 leading-relaxed">
+            The Mirror Project by GenMyo is a free, two-minute guided reflection delivered entirely through WhatsApp — three steps, one honest question at a time, with nothing to download.
+          </p>
+          <p className="text-sm md:text-base text-primary-foreground/70 leading-relaxed max-w-2xl mx-auto animate-fade-up delay-200">
+            You send one message, answer a few honest questions over two minutes, and leave with one thing you can see more clearly. Not therapy. Not another app. No advice.
           </p>
         </div>
       </section>
@@ -212,7 +222,7 @@ const HowItWorks = () => {
         <div className="container-narrow">
           <div className="flex justify-center border-t border-border/40 pt-8">
             <div className="text-muted-foreground text-xs text-center max-w-xl leading-relaxed">
-              <strong>Scope & Safety Boundary:</strong> The Mirror Project by GenMyo is an aid for self-reflection and general wellness. It is not licensed therapy, does not offer clinical diagnosis, and is not a crisis monitoring service. If you are in mental distress or experiencing an emergency, please contact local professional emergency hotlines immediately.
+              <strong>Scope & Safety Boundary:</strong> GenMyo is not therapy, not a diagnostic tool, and not a crisis service. The Mirror Project by GenMyo is an aid for self-reflection and general wellness. It is not licensed therapy, does not offer clinical diagnosis, and is not a crisis monitoring service. If you are in mental distress or experiencing an emergency, please contact local professional emergency hotlines immediately.
             </div>
           </div>
         </div>

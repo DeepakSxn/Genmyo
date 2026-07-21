@@ -28,9 +28,9 @@ const AIJournaling = () => {
       />
 
       {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow">
-          <div className="text-center">
+      <section className="bg-gradient-hero section-padding min-h-[50vh] flex items-center justify-center">
+        <div className="container-narrow flex flex-col items-center justify-center">
+          <div className="text-center w-full">
             <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-6 animate-fade-up">
               Commercial Review
             </p>
@@ -107,7 +107,7 @@ const AIJournaling = () => {
               Reflect on WhatsApp — Free
             </a>
             <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
-              Free · About 6 minutes · No app download required
+              Free · About 2 minutes · No app download required
             </p>
           </div>
         </div>
@@ -159,7 +159,7 @@ const AIJournaling = () => {
               Start your reflection on WhatsApp
             </a>
             <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
-              Free · About 6 minutes · No app, no account, no card
+              Free · About 2 minutes · No app, no account, no card
               <br />
               Your reflections are private. <Link to="/privacy" className="underline hover:text-gold transition-colors font-medium">What we store →</Link>
             </p>

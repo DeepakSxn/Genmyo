@@ -8,7 +8,11 @@ export const FAQSection = () => {
     },
     {
       q: "What is The Mirror Project?",
-      a: "The Mirror Project is the core introductory experience of GenMyo. It is a free, 6-minute guided reflection session conducted entirely over WhatsApp. By asking a series of thoughtful, slow-paced questions, it helps you pause, clear away mental chatter, and identify what is actually happening in your life right now."
+      a: "The Mirror Project is the core introductory experience of GenMyo. It is a free, 2-minute guided reflection session conducted entirely over WhatsApp. By asking a series of thoughtful, slow-paced questions, it helps you pause, clear away mental chatter, and identify what is actually happening in your life right now."
+    },
+    {
+      q: "Is GenMyo a journaling app or a meditation app?",
+      a: "No. GenMyo is not a journaling app, a diary, or a meditation library. There is no blank page to fill and no content to browse. The Mirror Project by GenMyo guides you through a short reflection by asking questions — you simply answer, at your own pace."
     },
     {
       q: "Is it free?",
@@ -20,7 +24,7 @@ export const FAQSection = () => {
     },
     {
       q: "How long does a reflection take?",
-      a: "A standard reflection session takes about 6 minutes. However, because you are in control of the pace, you can take as long as you'd like to reply. The system will never rush or nudge you."
+      a: "A standard reflection session takes about 2 minutes. However, because you are in control of the pace, you can take as long as you'd like to reply. The system will never rush or nudge you."
     },
     {
       q: "Is it private? Can a human read my reflections?",

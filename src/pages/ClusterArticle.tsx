@@ -74,9 +74,9 @@ const ClusterArticle = ({ slug: propSlug }: ClusterArticleProps) => {
       />
 
       {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow">
-          <div className="text-center">
+      <section className="bg-gradient-hero section-padding min-h-[45vh] flex items-center justify-center">
+        <div className="container-narrow flex flex-col items-center justify-center">
+          <div className="text-center w-full">
             <p className="text-sm font-medium tracking-widest uppercase text-accent mb-6 animate-fade-up">
               {article.category}
             </p>

@@ -26,27 +26,54 @@ const faqs = [
   },
 ];
 
-const checkInSchema = {
+const emotionalCheckInSchema = {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqs.map((f) => ({
-    "@type": "Question",
-    "name": f.q,
-    "acceptedAnswer": { "@type": "Answer", "text": f.a },
-  })),
-};
-
-const articleSchema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "How to Do an Emotional Check-In: The Gentle Practice That Actually Works",
-  "description": "Learn how a daily or weekly emotional check-in builds self-awareness without pressure. No blank pages, no apps — just a guided pause inside WhatsApp.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "GenMyo",
-    "logo": { "@type": "ImageObject", "url": "https://genmyo.ai/favicon.png" },
-  },
-  "datePublished": "2026-07-16",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://genmyo.ai/emotional-check-in#webpage",
+      "url": "https://genmyo.ai/emotional-check-in",
+      "name": "How to Do an Emotional Check-In — Without the Pressure | GenMyo",
+      "about": { "@id": "https://genmyo.ai/#mirror-project" },
+      "isPartOf": { "@id": "https://genmyo.ai/#website" },
+      "dateModified": "2026-07-20"
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://genmyo.ai/emotional-check-in#howto",
+      "name": "How to do an emotional check-in",
+      "description": "A simple three-step emotional check-in you can do in about two minutes, guided by The Mirror Project by GenMyo on WhatsApp.",
+      "totalTime": "PT2M",
+      "provider": { "@id": "https://genmyo.ai/#organization" },
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Pause and arrive",
+          "text": "Stop what you're doing for a moment. You don't need a quiet room or a routine — just a few minutes where you're not performing for anyone."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Answer one honest question",
+          "text": "Instead of asking yourself 'how am I?', let one specific question do the work — for example: what's been quietly sitting with you this week?"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Name one thing clearly",
+          "text": "You're not solving anything. The goal is to leave with one thing you can see more clearly than you could two minutes ago."
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://genmyo.ai/emotional-check-in#faqpage",
+      "isPartOf": { "@id": "https://genmyo.ai/#website" },
+      "mainEntity": faqs.map((f) => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a },
+      }))
+    }
+  ]
 };
 
 const EmotionalCheckIn = () => {
@@ -55,12 +82,12 @@ const EmotionalCheckIn = () => {
       <SEO
         title="How to Do an Emotional Check-In — Without the Pressure | GenMyo"
         description="A daily or weekly emotional check-in helps you name what you're feeling before you react. No blank page, no app — just one guided question at a time inside WhatsApp."
-        jsonSchema={[checkInSchema, articleSchema]}
+        jsonSchema={emotionalCheckInSchema}
       />
 
       {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow text-center">
+      <section className="bg-gradient-hero section-padding min-h-[55vh] flex items-center justify-center">
+        <div className="container-narrow text-center flex flex-col items-center justify-center">
           <p className="text-sm font-medium tracking-widest uppercase text-accent mb-6 animate-fade-up">
             Inner Wellness Practice
           </p>
@@ -85,7 +112,7 @@ const EmotionalCheckIn = () => {
 
             <div>
               <h2 className="font-serif text-2xl font-semibold text-foreground mb-4">
-                Why checking in with yourself feels harder than it should
+                Why does checking in with yourself feel hard?
               </h2>
               <p className="text-muted-foreground leading-relaxed">
                 You know the feeling. Something's off — not broken, not in crisis, just slightly disconnected — and you can't quite name it. You're busy, so you push through. A week passes. The low hum doesn't leave; it just becomes familiar.
@@ -107,7 +134,7 @@ const EmotionalCheckIn = () => {
 
             <div>
               <h2 className="font-serif text-2xl font-semibold text-foreground mb-4">
-                The difference between an emotional check-in and journaling
+                How is an emotional check-in different from journaling?
               </h2>
               <p className="text-muted-foreground leading-relaxed">
                 Journaling is a blank canvas — powerful when you know what you want to explore, paralysing when you don't. An emotional check-in is a guided conversation: someone (or something) asks you one specific, honest question, and you respond to it. No opening line to write. No pressure to fill a page.
@@ -145,7 +172,7 @@ const EmotionalCheckIn = () => {
           <div className="text-center max-w-2xl mx-auto mb-14">
             <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">The Practice</p>
             <h2 className="heading-section text-foreground mb-4">
-              Four questions at the heart of every good emotional check-in
+              What questions should you ask during an emotional check-in?
             </h2>
             <p className="text-body-large">
               You don't need to ask all four every time. One honest answer to one honest question is enough.
@@ -202,7 +229,7 @@ const EmotionalCheckIn = () => {
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">The GenMyo Difference</p>
             <h2 className="heading-section text-foreground mb-4">
-              A gentle door instead of another article
+              Why choose a guided check-in over a wellness article?
             </h2>
             <p className="text-body-large">
               Calm, PsychCentral, and therapy blogs give you a 10-tip article and leave you to do the work alone. GenMyo asks the question for you and waits for your answer.
@@ -308,9 +335,9 @@ const EmotionalCheckIn = () => {
               Start your emotional check-in on WhatsApp →
             </Link>
             <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
-              Free · No app, no account, no card
+              GenMyo is not therapy, not a diagnostic tool, and not a crisis service.
               <br />
-              Your reflections are private.{" "}
+              Free · No app, no account, no card ·{" "}
               <Link to="/privacy" className="underline hover:text-gold transition-colors font-medium">
                 What we store →
               </Link>

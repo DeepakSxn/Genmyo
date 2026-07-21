@@ -134,22 +134,22 @@ const Blog = () => {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
+    "@id": "https://genmyo.ai/blog#blog",
     "name": "GenMyō Blog",
     "description": "Notes on inner wellness from the GenMyō team.",
-    "url": "https://www.genmyo.ai/blog",
-    "publisher": {
-      "@type": "Organization",
-      "name": "GenMyō Pte. Ltd.",
-      "url": "https://www.genmyo.ai"
-    },
+    "url": "https://genmyo.ai/blog",
+    "publisher": { "@id": "https://genmyo.ai/#organization" },
+    "isPartOf": { "@id": "https://genmyo.ai/#website" },
     "blogPost": BLOG_POSTS.map(post => ({
       "@type": "BlogPosting",
+      "@id": `https://genmyo.ai/blog/${post.slug}#blogposting`,
       "headline": post.title,
       "description": post.description,
-      "url": `https://www.genmyo.ai/blog/${post.slug}`,
+      "url": `https://genmyo.ai/blog/${post.slug}`,
       "datePublished": post.datePublished,
       "author": { "@type": "Person", "name": post.author, "jobTitle": post.authorJobTitle },
-      "publisher": { "@type": "Organization", "name": "GenMyō Pte. Ltd." }
+      "publisher": { "@id": "https://genmyo.ai/#organization" },
+      "isPartOf": { "@id": "https://genmyo.ai/blog#blog" }
     }))
   };
 
@@ -166,8 +166,8 @@ const Blog = () => {
       </Helmet>
 
       {/* HEADER */}
-      <header className="py-20 md:py-24 text-center bg-background">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10">
+      <header className="py-20 md:py-24 text-center bg-background min-h-[40vh] flex items-center justify-center">
+        <div className="max-w-[1080px] w-full mx-auto px-6 md:px-10 flex flex-col items-center justify-center">
           <div className="text-xs font-semibold tracking-[0.2em] uppercase text-[#B0703E] mb-4">
             The GenMyō Blog
           </div>

@@ -7,6 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Routes to pre-render
 const routes = [
   "/",
+  "/linktree",
   "/philosophy",
   "/how-it-works",
   "/alternatives/rosebud",

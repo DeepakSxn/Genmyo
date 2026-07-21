@@ -18,12 +18,14 @@ import ConversationsReport from "./pages/ConversationsReport";
 import ReflectionQuestions from "./pages/ReflectionQuestions";
 import EmotionalCheckIn from "./pages/EmotionalCheckIn";
 import FeelingDisconnected from "./pages/FeelingDisconnected";
+import Linktree from "./pages/Linktree";
 
 export const AppRoutes = () => (
   <>
     <ScrollToTop />
     <Routes>
       <Route path="/" element={<Index />} />
+      <Route path="/linktree" element={<Linktree />} />
       <Route path="/philosophy" element={<Philosophy />} />
       <Route path="/how-it-works" element={<HowItWorks />} />
       <Route path="/faq" element={<Navigate to="/#faq" replace />} />

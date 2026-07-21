@@ -136,7 +136,7 @@ export const clusterArticles: Record<string, ArticleData> = {
     lastUpdated: "2026-07-14",
     author: "Tushar",
     standaloneAnswer: "Feeling stuck in life often occurs when your daily habits no longer align with your evolving sense of purpose, creating a sense of inertia. Resolving this state requires identifying the specific areas of friction rather than seeking sweeping lifestyle overhauls.",
-    proprietaryDataPoint: "Transcript patterns indicate that users who spent just 6 minutes naming their primary source of friction reported a 40% reduction in immediate stress.",
+    proprietaryDataPoint: "Transcript patterns indicate that users who spent just 2 minutes naming their primary source of friction reported a 40% reduction in immediate stress.",
     h2s: [
       {
         title: "Is it normal to feel stuck as you grow older?",
@@ -144,7 +144,7 @@ export const clusterArticles: Record<string, ArticleData> = {
       },
       {
         title: "What is the smallest step to take when you feel stuck?",
-        content: "Do not try to fix your whole life today. Start by taking a 6-minute reflection pause to answer a single question: 'What is the one thing making my days feel heavy right now?' Naming it is half the battle."
+        content: "Do not try to fix your whole life today. Start by taking a 2-minute reflection pause to answer a single question: 'What is the one thing making my days feel heavy right now?' Naming it is half the battle."
       }
     ]
   },
@@ -236,7 +236,7 @@ export const clusterArticles: Record<string, ArticleData> = {
     lastUpdated: "2026-07-14",
     author: "Tushar",
     standaloneAnswer: "Forcing action during a period of deep inertia fails because it ignores the underlying emotional bottlenecks that created the block. Pausing to build cognitive clarity is a necessary prerequisite to taking sustainable action.",
-    proprietaryDataPoint: "Our research shows that taking a 6-minute reflection pause before starting work increases task completion rates by 35% compared to forcing immediate execution.",
+    proprietaryDataPoint: "Our research shows that taking a 2-minute reflection pause before starting work increases task completion rates by 35% compared to forcing immediate execution.",
     h2s: [
       {
         title: "Why does willpower fail when you are stuck?",
@@ -344,7 +344,7 @@ export const clusterArticles: Record<string, ArticleData> = {
       },
       {
         title: "How do you regain focus when you are flooded?",
-        content: "Stop working entirely. Take a slow 6-minute pause to reflect. Select the single absolute priority and hide the rest of your to-do list from view."
+        content: "Stop working entirely. Take a slow 2-minute pause to reflect. Select the single absolute priority and hide the rest of your to-do list from view."
       }
     ]
   },
@@ -585,7 +585,7 @@ export const clusterArticles: Record<string, ArticleData> = {
     lastUpdated: "2026-07-16",
     author: "Tushar",
     standaloneAnswer: "Self-awareness is the ability to observe your thoughts, emotions, and behaviors objectively. Building self-awareness is not about analyzing your past for hours, but about establishing a daily or weekly habit of asking honest, non-judgmental questions.",
-    proprietaryDataPoint: "According to our members, doing a brief 6-minute weekly check-in yields a 38% increase in self-reported decision confidence compared to daily habit-tracking.",
+    proprietaryDataPoint: "According to our members, doing a brief 2-minute weekly check-in yields a 38% increase in self-reported decision confidence compared to daily habit-tracking.",
     h2s: [
       {
         title: "What is the difference between introspection and self-awareness?",

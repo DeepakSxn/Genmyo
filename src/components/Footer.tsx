@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Linkedin, Facebook } from "lucide-react";
+import { Linkedin, Instagram, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="md:col-span-2">
             <h3 className="font-serif text-3xl font-medium mb-4">GenMyo</h3>
             <p className="text-primary-foreground/70 max-w-md leading-relaxed">
-              GenMyo is an inner wellness platform delivered through WhatsApp.
+              GenMyo is an inner wellness platform delivered through WhatsApp. The Mirror Project by GenMyo — a guided reflection to help you reconnect with yourself.
             </p>
           </div>
 
@@ -60,14 +60,32 @@ const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="mailto:admin@genmyo.ai"
+                  href="mailto:hello@genmyo.ai"
                   className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
                 >
-                  admin@genmyo.ai
+                  hello@genmyo.ai
                 </a>
               </li>
             </ul>
             <div className="flex gap-4 mt-6">
+              <a
+                href="https://www.instagram.com/genmyoai/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a
+                href="https://x.com/GenmyoAI"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
               <a
                 href="https://www.linkedin.com/company/genmyo"
                 target="_blank"
@@ -76,15 +94,6 @@ const Footer = () => {
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
-              </a>
-              <a
-                href="https://www.facebook.com/genmyo"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-5 h-5" />
               </a>
             </div>
           </div>

@@ -66,8 +66,8 @@ const FeelingDisconnected = () => {
       />
 
       {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow text-center">
+      <section className="bg-gradient-hero section-padding min-h-[50vh] flex items-center justify-center">
+        <div className="container-narrow text-center flex flex-col items-center justify-center">
           <p className="text-sm font-medium tracking-widest uppercase text-accent mb-6 animate-fade-up">
             Inner Wellness
           </p>
@@ -91,7 +91,7 @@ const FeelingDisconnected = () => {
           <div className="text-center max-w-2xl mx-auto mb-14">
             <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">Signs of Disconnection</p>
             <h2 className="heading-section text-foreground mb-4">
-              How inner disconnection actually shows up
+              What are the signs of feeling disconnected from yourself?
             </h2>
             <p className="text-body-large">
               It rarely announces itself. It seeps in slowly, wearing the disguise of "just being tired" or "having a lot on."
@@ -181,7 +181,7 @@ const FeelingDisconnected = () => {
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">Honest Comparison</p>
             <h2 className="heading-section text-foreground mb-4">
-              What the research and our community say actually helps
+              What actually helps when you feel disconnected?
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">

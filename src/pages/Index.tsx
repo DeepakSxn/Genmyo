@@ -204,40 +204,64 @@ const Index = () => {
     ["When ready", "Talk to a real guide", "A matched mentor, already briefed. Optional, always."],
   ];
 
-  const homepageSchema = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "GenMyo",
-      "url": "https://genmyo.ai",
-      "logo": "https://genmyo.ai/favicon.png",
-      "description": "GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice."
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "GenMyo",
-      "url": "https://genmyo.ai"
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "name": "The Mirror Project by GenMyo",
-      "provider": {
+  const homepageSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
         "@type": "Organization",
-        "name": "GenMyo"
+        "@id": "https://genmyo.ai/#organization",
+        "name": "GenMyo",
+        "url": "https://genmyo.ai/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://genmyo.ai/favicon.png"
+        },
+        "description": "GenMyo is an inner wellness platform delivered entirely through WhatsApp. The Mirror Project by GenMyo — a guided reflection to help you reconnect with yourself. GenMyo is not therapy, not a diagnostic tool, and not a crisis service.",
+        "email": "hello@genmyo.ai",
+        "foundingDate": "2025",
+        "sameAs": [],
+        "knowsAbout": [
+          "inner wellness",
+          "guided reflection",
+          "self-awareness",
+          "emotional check-in",
+          "inner alignment",
+          "clarity"
+        ]
       },
-      "description": "GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice.",
-      "serviceType": "inner wellness / guided reflection",
-      "areaServed": "Worldwide"
-    }
-  ];
+      {
+        "@type": "WebSite",
+        "@id": "https://genmyo.ai/#website",
+        "url": "https://genmyo.ai/",
+        "name": "GenMyo",
+        "publisher": { "@id": "https://genmyo.ai/#organization" },
+        "inLanguage": "en"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://genmyo.ai/#mirror-project",
+        "name": "The Mirror Project",
+        "alternateName": "The Mirror Project by GenMyo",
+        "provider": { "@id": "https://genmyo.ai/#organization" },
+        "serviceType": "Inner wellness — guided reflection",
+        "description": "A free guided reflection of about two minutes, delivered entirely through WhatsApp. The Mirror Project by GenMyo asks a short sequence of honest questions to support self-awareness, clarity, and reconnection with yourself. It is not therapy, not a meditation library, and not a crisis service.",
+        "areaServed": "Worldwide",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://genmyo.ai/join"
+        }
+      }
+    ]
+  };
 
   return (
     <Layout>
       <SEO
         title="AI Guided Reflection on WhatsApp — The Mirror Project by GenMyo"
-        description="Feeling stuck or overwhelmed? The Mirror Project is a free 6-minute guided reflection that runs entirely inside WhatsApp. No app, no feed, no advice. Just one honest question at a time."
+        description="Feeling stuck or overwhelmed? The Mirror Project is a free 2-minute guided reflection that runs entirely inside WhatsApp. No app, no feed, no advice. Just one honest question at a time."
         jsonSchema={homepageSchema}
       />
       {/* Hero — series.so style, black / gold, with the Mirror animation */}
@@ -260,11 +284,20 @@ const Index = () => {
                 className="mb-6 w-16 h-16 animate-fade-up"
               />
 
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium animate-fade-up delay-100 leading-[1.15] text-center max-w-3xl">
-                <span className="text-primary-foreground">Wellness apps read</span><br />
-                <span className="text-primary-foreground">your </span><span className="text-primary-foreground/35">mood.</span><br />
+              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium animate-fade-up delay-100 leading-[1.18] text-center max-w-3xl">
+                <span className="text-primary-foreground">Wellness apps read your </span>
+                <span className="text-primary-foreground/40">mood.</span><br />
                 <span className="text-gold italic">We read your story.</span>
               </h1>
+
+              <div className="mt-8 text-center max-w-2xl animate-fade-up delay-200 space-y-4">
+                <p className="text-lg md:text-xl text-primary-foreground/90 font-serif font-light tracking-wide">
+                  The Mirror learns about you. <span className="text-gold font-normal italic">Then it creates for you.</span>
+                </p>
+                <p className="text-sm md:text-base text-primary-foreground/65 leading-relaxed max-w-xl mx-auto font-sans font-light">
+                  Reflect on WhatsApp, no app to download, and The Mirror turns what it learns into personalised content, prompts, and practices shaped around your patterns and story.
+                </p>
+              </div>
 
 
               <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-up delay-300">
@@ -272,8 +305,7 @@ const Index = () => {
                   to="/join"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
                 >
-                  <MessageCircle size={18} />
-                  Start your reflection on WhatsApp →
+                  Join →
                 </Link>
                 <Link
                   to="/philosophy"
@@ -326,9 +358,12 @@ const Index = () => {
             GenMyo is a home for inner wellness, a calmer alternative to a noisy world,
             built to help people pause, hear themselves clearly, and grow at their own pace.
           </p>
-          <p className="font-serif italic text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+          <p className="font-serif italic text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-6">
             The Mirror Project is the first step in that journey, a gentle, guided
             experience that opens the door inward.
+          </p>
+          <p className="text-xs text-muted-foreground max-w-xl mx-auto">
+            GenMyo is not therapy, not a diagnostic tool, and not a crisis service.
           </p>
         </div>
       </section>
@@ -461,7 +496,7 @@ const Index = () => {
                       <Star key={idx} size={14} className="fill-current" />
                     ))}
                   </div>
-                  <p className="font-serif italic text-base text-foreground leading-relaxed mb-6">
+                  <p className="font-serif italic text-lg md:text-xl text-foreground leading-relaxed mb-6 font-normal">
                     "{t.quote}"
                   </p>
                 </div>
@@ -486,8 +521,7 @@ const Index = () => {
             to="/join"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-accent text-accent-foreground rounded-full hover:opacity-90 transition-opacity"
           >
-            <MessageCircle size={18} />
-            Start your reflection on WhatsApp →
+            Join →
           </Link>
           <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed flex items-center justify-center gap-1.5 flex-wrap">
             <span>Free &middot; No app, no account</span>

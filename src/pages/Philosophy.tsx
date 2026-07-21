@@ -4,28 +4,46 @@ import { SEO } from "@/components/SEO";
 import { ArrowRight, Compass, Shield, Users, Sparkles, MessageCircle } from "lucide-react";
 
 const Philosophy = () => {
+  const philosophySchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "@id": "https://genmyo.ai/philosophy#aboutpage",
+    "url": "https://genmyo.ai/philosophy",
+    "name": "Why GenMyo Is Quiet on Purpose",
+    "about": { "@id": "https://genmyo.ai/#organization" },
+    "isPartOf": { "@id": "https://genmyo.ai/#website" },
+    "description": "GenMyo's philosophy: wellness culture got loud, and the answer to feeling stuck isn't more content to consume. GenMyo asks questions instead of giving advice — no streaks, no feed, no optimisation scores. Inner wellness at your own pace.",
+    "inLanguage": "en",
+    "dateModified": "2026-07-20"
+  };
+
   return (
     <Layout>
       <SEO
         title="Our Philosophy — Why GenMyo Is Quiet on Purpose"
         description="Wellness got loud. We went the other way. Why GenMyo asks questions instead of giving advice, why there's no streak, no feed, and no optimisation score — and what 'inner alignment' actually means to us."
+        jsonSchema={philosophySchema}
       />
       {/* Hero */}
-      <section className="bg-gradient-hero section-padding">
-        <div className="container-narrow text-center">
+      <section className="bg-gradient-hero section-padding min-h-[50vh] flex items-center justify-center">
+        <div className="container-narrow text-center flex flex-col items-center justify-center">
           <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-6 animate-fade-up">
             Our Philosophy
           </p>
           <h1 className="heading-display text-foreground mb-8 animate-fade-up delay-100">
             Why GenMyo Exists
           </h1>
-          <p className="text-body-large max-w-2xl mx-auto animate-fade-up delay-200">
-            GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice.
+          <p className="font-medium text-lg text-foreground max-w-2xl mx-auto mb-6 p-4 rounded-xl bg-background/80 border-l-4 border-accent text-left animate-fade-up delay-150">
+            GenMyo is an inner wellness platform that asks questions instead of giving advice, delivered through WhatsApp with no app, no streaks, and no optimisation scores.
+          </p>
+          <p className="text-body-large max-w-2xl mx-auto animate-fade-up delay-200 mb-6">
+            GenMyo's philosophy is rooted in quiet development: wellness culture got loud, and the answer to feeling stuck isn't more content to consume. The Mirror Project by GenMyo is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice.
+          </p>
+          <p className="text-xs text-muted-foreground max-w-xl mx-auto animate-fade-up delay-300">
+            GenMyo is not therapy, not a diagnostic tool, and not a crisis service.
           </p>
         </div>
       </section>
-
-
 
       {/* Capacities */}
       <section className="section-padding bg-background">
@@ -35,7 +53,7 @@ const Philosophy = () => {
               The Capacities
             </p>
             <h2 className="heading-section text-foreground mb-6">
-              Four capacities we help you build.
+              What inner capacities does GenMyo help you build?
             </h2>
             <p className="text-body-large">
               Every reflection quietly strengthens the inner qualities that carry you
@@ -86,7 +104,7 @@ const Philosophy = () => {
               Our Approach
             </p>
             <h2 className="heading-section text-foreground mb-6">
-              The GenMyo Philosophy
+              Why doesn't GenMyo give advice or use streaks?
             </h2>
             <p className="text-body-large">
               These principles guide everything we build.
