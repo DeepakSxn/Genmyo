@@ -188,7 +188,7 @@ const Team = () => {
                   Gaurav Singh
                 </h2>
                 <a
-                  href="https://www.linkedin.com/in/gauravsingh-5392a7272"
+                  href="https://www.linkedin.com/in/gaurav-singh345/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 ml-0.5 mt-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hover:underline"
