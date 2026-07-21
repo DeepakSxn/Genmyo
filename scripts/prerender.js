@@ -8,6 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const routes = [
   "/",
   "/linktree",
+  "/stories",
   "/philosophy",
   "/how-it-works",
   "/alternatives/rosebud",

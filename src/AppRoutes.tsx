@@ -19,6 +19,7 @@ import ReflectionQuestions from "./pages/ReflectionQuestions";
 import EmotionalCheckIn from "./pages/EmotionalCheckIn";
 import FeelingDisconnected from "./pages/FeelingDisconnected";
 import Linktree from "./pages/Linktree";
+import Stories from "./pages/Stories";
 
 export const AppRoutes = () => (
   <>
@@ -26,6 +27,7 @@ export const AppRoutes = () => (
     <Routes>
       <Route path="/" element={<Index />} />
       <Route path="/linktree" element={<Linktree />} />
+      <Route path="/stories" element={<Stories />} />
       <Route path="/philosophy" element={<Philosophy />} />
       <Route path="/how-it-works" element={<HowItWorks />} />
       <Route path="/faq" element={<Navigate to="/#faq" replace />} />

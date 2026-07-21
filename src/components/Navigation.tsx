@@ -75,10 +75,19 @@ const Navigation = () => {
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-6">
+            <Link
+              to="/stories"
+              data-active={isActive("/stories") ? "true" : undefined}
+              className="text-sm font-semibold text-[#C2A053] hover:text-[#D9C48C] transition-colors"
+              style={{ color: "#C2A053" }}
+            >
+              Stories
+            </Link>
             <Link
               to="/join"
-              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center px-7 py-2.5 text-sm font-semibold bg-[#C2A053] text-[#1C1A16] rounded-full shadow-sm hover:opacity-90 transition-opacity"
+              style={{ backgroundColor: "#C2A053", color: "#1C1A16" }}
             >
               Join
             </Link>
@@ -128,20 +137,6 @@ const Navigation = () => {
               >
                 How It Works
               </Link>
-              {sectionLinks.map((s) => (
-                <a
-                  key={s.id}
-                  href={`/#${s.id}`}
-                  onClick={() => setIsOpen(false)}
-                  className={`text-base font-medium py-2 text-left transition-colors ${
-                    darkHero
-                      ? "text-primary-foreground/80 hover:text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {s.label}
-                </a>
-              ))}
               <Link
                 to="/partners"
                 onClick={() => setIsOpen(false)}
@@ -155,11 +150,20 @@ const Navigation = () => {
               >
                 For partners
               </Link>
+              <Link
+                to="/stories"
+                onClick={() => setIsOpen(false)}
+                className="text-base font-semibold py-2 text-[#C2A053] transition-colors"
+                style={{ color: "#C2A053" }}
+              >
+                Stories
+              </Link>
               <div className="pt-3 border-t border-border/20 mt-2">
                 <Link
                   to="/join"
                   onClick={() => setIsOpen(false)}
-                  className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 text-sm font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 text-sm font-semibold bg-[#C2A053] text-[#1C1A16] rounded-full hover:opacity-90 transition-opacity"
+                  style={{ backgroundColor: "#C2A053", color: "#1C1A16" }}
                 >
                   Join
                 </Link>
