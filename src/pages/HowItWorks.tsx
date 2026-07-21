@@ -56,10 +56,10 @@ const HowItWorks = () => {
 
         <div className="relative container-narrow text-center flex flex-col items-center justify-center">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium animate-fade-up delay-100 leading-[1.18] text-center max-w-3xl mx-auto mb-8">
-            How The Mirror Project <span className="text-gold italic">Works</span>
+            Meet The <span className="text-gold italic">Mirror</span>.
           </h1>
           <p className="font-light text-base md:text-lg text-primary-foreground/90 max-w-2xl mx-auto animate-fade-up delay-150 leading-relaxed">
-            The Mirror Project by GenMyo is a free, two-minute guided reflection delivered entirely through WhatsApp — send one message, answer three honest questions, and leave with one thing you can see more clearly. No app, no download, no advice.
+            It learns you through reflection, then creates for you — personalised content, prompts, and practices shaped around your patterns and story. All inside WhatsApp, no app to download.
           </p>
         </div>
       </section>

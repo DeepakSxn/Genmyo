@@ -50,6 +50,13 @@ const Navigation = () => {
             >
               Home
             </Link>
+            <Link
+              to="/how-it-works"
+              data-active={isActive("/how-it-works") ? "true" : undefined}
+              className={linkClass(isActive("/how-it-works"))}
+            >
+              How It Works
+            </Link>
             {sectionLinks.map((s) => (
               <a
                 key={s.id}
@@ -65,13 +72,6 @@ const Navigation = () => {
               className={linkClass(isActive("/partners"))}
             >
               For partners
-            </Link>
-            <Link
-              to="/how-it-works"
-              data-active={isActive("/how-it-works") ? "true" : undefined}
-              className={linkClass(isActive("/how-it-works"))}
-            >
-              How It Works
             </Link>
           </div>
 
@@ -115,6 +115,19 @@ const Navigation = () => {
               >
                 Home
               </Link>
+              <Link
+                to="/how-it-works"
+                onClick={() => setIsOpen(false)}
+                className={`text-base font-medium py-2 transition-colors ${
+                  isActive("/how-it-works")
+                    ? "text-gold font-semibold"
+                    : darkHero
+                    ? "text-primary-foreground/80 hover:text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                How It Works
+              </Link>
               {sectionLinks.map((s) => (
                 <a
                   key={s.id}
@@ -141,19 +154,6 @@ const Navigation = () => {
                 }`}
               >
                 For partners
-              </Link>
-              <Link
-                to="/how-it-works"
-                onClick={() => setIsOpen(false)}
-                className={`text-base font-medium py-2 transition-colors ${
-                  isActive("/how-it-works")
-                    ? "text-gold font-semibold"
-                    : darkHero
-                    ? "text-primary-foreground/80 hover:text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                How It Works
               </Link>
               <div className="pt-3 border-t border-border/20 mt-2">
                 <Link
