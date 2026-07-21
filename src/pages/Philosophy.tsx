@@ -33,11 +33,8 @@ const Philosophy = () => {
           <h1 className="heading-display text-foreground mb-8 animate-fade-up delay-100">
             Why GenMyo Exists
           </h1>
-          <p className="font-medium text-lg text-foreground max-w-2xl mx-auto mb-6 p-4 rounded-xl bg-background/80 border-l-4 border-accent text-left animate-fade-up delay-150">
-            GenMyo is an inner wellness platform that asks questions instead of giving advice, delivered through WhatsApp with no app, no streaks, and no optimisation scores.
-          </p>
           <p className="text-body-large max-w-2xl mx-auto animate-fade-up delay-200 mb-6">
-            GenMyo's philosophy is rooted in quiet development: wellness culture got loud, and the answer to feeling stuck isn't more content to consume. The Mirror Project by GenMyo is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice.
+            GenMyo is an inner wellness platform rooted in quiet development: wellness culture got loud, and the answer to feeling stuck isn't more content to consume. The Mirror Project by GenMyo guides you through a few honest questions, asked slowly, to help you reconnect with yourself — delivered through WhatsApp with no app, no streaks, no advice, and no optimization scores.
           </p>
           <p className="text-xs text-muted-foreground max-w-xl mx-auto animate-fade-up delay-300">
             GenMyo is not therapy, not a diagnostic tool, and not a crisis service.
