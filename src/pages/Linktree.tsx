@@ -7,7 +7,7 @@ import { MessageCircle, Linkedin, Instagram, Twitter, Mail, ArrowUpRight } from 
 const primaryAction = {
   title: "Start Reflection on WhatsApp",
   subtitle: "Free 2-minute guided reflection — no app required",
-  url: "https://wa.me/message/Y4GOKBIGBWUUM1?text=hi%20mirror",
+  url: "https://genmyo.ai/join",
   icon: MessageCircle,
 };
 
