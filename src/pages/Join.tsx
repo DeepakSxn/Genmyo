@@ -417,6 +417,10 @@ const Join = () => {
     }, 1000);
 
     setSubmitted(true);
+    toast({
+      title: "Your registration is done!",
+      description: "Welcome to GenMyo community.",
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -536,26 +540,32 @@ const Join = () => {
     return (
       <Layout>
         <SEO
-          title="Start Your First Reflection — Free, on WhatsApp | GenMyo"
-          description="Send one message and your first Mirror Project reflection begins. Free, about 2 minutes, entirely in WhatsApp. No account, no download, no card."
+          title="Registration Complete — Welcome to GenMyo Community | GenMyo"
+          description="Your registration is done! Welcome to the GenMyo community. Send one message on WhatsApp to start your reflection."
           jsonSchema={joinSchema}
         />
-        <section className="bg-background min-h-[65vh] flex items-center justify-center">
+        <section className="bg-background min-h-[65vh] flex items-center justify-center py-12">
           <div className="text-center px-6 animate-fade-up max-w-lg mx-auto">
+            <div className="w-16 h-16 bg-[#B0703E]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-8 h-8 text-[#B0703E]" />
+            </div>
             <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground font-light leading-snug">
-              Hi {formData.firstName}.
+              Your registration is done!
             </h1>
+            <p className="mt-3 text-xl font-serif text-[#B0703E]">
+              Welcome to GenMyo community, {formData.firstName}.
+            </p>
             <p className="mt-4 text-[#4A463E] text-base md:text-lg leading-relaxed font-serif">
-              Your details have been saved. To begin your first reflection, follow the steps below to connect on WhatsApp.
+              Click below to join our community on WhatsApp and begin your first guided reflection.
             </p>
             
             {!isMobileDevice ? (
-              <div className="mt-8 flex flex-col items-center gap-4 bg-cream p-6 rounded-2xl border border-border/80 max-w-sm mx-auto animate-fade-in">
-                <p className="text-sm font-medium text-foreground">Scan with your phone to start on WhatsApp</p>
+              <div className="mt-8 flex flex-col items-center gap-4 bg-cream p-6 rounded-2xl border border-border/80 max-w-sm mx-auto animate-fade-in shadow-sm">
+                <p className="text-sm font-medium text-foreground">Scan with your phone to join GenMyo community on WhatsApp</p>
                 <div className="bg-white p-3 rounded-xl shadow-sm border border-border/40">
                   <img
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(waUrl)}`}
-                    alt="Scan to start reflection on WhatsApp"
+                    alt="Scan to join GenMyo community on WhatsApp"
                     className="w-[180px] h-[180px]"
                   />
                 </div>
@@ -566,11 +576,11 @@ const Join = () => {
                   href={waUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2 text-sm font-medium border border-border/80 bg-background text-foreground rounded-full hover:bg-secondary/40 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium border border-border/80 bg-background text-foreground rounded-full hover:bg-secondary/40 transition-colors shadow-sm"
                   onClick={handleRedirectClick}
                 >
                   <MessageCircle size={16} />
-                  Open WhatsApp Web →
+                  Join GenMyo Community on WhatsApp →
                 </a>
               </div>
             ) : (
@@ -579,11 +589,11 @@ const Join = () => {
                   href={waUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-[#B0703E] text-white rounded-full hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-[#B0703E] text-white rounded-full hover:opacity-90 transition-opacity shadow-md"
                   onClick={handleRedirectClick}
                 >
                   <MessageCircle size={18} />
-                  Start your reflection on WhatsApp →
+                  Join GenMyo Community on WhatsApp →
                 </a>
               </div>
             )}
