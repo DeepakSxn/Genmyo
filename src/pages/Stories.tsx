@@ -466,6 +466,24 @@ const Stories = () => {
           </div>
         </div>
 
+        {/* INTRO: BEFORE WE MEET THEM */}
+        <section className="wrap intro-section reveal">
+          <div className="kicker">BEFORE WE MEET THEM</div>
+          <h2 className="serif">There is a room you can step into anywhere</h2>
+          <p className="dropcap">
+            It fits in your pocket. You reach it the same way you reach your friends, your group chats, your mum asking if you have eaten. Through WhatsApp, the app you already have open. There is no new login to forget, no clinic to book, no waiting room with old magazines and a plant that has clearly given up on life.
+          </p>
+          <p>
+            Inside the room there is a companion called Mirror, who listens and remembers and helps you find your own answers. There is a quiet corner for a few minutes of stillness, a breath when your chest is tight, a page to write the day down on. There are real human mentors for the moments that need a person, not a screen. And further along, once the room has given you something, there is a way to hand a little of it on to someone else.
+          </p>
+          <p>
+            It is not a clinic and it is not a cheerful app that tells you to smile more. It is simpler and quieter than that. It is a place that is yours, whether you are running a company or between jobs, raising small children or caring for old parents, at your desk or wide awake at 2am. It belongs to you, the person, and it is open at every hour you are.
+          </p>
+          <p className="who" style={{ marginTop: "28px", marginBottom: "0" }}>
+            Let us meet four of them.
+          </p>
+        </section>
+
         {/* AISHA */}
         <section className="wrap persona a-aisha reveal">
           <div className="tag"><span className="dot"></span> Gen Z · Aisha, 22</div>
