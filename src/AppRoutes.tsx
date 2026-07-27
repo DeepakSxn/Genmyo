@@ -20,12 +20,14 @@ import EmotionalCheckIn from "./pages/EmotionalCheckIn";
 import FeelingDisconnected from "./pages/FeelingDisconnected";
 import Linktree from "./pages/Linktree";
 import Stories from "./pages/Stories";
+import Quiz from "./pages/Quiz";
 
 export const AppRoutes = () => (
   <>
     <ScrollToTop />
     <Routes>
       <Route path="/" element={<Index />} />
+      <Route path="/quiz" element={<Quiz />} />
       <Route path="/linktree" element={<Linktree />} />
       <Route path="/stories" element={<Stories />} />
       <Route path="/philosophy" element={<Philosophy />} />

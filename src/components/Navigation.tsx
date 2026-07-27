@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, MessageCircle } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
 
 const Navigation = () => {
@@ -77,6 +77,14 @@ const Navigation = () => {
 
           <div className="hidden md:flex items-center gap-6">
             <Link
+              to="/quiz"
+              data-active={isActive("/quiz") ? "true" : undefined}
+              className="text-sm font-semibold text-[#C2A053] hover:text-[#D9C48C] transition-colors"
+              style={{ color: "#C2A053" }}
+            >
+              Take the quiz
+            </Link>
+            <Link
               to="/stories"
               data-active={isActive("/stories") ? "true" : undefined}
               className="text-sm font-semibold text-[#C2A053] hover:text-[#D9C48C] transition-colors"
@@ -151,6 +159,14 @@ const Navigation = () => {
                 For partners
               </Link>
               <Link
+                to="/quiz"
+                onClick={() => setIsOpen(false)}
+                className="text-base font-semibold py-2 text-[#C2A053] transition-colors"
+                style={{ color: "#C2A053" }}
+              >
+                Take the quiz
+              </Link>
+              <Link
                 to="/stories"
                 onClick={() => setIsOpen(false)}
                 className="text-base font-semibold py-2 text-[#C2A053] transition-colors"
@@ -158,7 +174,7 @@ const Navigation = () => {
               >
                 Stories
               </Link>
-              <div className="pt-3 border-t border-border/20 mt-2">
+              <div className="pt-3 border-t border-border/20 mt-2 flex flex-col gap-3">
                 <Link
                   to="/join"
                   onClick={() => setIsOpen(false)}

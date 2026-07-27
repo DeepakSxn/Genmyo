@@ -5,6 +5,7 @@ import { SEO } from "@/components/SEO";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -18,21 +19,28 @@ import CountryCodeCombobox from "@/components/CountryCodeCombobox";
 import CountryNameCombobox from "@/components/CountryNameCombobox";
 import DateOfBirthPicker from "@/components/DateOfBirthPicker";
 import { useToast } from "@/components/ui/use-toast";
-import { useSearchParams } from "react-router-dom";
-import { ArrowRight, CheckCircle, MessageCircle } from "lucide-react";
+import { useSearchParams, Link } from "react-router-dom";
+import { ArrowRight, CheckCircle, Sparkles } from "lucide-react";
 import { 
   trackCTAView, 
-  trackCTAClickWhatsApp, 
-  trackReflectionStarted,
   trackFormStart,
   trackFormFieldFocus,
-  trackDesktopQRShown,
-  trackWhatsAppRedirectFired
 } from "@/lib/analytics";
+import {
+  readQuizCompletion,
+  buildJoinContextFromQuiz,
+} from "@/lib/quizRegistration";
+
+function getInitialJoinContext(searchParams: URLSearchParams) {
+  const urlContext = searchParams.get("context");
+  if (urlContext) return urlContext;
+  const quiz = readQuizCompletion();
+  if (quiz) return buildJoinContextFromQuiz(quiz);
+  return "";
+}
 
 const ADMIN_EMAIL = "hello@genmyo.ai";
 
-const WHATSAPP_REDIRECT_URL = "https://wa.me/message/Y4GOKBIGBWUUM1?text=hi%20mirror";
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
 const REGISTRATION_API_URL = "/api/register";
@@ -228,6 +236,9 @@ const formSchema = z.object({
   country: z.string().optional(),
   city: z.string().optional(),
   context: z.string().max(500, "Please keep it under 500 characters").optional(),
+  termsAccepted: z.literal(true, {
+    errorMap: () => ({ message: "You must accept the Terms & Conditions to continue" }),
+  }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -254,26 +265,26 @@ const joinSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   "@id": "https://genmyo.ai/join#howto",
-  "name": "How to start your reflection with The Mirror Project",
-  "description": "A 3-step, 2-minute flow to begin your inner wellness reflection on WhatsApp.",
-  "totalTime": "PT2M",
+  "name": "How to join the GenMyo waitlist",
+  "description": "Save your details to join. Optional quiz first to discover your inner weather profile.",
+  "totalTime": "PT3M",
   "provider": { "@id": "https://genmyo.ai/#organization" },
   "isPartOf": { "@id": "https://genmyo.ai/#website" },
   "step": [
     {
       "@type": "HowToStep",
+      "name": "Take the quiz (optional)",
+      "text": "Discover your inner weather profile in about two minutes."
+    },
+    {
+      "@type": "HowToStep",
       "name": "Fill details",
-      "text": "Provide your name and WhatsApp contact info to initialize your reflection session."
+      "text": "Provide your name, email, and WhatsApp number on the join form."
     },
     {
       "@type": "HowToStep",
-      "name": "Open WhatsApp",
-      "text": "Click the button or scan the QR code to open the WhatsApp conversation."
-    },
-    {
-      "@type": "HowToStep",
-      "name": "Answer your first question",
-      "text": "Send the prefilled message and respond to the first guided question at your own pace."
+      "name": "Join the waitlist",
+      "text": "Submit once. We'll reach out when access opens."
     }
   ]
 };
@@ -281,21 +292,14 @@ const joinSchema = {
 const Join = () => {
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
+  const quizFromNav = searchParams.get("from") === "quiz";
   const [sessionToken, setSessionToken] = useState("");
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [hasTrackedFormStart, setHasTrackedFormStart] = useState(false);
 
   useEffect(() => {
     trackCTAView("join_page", "/join");
-    
-    // Generate unique session token
     const token = "genmyo_ref_" + Math.random().toString(36).substring(2, 10).toUpperCase();
     setSessionToken(token);
-
-    // Device check
-    const ua = window.navigator.userAgent;
-    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
-    setIsMobileDevice(isMobile);
   }, []);
 
   const handleFieldFocus = (fieldName: string) => {
@@ -315,7 +319,8 @@ const Join = () => {
     whatsapp: "",
     country: "",
     city: "",
-    context: searchParams.get("context") || "",
+    context: getInitialJoinContext(searchParams),
+    termsAccepted: false,
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -379,7 +384,7 @@ const Join = () => {
     });
   };
 
-  const handleChange = (field: keyof FormData, value: string) => {
+  const handleChange = (field: keyof FormData, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -389,7 +394,7 @@ const Join = () => {
     }
   };
 
-  const submitToGoogleFormAndFinish = (fields: Record<string, string>) => {
+  const postToGoogleForm = (fields: Record<string, string>) => {
     const iframe = document.createElement("iframe");
     iframe.name = "hidden_iframe";
     iframe.style.display = "none";
@@ -415,16 +420,17 @@ const Join = () => {
       document.body.removeChild(form);
       document.body.removeChild(iframe);
     }, 1000);
+  };
 
+  const finishWaitlistSuccess = () => {
     setSubmitted(true);
     toast({
-      title: "Your registration is done!",
-      description: "Welcome to GenMyo community.",
+      title: "You're on the waitlist!",
+      description: "We'll reach out when your spot opens.",
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const runRegistration = async () => {
     setSubmitError(null);
     const result = formSchema.safeParse(formData);
 
@@ -444,9 +450,12 @@ const Join = () => {
     const countryValue = formData.country || "N/A";
     const cityValue = formData.city || "N/A";
     const surnameValue = formData.surname || "";
+    const quizDone = readQuizCompletion();
 
     const fullWhatsapp = `${formData.countryCode} ${formData.whatsapp}`.trim();
     const contextPayload = [
+      quizFromNav || quizDone ? "Path: from_quiz" : "Path: waitlist",
+      quizDone ? "Quiz completed: yes" : null,
       `DOB: ${dobValue}`,
       `Country: ${countryValue}`,
       `City: ${cityValue}`,
@@ -461,8 +470,7 @@ const Join = () => {
       "entry.44984313": emailValue,
       "entry.1030588086": fullWhatsapp,
       "entry.79544609": contextPayload,
-      
-      // Backward compatibility keys from the old schema:
+
       "entry.1208177102": surnameValue,
       "entry.1640555608": dobValue,
       "entry.1418652324": countryValue,
@@ -470,7 +478,6 @@ const Join = () => {
     };
 
     const triggerEmailNotification = () => {
-      // Trigger Resend email notification asynchronously
       fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -503,45 +510,32 @@ const Join = () => {
           ...prev,
           whatsapp: "This number is already registered.",
         }));
-        setIsSubmitting(false);
         return;
       }
 
       triggerEmailNotification();
-      submitToGoogleFormAndFinish(fields);
-    } catch (err) {
-      // Fallback: still post to Google Forms even if API is down
+      postToGoogleForm(fields);
+      finishWaitlistSuccess();
+    } catch {
       triggerEmailNotification();
-      submitToGoogleFormAndFinish(fields);
+      postToGoogleForm(fields);
+      finishWaitlistSuccess();
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  useEffect(() => {
-    if (submitted && !isMobileDevice) {
-      trackDesktopQRShown("individual_registration");
-    }
-  }, [submitted, isMobileDevice]);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await runRegistration();
+  };
 
   if (submitted) {
-    const waUrl = `https://wa.me/message/Y4GOKBIGBWUUM1?text=${encodeURIComponent(
-      formData.context 
-        ? `I'm ready to start my first reflection. My thought: ${formData.context} [Token: ${sessionToken}]`
-        : `I'm ready to start my first reflection. [Token: ${sessionToken}]`
-    )}`;
-    
-    const handleRedirectClick = () => {
-      trackCTAClickWhatsApp("join_success_page", waUrl);
-      trackWhatsAppRedirectFired("individual_registration", sessionToken);
-      trackReflectionStarted("form_success");
-    };
-
     return (
       <Layout>
         <SEO
-          title="Registration Complete — Welcome to GenMyo Community | GenMyo"
-          description="Your registration is done! Welcome to the GenMyo community. Send one message on WhatsApp to start your reflection."
+          title="You're on the Waitlist — GenMyo"
+          description="Your details are saved. You're on the GenMyo waitlist. We'll reach out when your spot opens."
           jsonSchema={joinSchema}
         />
         <section className="bg-background min-h-[65vh] flex items-center justify-center py-12">
@@ -550,54 +544,28 @@ const Join = () => {
               <CheckCircle className="w-8 h-8 text-[#B0703E]" />
             </div>
             <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground font-light leading-snug">
-              Your registration is done!
+              You're on the waitlist
             </h1>
             <p className="mt-3 text-xl font-serif text-[#B0703E]">
-              Welcome to GenMyo community, {formData.firstName}.
+              Thanks, {formData.firstName}.
             </p>
             <p className="mt-4 text-[#4A463E] text-base md:text-lg leading-relaxed font-serif">
-              Click below to join our community on WhatsApp and begin your first guided reflection.
+              Your details are saved. We'll contact you when access opens — no WhatsApp step right now.
             </p>
-            
-            {!isMobileDevice ? (
-              <div className="mt-8 flex flex-col items-center gap-4 bg-cream p-6 rounded-2xl border border-border/80 max-w-sm mx-auto animate-fade-in shadow-sm">
-                <p className="text-sm font-medium text-foreground">Scan with your phone to join GenMyo community on WhatsApp</p>
-                <div className="bg-white p-3 rounded-xl shadow-sm border border-border/40">
-                  <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(waUrl)}`}
-                    alt="Scan to join GenMyo community on WhatsApp"
-                    className="w-[180px] h-[180px]"
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Or continue on this device:
-                </p>
-                <a
-                  href={waUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium border border-border/80 bg-background text-foreground rounded-full hover:bg-secondary/40 transition-colors shadow-sm"
-                  onClick={handleRedirectClick}
-                >
-                  <MessageCircle size={16} />
-                  Join GenMyo Community on WhatsApp →
-                </a>
-              </div>
-            ) : (
-              <div className="mt-8">
-                <a
-                  href={waUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-[#B0703E] text-white rounded-full hover:opacity-90 transition-opacity shadow-md"
-                  onClick={handleRedirectClick}
-                >
-                  <MessageCircle size={18} />
-                  Join GenMyo Community on WhatsApp →
-                </a>
-              </div>
+            {(quizFromNav || readQuizCompletion()) && (
+              <p className="mt-4 text-sm text-muted-foreground">
+                Your quiz result is attached to this registration.
+              </p>
             )}
-            
+            <p className="mt-4 text-xs text-muted-foreground font-mono tracking-wide">
+              Ref: {sessionToken}
+            </p>
+            <Link
+              to="/"
+              className="mt-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
+            >
+              Back to GenMyo
+            </Link>
             <p className="text-xs text-muted-foreground mt-8 leading-relaxed">
               Free &middot; No app, no account, no card
               <br />
@@ -612,8 +580,8 @@ const Join = () => {
   return (
     <Layout>
       <SEO
-        title="Start Your First Reflection — Free, on WhatsApp | GenMyo"
-        description="Send one message and your first Mirror Project reflection begins. Free, about 2 minutes, entirely in WhatsApp. No account, no download, no card."
+        title="Join the Waitlist — GenMyo"
+        description="Join the GenMyo waitlist. Save your details; we'll reach out when your spot opens."
         jsonSchema={joinSchema}
       />
       <section className="section-padding bg-background min-h-[75vh] flex items-center justify-center">
@@ -631,118 +599,163 @@ const Join = () => {
                     Join The Mirror Project
                   </p>
                   <h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-4">
-                    Start Your Journey
+                    {quizFromNav || readQuizCompletion()
+                      ? "Complete your signup"
+                      : "Join the waitlist"}
                   </h1>
                   <p className="text-sm text-muted-foreground">
-                    Save your baseline, details, and context before starting.
+                    {quizFromNav || readQuizCompletion()
+                      ? "Your quiz results are below. Submit once to save your details and continue."
+                      : "Save your details. We'll reach out when access opens — no WhatsApp step yet."}
                   </p>
                 </div>
 
-             <form onSubmit={handleSubmit} className="space-y-6">
-               <div className="space-y-2">
-                 <Label htmlFor="firstName">
-                   Your Name <span className="text-accent">*</span>
-                 </Label>
-                 <Input
-                   id="firstName"
-                   placeholder="Your Name"
-                   value={formData.firstName}
-                   onChange={(e) => handleChange("firstName", e.target.value)}
-                   onFocus={() => handleFieldFocus("firstName")}
-                   className={errors.firstName ? "border-destructive" : ""}
-                 />
-                 {errors.firstName && (
-                   <p className="text-sm text-destructive">{errors.firstName}</p>
-                 )}
-               </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">
+                      Your Name <span className="text-accent">*</span>
+                    </Label>
+                    <Input
+                      id="firstName"
+                      placeholder="Your Name"
+                      value={formData.firstName}
+                      onChange={(e) => handleChange("firstName", e.target.value)}
+                      onFocus={() => handleFieldFocus("firstName")}
+                      className={errors.firstName ? "border-destructive" : ""}
+                    />
+                    {errors.firstName && (
+                      <p className="text-sm text-destructive">{errors.firstName}</p>
+                    )}
+                  </div>
 
-               <div className="space-y-2">
-                 <Label htmlFor="email">
-                   Email <span className="text-accent">*</span>
-                 </Label>
-                 <Input
-                   id="email"
-                   type="email"
-                   placeholder="you@email.com"
-                   autoComplete="email"
-                   value={formData.email}
-                   onChange={(e) => handleChange("email", e.target.value)}
-                   onFocus={() => handleFieldFocus("email")}
-                   className={errors.email ? "border-destructive" : ""}
-                 />
-                 {errors.email && (
-                   <p className="text-sm text-destructive">{errors.email}</p>
-                 )}
-               </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">
+                      Email <span className="text-accent">*</span>
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="you@email.com"
+                      autoComplete="email"
+                      value={formData.email}
+                      onChange={(e) => handleChange("email", e.target.value)}
+                      onFocus={() => handleFieldFocus("email")}
+                      className={errors.email ? "border-destructive" : ""}
+                    />
+                    {errors.email && (
+                      <p className="text-sm text-destructive">{errors.email}</p>
+                    )}
+                  </div>
 
-               <div className="space-y-2" onFocusCapture={() => handleFieldFocus("whatsapp")}>
-                 <Label>
-                   WhatsApp Number <span className="text-accent">*</span>
-                 </Label>
-                 <div className="grid grid-cols-[180px_1fr] gap-2">
-                   <CountryCodeCombobox
-                     countries={COUNTRY_CODES}
-                     value={formData.countryCode}
-                     onChange={(value) => handleChange("countryCode", value)}
-                     placeholder="Country code"
-                     ariaLabel="Country code"
-                     hasError={!!errors.countryCode}
-                   />
-                   <Input
-                     id="whatsapp"
-                     placeholder="234 567 8900"
-                     inputMode="tel"
-                     value={formData.whatsapp}
-                     onChange={(e) => handleChange("whatsapp", e.target.value)}
-                     onFocus={() => handleFieldFocus("whatsapp")}
-                     className={errors.whatsapp ? "border-destructive" : ""}
-                     aria-label="WhatsApp number"
-                   />
-                 </div>
-                 {errors.countryCode && (
-                   <p className="text-sm text-destructive">{errors.countryCode}</p>
-                 )}
-                 {errors.whatsapp && (
-                   <p className="text-sm text-destructive">{errors.whatsapp}</p>
-                 )}
-               </div>
+                  <div className="space-y-2" onFocusCapture={() => handleFieldFocus("whatsapp")}>
+                    <Label>
+                      WhatsApp Number <span className="text-accent">*</span>
+                    </Label>
+                    <div className="grid grid-cols-[180px_1fr] gap-2">
+                      <CountryCodeCombobox
+                        countries={COUNTRY_CODES}
+                        value={formData.countryCode}
+                        onChange={(value) => handleChange("countryCode", value)}
+                        placeholder="Country code"
+                        ariaLabel="Country code"
+                        hasError={!!errors.countryCode}
+                      />
+                      <Input
+                        id="whatsapp"
+                        placeholder="234 567 8900"
+                        inputMode="tel"
+                        value={formData.whatsapp}
+                        onChange={(e) => handleChange("whatsapp", e.target.value)}
+                        onFocus={() => handleFieldFocus("whatsapp")}
+                        className={errors.whatsapp ? "border-destructive" : ""}
+                        aria-label="WhatsApp number"
+                      />
+                    </div>
+                    {errors.countryCode && (
+                      <p className="text-sm text-destructive">{errors.countryCode}</p>
+                    )}
+                    {errors.whatsapp && (
+                      <p className="text-sm text-destructive">{errors.whatsapp}</p>
+                    )}
+                  </div>
 
-               <div className="space-y-2">
-                 <Label htmlFor="context">What's been sitting with you lately?</Label>
-                 <Textarea
-                   id="context"
-                   placeholder="Optional: share one thing that is on your mind right now"
-                   value={formData.context}
-                   onChange={(e) => handleChange("context", e.target.value)}
-                   onFocus={() => handleFieldFocus("context")}
-                   rows={3}
-                   className={errors.context ? "border-destructive" : ""}
-                 />
-                 {errors.context && <p className="text-sm text-destructive">{errors.context}</p>}
-               </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="context">What's been sitting with you lately?</Label>
+                    <Textarea
+                      id="context"
+                      placeholder="Optional: share one thing that is on your mind right now"
+                      value={formData.context}
+                      onChange={(e) => handleChange("context", e.target.value)}
+                      onFocus={() => handleFieldFocus("context")}
+                      rows={3}
+                      className={errors.context ? "border-destructive" : ""}
+                    />
+                    {errors.context && <p className="text-sm text-destructive">{errors.context}</p>}
+                  </div>
 
-               {submitError && (
-                 <p className="text-sm text-destructive rounded-lg border border-destructive/30 bg-destructive/5 p-4 animate-fade-in">
-                   {submitError}
-                 </p>
-               )}
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-3 rounded-xl border border-border/70 bg-muted/20 p-4">
+                      <Checkbox
+                        id="termsAccepted"
+                        checked={formData.termsAccepted}
+                        onCheckedChange={(checked) => handleChange("termsAccepted", checked === true)}
+                        aria-invalid={errors.termsAccepted ? "true" : "false"}
+                        className={errors.termsAccepted ? "border-destructive" : ""}
+                      />
+                      <div className="space-y-1 text-sm leading-relaxed">
+                        <Label htmlFor="termsAccepted" className="cursor-pointer font-normal text-foreground">
+                          I agree to the{" "}
+                          <Link to="/terms" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#B0703E]">
+                            Terms & Conditions
+                          </Link>{" "}
+                          and acknowledge the{" "}
+                          <Link to="/privacy" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#B0703E]">
+                            Privacy Policy
+                          </Link>
+                          .
+                        </Label>
+                        <p className="text-xs text-muted-foreground">
+                          This includes the WhatsApp opt-in terms described in Section 17.
+                        </p>
+                      </div>
+                    </div>
+                    {errors.termsAccepted && (
+                      <p className="text-sm text-destructive">{errors.termsAccepted}</p>
+                    )}
+                  </div>
 
-               <div className="space-y-3">
-                 <Button
-                   type="submit"
-                   disabled={isSubmitting}
-                   className="w-full rounded-full py-6 text-base gap-2 disabled:cursor-not-allowed disabled:opacity-60 bg-gold text-gold-foreground hover:opacity-90 transition-opacity"
-                 >
-                   {isSubmitting ? "Opening WhatsApp..." : "Open WhatsApp and begin →"}
-                 </Button>
-                 
-                 <div className="text-center text-xs text-muted-foreground space-y-1">
-                   <p>GenMyo is not therapy, not a diagnostic tool, and not a crisis service.</p>
-                   <p>We'll open WhatsApp and your first reflection begins.</p>
-                   <p className="text-accent">We never message you first.</p>
-                 </div>
-               </div>
-             </form>
+                  {submitError && (
+                    <p className="text-sm text-destructive rounded-lg border border-destructive/30 bg-destructive/5 p-4 animate-fade-in">
+                      {submitError}
+                    </p>
+                  )}
+
+                  <div className="space-y-3">
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full rounded-full py-6 text-base gap-2 disabled:cursor-not-allowed disabled:opacity-60 bg-gold text-gold-foreground hover:opacity-90 transition-opacity"
+                    >
+                      {isSubmitting ? "Opening WhatsApp..." : "Open WhatsApp and begin →"}
+                    </Button>
+
+                    {!quizFromNav && !readQuizCompletion() && (
+                      <div className="pt-1 text-center animate-fade-in">
+                        <Link
+                          to="/quiz"
+                          className="inline-flex items-center justify-center gap-2 w-full px-5 py-3.5 text-sm font-semibold border border-[#C2A053]/60 bg-[#C2A053]/15 text-[#1C1A16] hover:bg-[#C2A053]/25 rounded-full transition-all duration-200 shadow-xs group"
+                        >
+                          <Sparkles className="w-4 h-4 text-[#C2A053] group-hover:scale-110 transition-transform" />
+                          <span>Take the 2-min quiz first →</span>
+                        </Link>
+                      </div>
+                    )}
+
+                    <p className="text-center text-xs text-muted-foreground pt-1">
+                      GenMyo is not therapy, not a diagnostic tool, and not a crisis service.
+                    </p>
+                  </div>
+                </form>
               </TabsContent>
 
               <TabsContent value="business">

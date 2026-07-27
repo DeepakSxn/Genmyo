@@ -107,6 +107,18 @@ export function trackReflectionStarted(method: "form_success" | "direct_link") {
   });
 }
 
+export function trackQuizStartedFromJoin() {
+  trackGAEvent("quiz_started_from_join");
+}
+
+export function trackQuizCompleted(weatherKey: string) {
+  trackGAEvent("quiz_completed", { weather_key: weatherKey });
+}
+
+export function trackPerkClaimed(token: string) {
+  trackGAEvent("perk_claimed", { token });
+}
+
 declare global {
   interface Window {
     dataLayer: any[];
