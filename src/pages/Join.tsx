@@ -425,8 +425,8 @@ const Join = () => {
   const finishWaitlistSuccess = () => {
     setSubmitted(true);
     toast({
-      title: "You're on the waitlist!",
-      description: "We'll reach out when your spot opens.",
+      title: "You're all set!",
+      description: "We'll reach out when it's time to begin on WhatsApp.",
     });
   };
 
@@ -534,8 +534,8 @@ const Join = () => {
     return (
       <Layout>
         <SEO
-          title="You're on the Waitlist — GenMyo"
-          description="Your details are saved. You're on the GenMyo waitlist. We'll reach out when your spot opens."
+          title="Thank You — GenMyo"
+          description="Your details are saved. We'll reach out when it's time to begin your reflection on WhatsApp."
           jsonSchema={joinSchema}
         />
         <section className="bg-background min-h-[65vh] flex items-center justify-center py-12">
@@ -544,21 +544,14 @@ const Join = () => {
               <CheckCircle className="w-8 h-8 text-[#B0703E]" />
             </div>
             <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground font-light leading-snug">
-              You're on the waitlist
+              You're all set
             </h1>
             <p className="mt-3 text-xl font-serif text-[#B0703E]">
               Thanks, {formData.firstName}.
             </p>
             <p className="mt-4 text-[#4A463E] text-base md:text-lg leading-relaxed font-serif">
-              Your details are saved. We'll contact you when access opens — no WhatsApp step right now.
-            </p>
-            {(quizFromNav || readQuizCompletion()) && (
-              <p className="mt-4 text-sm text-muted-foreground">
-                Your quiz result is attached to this registration.
-              </p>
-            )}
-            <p className="mt-4 text-xs text-muted-foreground font-mono tracking-wide">
-              Ref: {sessionToken}
+              We've saved your details. When it's time to begin on WhatsApp, we'll reach out with your invite to
+              start your first reflection.
             </p>
             <Link
               to="/"
