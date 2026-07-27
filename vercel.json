@@ -35,6 +35,10 @@
       "destination": "/llms.txt"
     },
     {
+      "source": "/llms-full.txt",
+      "destination": "/llms-full.txt"
+    },
+    {
       "source": "/mirror-demo.html",
       "destination": "/mirror-demo.html"
     },
@@ -81,6 +85,12 @@
     },
     {
       "source": "/llms.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
+      ]
+    },
+    {
+      "source": "/llms-full.txt",
       "headers": [
         { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
       ]

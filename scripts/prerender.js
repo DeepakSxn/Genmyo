@@ -9,6 +9,7 @@ const routes = [
   "/",
   "/linktree",
   "/stories",
+  "/quiz",
   "/philosophy",
   "/how-it-works",
   "/alternatives/rosebud",

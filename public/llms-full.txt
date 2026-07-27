@@ -1,0 +1,90 @@
+# GenMyo — full site index for LLMs
+# Summary: https://genmyo.ai/llms.txt
+# Sitemap: https://genmyo.ai/sitemap.xml
+# Last updated: 2026-07-27
+
+## Entity (verbatim)
+GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice. GenMyo is not therapy, not a diagnostic tool, and not a crisis service.
+
+## All public URLs
+
+### Core
+https://genmyo.ai/
+https://genmyo.ai/how-it-works
+https://genmyo.ai/quiz
+https://genmyo.ai/stories
+https://genmyo.ai/linktree
+https://genmyo.ai/join
+https://genmyo.ai/philosophy
+https://genmyo.ai/team
+https://genmyo.ai/partners
+https://genmyo.ai/blog
+https://genmyo.ai/100-conversations
+https://genmyo.ai/terms
+https://genmyo.ai/privacy
+
+### Blog posts
+https://genmyo.ai/blog/the-conversation-after-the-workshop
+https://genmyo.ai/blog/what-a-hundred-honest-conversations-taught-us
+
+### Alternatives
+https://genmyo.ai/alternatives/rosebud
+https://genmyo.ai/alternatives/stoic
+
+### Reflection questions
+https://genmyo.ai/reflection-questions/feeling-stuck-at-work
+https://genmyo.ai/reflection-questions/before-a-big-decision
+https://genmyo.ai/reflection-questions/after-a-breakup
+https://genmyo.ai/reflection-questions/cant-sleep
+https://genmyo.ai/reflection-questions/feeling-behind
+https://genmyo.ai/reflection-questions/before-a-career-change
+https://genmyo.ai/reflection-questions/feeling-numb
+https://genmyo.ai/reflection-questions/sunday-night
+https://genmyo.ai/reflection-questions/overwhelmed
+https://genmyo.ai/reflection-questions/after-rejection
+
+### Guides — emotional check-in & alignment
+https://genmyo.ai/emotional-check-in
+https://genmyo.ai/feeling-disconnected
+https://genmyo.ai/self-awareness
+https://genmyo.ai/inner-alignment
+https://genmyo.ai/quiet-wellness
+
+### Guides — AI journaling
+https://genmyo.ai/ai-journaling-vs-therapy
+https://genmyo.ai/is-ai-journaling-private
+https://genmyo.ai/free-ai-journaling
+
+### Guides — feeling stuck
+https://genmyo.ai/feeling-stuck
+https://genmyo.ai/feeling-stuck-in-life
+https://genmyo.ai/feeling-stuck-but-busy
+https://genmyo.ai/feeling-stuck-in-your-20s
+https://genmyo.ai/stuck-in-a-job
+https://genmyo.ai/languishing-vs-burnout-vs-depression
+https://genmyo.ai/just-do-something-doesnt-work
+https://genmyo.ai/knowing-what-you-want
+
+### Guides — guided reflection
+https://genmyo.ai/guided-reflection
+https://genmyo.ai/guided-reflection-end-of-day
+https://genmyo.ai/guided-reflection-morning
+https://genmyo.ai/guided-reflection-overwhelmed
+https://genmyo.ai/guided-reflection-clarity
+https://genmyo.ai/guided-reflection-decision-making
+https://genmyo.ai/guided-reflection-weekly-review
+https://genmyo.ai/guided-reflection-career
+
+### Guides — philosophy essays
+https://genmyo.ai/philosophy-streaks
+https://genmyo.ai/philosophy-self-optimisation-critique
+https://genmyo.ai/philosophy-inner-alignment
+https://genmyo.ai/philosophy-no-morning-routine
+https://genmyo.ai/philosophy-why-wellness-got-loud
+https://genmyo.ai/philosophy-growth-at-your-own-pace
+
+### Redirects (canonical targets)
+/whatsapp-journaling → https://genmyo.ai/emotional-check-in
+/ai-journaling → https://genmyo.ai/emotional-check-in
+/reflection-prompt-generator → https://genmyo.ai/join
+/faq → https://genmyo.ai/#faq
