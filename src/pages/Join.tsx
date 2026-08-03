@@ -708,7 +708,7 @@ const Join = () => {
                           .
                         </Label>
                         <p className="text-xs text-muted-foreground">
-                          This includes the WhatsApp opt-in terms described in Section 17.
+                          This includes the WhatsApp opt-in terms described in Section 20.
                         </p>
                       </div>
                     </div>
