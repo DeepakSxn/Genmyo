@@ -45,6 +45,8 @@ const ADMIN_EMAIL = "hello@genmyo.ai";
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
 const REGISTRATION_API_URL = "/api/register";
+const SECONDARY_AWS_API_URL =
+  "https://2zvjy3mw7f.execute-api.ap-south-1.amazonaws.com/prod/register";
 
 // Country codes with flag emoji + country name. Sorted by country name.
 const COUNTRY_CODES: { code: string; flag: string; country: string }[] = [
@@ -495,6 +497,14 @@ const Join = () => {
       }).catch((err) => console.error("Email notification error:", err));
     };
 
+    const triggerSecondaryAws = () => {
+      fetch(SECONDARY_AWS_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fields),
+      }).catch((err) => console.error("Secondary AWS API submission error:", err));
+    };
+
     setIsSubmitting(true);
     try {
       const response = await fetch(REGISTRATION_API_URL, {
@@ -514,10 +524,12 @@ const Join = () => {
         return;
       }
 
+      triggerSecondaryAws();
       triggerEmailNotification();
       postToGoogleForm(fields);
       finishWaitlistSuccess();
     } catch {
+      triggerSecondaryAws();
       triggerEmailNotification();
       postToGoogleForm(fields);
       finishWaitlistSuccess();
