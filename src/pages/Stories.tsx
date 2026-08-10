@@ -601,17 +601,9 @@ const Stories = () => {
             <p className="sub mx-auto mb-8">Start your reflection in WhatsApp today.</p>
 
             <div className="row">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-capsule-gold"
-              >
+              <Link to="/join" className="btn-capsule-gold">
                 <MessageCircle size={19} />
                 Try GenMyō on WhatsApp →
-              </a>
-              <Link to="/join" className="btn-capsule-gold">
-                Join Now
               </Link>
               <Link to="/philosophy" className="btn-capsule-ghost">
                 <Compass size={19} />

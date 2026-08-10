@@ -30,6 +30,7 @@ import {
   readQuizCompletion,
   buildJoinContextFromQuiz,
 } from "@/lib/quizRegistration";
+import { getWhatsAppUrl } from "@/config/whatsapp";
 
 function getInitialJoinContext(searchParams: URLSearchParams) {
   const urlContext = searchParams.get("context");
@@ -265,8 +266,8 @@ const joinSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   "@id": "https://genmyo.ai/join#howto",
-  "name": "How to join the GenMyo waitlist",
-  "description": "Save your details to join. Optional quiz first to discover your inner weather profile.",
+  "name": "How to join GenMyo on WhatsApp",
+  "description": "Save your details to connect directly with The Mirror on WhatsApp.",
   "totalTime": "PT3M",
   "provider": { "@id": "https://genmyo.ai/#organization" },
   "isPartOf": { "@id": "https://genmyo.ai/#website" },
@@ -283,8 +284,8 @@ const joinSchema = {
     },
     {
       "@type": "HowToStep",
-      "name": "Join the waitlist",
-      "text": "Submit once. We'll reach out when access opens."
+      "name": "Start on WhatsApp",
+      "text": "Submit once to connect directly with The Mirror on WhatsApp."
     }
   ]
 };
@@ -425,8 +426,8 @@ const Join = () => {
   const finishWaitlistSuccess = () => {
     setSubmitted(true);
     toast({
-      title: "You're all set!",
-      description: "We'll reach out when it's time to begin on WhatsApp.",
+      title: "Details saved!",
+      description: "Scan the QR code or click the button below to connect on WhatsApp.",
     });
   };
 
@@ -454,7 +455,7 @@ const Join = () => {
 
     const fullWhatsapp = `${formData.countryCode} ${formData.whatsapp}`.trim();
     const contextPayload = [
-      quizFromNav || quizDone ? "Path: from_quiz" : "Path: waitlist",
+      quizFromNav || quizDone ? "Path: from_quiz" : "Path: direct_whatsapp",
       quizDone ? "Quiz completed: yes" : null,
       `DOB: ${dobValue}`,
       `Country: ${countryValue}`,
@@ -531,38 +532,86 @@ const Join = () => {
   };
 
   if (submitted) {
+    const nameStr = formData.firstName.trim();
+    const introText = nameStr ? `hi mirror. this is ${nameStr}` : "hi mirror";
+    const waText = formData.context ? `${introText}. ${formData.context}` : introText;
+    const waUrl = getWhatsAppUrl(waText);
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&color=1C1A16&bgcolor=FFFFFF&data=${encodeURIComponent(
+      waUrl
+    )}`;
+
     return (
       <Layout>
         <SEO
-          title="Thank You — GenMyo"
-          description="Your details are saved. We'll reach out when it's time to begin your reflection on WhatsApp."
+          title="Start on WhatsApp — GenMyo"
+          description="Connecting you to The Mirror on WhatsApp."
           jsonSchema={joinSchema}
         />
-        <section className="bg-background min-h-[65vh] flex items-center justify-center py-12">
-          <div className="text-center px-6 animate-fade-up max-w-lg mx-auto">
+        <section className="bg-background min-h-[75vh] flex items-center justify-center py-12">
+          <div className="text-center px-6 animate-fade-up max-w-md mx-auto">
             <div className="w-16 h-16 bg-[#B0703E]/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle className="w-8 h-8 text-[#B0703E]" />
             </div>
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground font-light leading-snug">
+            <h1 className="font-serif text-3xl md:text-4xl text-foreground font-light leading-snug">
               You're all set
             </h1>
-            <p className="mt-3 text-xl font-serif text-[#B0703E]">
-              Thanks, {formData.firstName}.
+            <p className="mt-2 text-lg font-serif text-[#B0703E]">
+              Thanks, {formData.firstName}!
             </p>
-            <p className="mt-4 text-[#4A463E] text-base md:text-lg leading-relaxed font-serif">
-              We've saved your details. When it's time to begin on WhatsApp, we'll reach out with your invite to
-              start your first reflection.
+            <p className="mt-3 text-[#4A463E] text-sm md:text-base leading-relaxed">
+              Your details are saved. Tap the button below or scan the QR code to begin your first reflection on WhatsApp.
             </p>
-            <Link
-              to="/"
-              className="mt-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
-            >
-              Back to GenMyo
-            </Link>
+
+            {/* QR Code Container */}
+            <div className="mt-8 p-6 bg-card border border-border/80 rounded-2xl shadow-sm flex flex-col items-center">
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-white rounded-xl shadow-inner border border-border/40 hover:scale-105 transition-transform cursor-pointer group"
+                title="Click or scan to open WhatsApp"
+              >
+                <img
+                  src={qrCodeUrl}
+                  alt="Click or scan to open WhatsApp"
+                  className="w-48 h-48 object-contain rounded-lg"
+                  loading="eager"
+                />
+              </a>
+              <p className="text-xs text-muted-foreground mt-4 font-medium">
+                Click or scan with your camera to open WhatsApp directly
+              </p>
+            </div>
+
+            {/* Direct WhatsApp Button */}
+            <div className="mt-6 space-y-4">
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 w-full px-8 py-4 text-base font-semibold bg-[#C2A053] text-[#1C1A16] rounded-full shadow-md hover:opacity-95 transition-all group"
+              >
+                <span>Continue to WhatsApp</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+
+              <div>
+                <Link
+                  to="/"
+                  className="inline-block text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                >
+                  Back to GenMyo
+                </Link>
+              </div>
+            </div>
+
             <p className="text-xs text-muted-foreground mt-8 leading-relaxed">
-              Free &middot; No app, no account, no card
+              Free &middot; No app download required &middot; Confidential
               <br />
-              Your reflections are private. <a href="/privacy" className="underline hover:text-[#B0703E]">What we store &rarr;</a>
+              Your reflections are private.{" "}
+              <a href="/privacy" className="underline hover:text-[#B0703E]">
+                What we store &rarr;
+              </a>
             </p>
           </div>
         </section>
@@ -573,8 +622,8 @@ const Join = () => {
   return (
     <Layout>
       <SEO
-        title="Join the Waitlist — GenMyo"
-        description="Join the GenMyo waitlist. Save your details; we'll reach out when your spot opens."
+        title="Start on WhatsApp — GenMyo"
+        description="Save your details to connect directly with The Mirror on WhatsApp."
         jsonSchema={joinSchema}
       />
       <section className="section-padding bg-background min-h-[75vh] flex items-center justify-center">
@@ -594,12 +643,12 @@ const Join = () => {
                   <h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-4">
                     {quizFromNav || readQuizCompletion()
                       ? "Complete your signup"
-                      : "Join the waitlist"}
+                      : "Start on WhatsApp"}
                   </h1>
                   <p className="text-sm text-muted-foreground">
                     {quizFromNav || readQuizCompletion()
-                      ? "Your quiz results are below. Submit once to save your details and continue."
-                      : "Save your details. We'll reach out when access opens — no WhatsApp step yet."}
+                      ? "Your quiz results are ready. Save details to connect directly on WhatsApp."
+                      : "Save your details to connect directly with The Mirror on WhatsApp."}
                   </p>
                 </div>
 
@@ -718,7 +767,7 @@ const Join = () => {
                   </div>
 
                   {submitError && (
-                    <p className="text-sm text-destructive rounded-lg border border-destructive/30 bg-destructive/5 p-4 animate-fade-in">
+                    <p className="text-sm text-destructive rounded-lg border border-destructive/30 bg-[#FEE2E2]/10 p-4 animate-fade-in">
                       {submitError}
                     </p>
                   )}
@@ -729,7 +778,7 @@ const Join = () => {
                       disabled={isSubmitting}
                       className="w-full rounded-full py-6 text-base gap-2 disabled:cursor-not-allowed disabled:opacity-60 bg-gold text-gold-foreground hover:opacity-90 transition-opacity"
                     >
-                      {isSubmitting ? "Opening WhatsApp..." : "Open WhatsApp and begin →"}
+                      {isSubmitting ? "Saving details..." : "Continue →"}
                     </Button>
 
                     {!quizFromNav && !readQuizCompletion() && (

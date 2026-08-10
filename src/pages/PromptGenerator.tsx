@@ -202,18 +202,15 @@ const PromptGenerator = () => {
                 </div>
 
                 <div className="space-y-4 pt-6 border-t border-border/60">
-                  <a
-                    href={getWaLink(selectedScenario.waText)}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    to={`/join?context=${encodeURIComponent(selectedScenario.waText)}`}
                     className="inline-flex items-center justify-center gap-2 px-8 py-4 w-full text-base font-medium bg-[#B0703E] text-white rounded-full hover:opacity-90 transition-opacity shadow-sm"
-                    onClick={() => trackCTAClickWhatsApp(`generator_${selectedScenario.id}`, getWaLink(selectedScenario.waText))}
                   >
                     <MessageCircle size={18} />
                     Reflect on WhatsApp — Free
-                  </a>
+                  </Link>
                   <p className="text-xs text-muted-foreground text-center leading-relaxed">
-                    Free · Pre-loads your scenario · No signup required
+                    Free · Pre-loads your scenario · No app download
                   </p>
                 </div>
 
@@ -231,16 +228,13 @@ const PromptGenerator = () => {
             Take a 2-minute pause from the noise.
           </h2>
           <div className="flex flex-col items-center">
-            <a
-              href="https://wa.me/message/Y4GOKBIGBWUUM1?text=I%27m%20ready%20to%20start%20my%20first%20reflection"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/join"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
-              onClick={() => trackCTAClickWhatsApp("generator_closing_cta", "https://wa.me/message/Y4GOKBIGBWUUM1")}
             >
               <MessageCircle size={18} />
-              Open WhatsApp directly
-            </a>
+              Start your reflection →
+            </Link>
             <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
               Free · No app, no account, no card
               <br />

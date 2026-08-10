@@ -210,16 +210,13 @@ const WhatsAppJournaling = () => {
             Reflect natively. Try WhatsApp Journaling today.
           </h2>
           <div className="flex flex-col items-center">
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/join"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
-              onClick={() => trackCTAClickWhatsApp("whatsapp_journaling_closing", waUrl)}
             >
               <MessageCircle size={18} />
-              Start your reflection on WhatsApp
-            </a>
+              Start your reflection →
+            </Link>
             <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
               Free · About 2 minutes · No app, no account, no card
               <br />

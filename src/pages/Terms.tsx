@@ -345,7 +345,7 @@ const Terms = () => {
               <p>You may opt in to WhatsApp communications by any of the following methods:</p>
               <ul className="list-disc pl-6 space-y-2 mt-2">
                 <li><strong>WhatsApp keyword:</strong> sending a join message or keyword (for example, START) to our verified WhatsApp Business number.</li>
-                <li><strong>Registration form:</strong> checking the WhatsApp opt-in box on a GenMyo registration, waitlist or onboarding form.</li>
+                <li><strong>Registration form:</strong> checking the WhatsApp opt-in box on a GenMyo registration or onboarding form.</li>
                 <li><strong>QR code:</strong> scanning a GenMyo-issued QR code that initiates the opt-in flow on WhatsApp.</li>
                 <li><strong>Written confirmation:</strong> confirming your opt-in in writing during onboarding with the GenMyo team.</li>
                 <li><strong>In-thread acceptance:</strong> tapping an accept button, or replying with an affirmative keyword (for example, ACCEPT), in response to a GenMyo message or card on WhatsApp.</li>

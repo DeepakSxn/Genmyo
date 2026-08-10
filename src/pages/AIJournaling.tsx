@@ -96,16 +96,13 @@ const AIJournaling = () => {
 
           {/* Mid-Scroll WhatsApp CTA */}
           <div className="my-10 p-6 bg-cream rounded-2xl border border-border/80 text-center max-w-lg mx-auto">
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/join"
               className="inline-flex items-center justify-center gap-2 px-8 py-3 w-full text-base font-medium bg-[#B0703E] text-white rounded-full hover:opacity-90 transition-opacity shadow-sm"
-              onClick={() => trackCTAClickWhatsApp("ai_journaling_mid_cta", waUrl)}
             >
               <MessageCircle size={18} />
-              Reflect on WhatsApp — Free
-            </a>
+              Start your reflection →
+            </Link>
             <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
               Free · About 2 minutes · No app download required
             </p>
@@ -148,16 +145,13 @@ const AIJournaling = () => {
             Ready to try the app-free alternative?
           </h2>
           <div className="flex flex-col items-center">
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/join"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
-              onClick={() => trackCTAClickWhatsApp("ai_journaling_closing_cta", waUrl)}
             >
               <MessageCircle size={18} />
-              Start your reflection on WhatsApp
-            </a>
+              Start your reflection →
+            </Link>
             <p className="text-xs text-primary-foreground/60 mt-4 leading-relaxed">
               Free · About 2 minutes · No app, no account, no card
               <br />
