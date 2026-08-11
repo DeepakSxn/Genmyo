@@ -30,7 +30,10 @@ export default async function handler(
     return response.status(500).json({ error: "Internal Server Configuration Error" });
   }
 
-  const waUrl = "https://wa.me/message/Y4GOKBIGBWUUM1?text=hi%20mirror";
+  const nameStr = (firstName || fullName || "").trim();
+  const introText = nameStr ? `hi mirror. this is ${nameStr}` : "hi mirror";
+  const userWaText = context ? `${introText}. ${context}` : introText;
+  const userWaUrl = `https://wa.me/message/Y4GOKBIGBWUUM1?text=${encodeURIComponent(userWaText)}`;
 
   // ─── 1. Admin notification ───────────────────────────────────────────────
   const adminHtml = `
@@ -81,7 +84,7 @@ export default async function handler(
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Welcome to GenMyō</title>
+      <title>Start Your Reflection on WhatsApp — GenMyō</title>
     </head>
     <body style="margin: 0; padding: 0; background-color: #FBF9F4; font-family: 'Helvetica Neue', Arial, sans-serif; color: #1C1A16;">
 
@@ -109,24 +112,20 @@ export default async function handler(
                   </p>
 
                   <p style="margin: 0 0 16px; font-size: 15px; line-height: 1.7; color: #4A463E;">
-                    Your spot is reserved. Thank you for registering for <strong>The Mirror Project by GenMyō</strong>.
-                  </p>
-
-                  <p style="margin: 0 0 16px; font-size: 15px; line-height: 1.7; color: #4A463E;">
-                    We are opening access in small, intentional cohorts to ensure every reflection space remains quiet and personal. We will send you an update here the moment your access is ready.
+                    Thank you for registering for <strong>The Mirror Project by GenMyō</strong>.
                   </p>
 
                   <p style="margin: 0 0 28px; font-size: 15px; line-height: 1.7; color: #4A463E;">
-                    No action is needed right now. If you'd like to reach us in the meantime, simply reply to this email.
+                    Your details are saved. You can start your guided reflection on WhatsApp anytime by tapping the button below.
                   </p>
 
                   <!-- Primary CTA -->
                   <table role="presentation" cellpadding="0" cellspacing="0">
                     <tr>
                       <td style="border-radius: 100px; background-color: #B0703E;">
-                        <a href="https://genmyo.ai/linktree" target="_blank"
+                        <a href="${userWaUrl}" target="_blank"
                            style="display: inline-block; padding: 14px 32px; font-size: 15px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 100px; letter-spacing: 0.01em;">
-                          Explore All Handles & Links →
+                          Start Reflection on WhatsApp →
                         </a>
                       </td>
                     </tr>
@@ -200,7 +199,7 @@ export default async function handler(
         {
           from: "GenMyō <noreply@genmyo.ai>",
           to: [email],
-          subject: "Your spot is reserved — GenMyō",
+          subject: "Start your reflection on WhatsApp — GenMyō",
           html: welcomeHtml,
         },
       ]),

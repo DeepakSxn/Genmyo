@@ -601,10 +601,10 @@ const Join = () => {
                 href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 w-full px-8 py-4 text-base font-semibold bg-[#C2A053] text-[#1C1A16] rounded-full shadow-md hover:opacity-95 transition-all group"
+                className="inline-flex items-center justify-center gap-2.5 w-full px-8 py-4 text-base font-semibold bg-[#C2A053] text-[#1C1A16] rounded-full shadow-md hover:opacity-95 transition-all group"
               >
-                <span>Continue to WhatsApp</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-5 h-5 hidden" />
+                <span>Open WhatsApp &amp; Start Reflection →</span>
               </a>
 
               <div>
@@ -701,6 +701,32 @@ const Join = () => {
                     )}
                   </div>
 
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="dob">Date of Birth</Label>
+                      <DateOfBirthPicker
+                        value={formData.dob}
+                        onChange={(value) => handleChange("dob", value)}
+                      />
+                      {errors.dob && (
+                        <p className="text-sm text-destructive">{errors.dob}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="country">Country</Label>
+                      <CountryNameCombobox
+                        countries={COUNTRY_CODES}
+                        value={formData.country}
+                        onChange={(value) => handleChange("country", value)}
+                        placeholder="Select country"
+                      />
+                      {errors.country && (
+                        <p className="text-sm text-destructive">{errors.country}</p>
+                      )}
+                    </div>
+                  </div>
+
                   <div className="space-y-2" onFocusCapture={() => handleFieldFocus("whatsapp")}>
                     <Label>
                       WhatsApp Number <span className="text-accent">*</span>
@@ -788,9 +814,9 @@ const Join = () => {
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full rounded-full py-6 text-base gap-2 disabled:cursor-not-allowed disabled:opacity-60 bg-gold text-gold-foreground hover:opacity-90 transition-opacity"
+                      className="w-full rounded-full py-6 text-base font-semibold gap-2 disabled:cursor-not-allowed disabled:opacity-60 bg-gold text-gold-foreground hover:opacity-90 transition-opacity shadow-sm"
                     >
-                      {isSubmitting ? "Saving details..." : "Continue →"}
+                      {isSubmitting ? "Saving details..." : "Start Your Reflection on WhatsApp →"}
                     </Button>
 
                     {!quizFromNav && !readQuizCompletion() && (
