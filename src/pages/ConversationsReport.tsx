@@ -6,7 +6,7 @@ import { trackCTAClickWhatsApp } from "@/lib/analytics";
 import { getWhatsAppUrl } from "@/config/whatsapp";
 
 const ConversationsReport = () => {
-  const waUrl = getWhatsAppUrl("hi mirror");
+  const waUrl = getWhatsAppUrl();
 
   const articleSchema = {
     "@context": "https://schema.org",

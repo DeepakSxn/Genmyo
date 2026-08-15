@@ -86,7 +86,7 @@ const PromptGenerator = () => {
     }, 450);
   };
 
-  const getWaLink = (text: string) => getWhatsAppUrl(text);
+  const getWaLink = () => getWhatsAppUrl();
 
   const generatorSchema = {
     "@context": "https://schema.org",

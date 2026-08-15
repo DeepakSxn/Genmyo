@@ -30,10 +30,8 @@ export default async function handler(
     return response.status(500).json({ error: "Internal Server Configuration Error" });
   }
 
-  const nameStr = (firstName || fullName || "").trim();
-  // Same clean draft on Android + iPhone — never append Token / quiz context.
-  const userWaText = nameStr ? `hi mirror. this is ${nameStr}` : "hi mirror";
-  const userWaUrl = `https://wa.me/message/Y4GOKBIGBWUUM1?text=${encodeURIComponent(userWaText)}`;
+  // Bare click-to-chat — no prefill text (Android + iPhone).
+  const userWaUrl = "https://wa.me/message/Y4GOKBIGBWUUM1";
 
   // ─── 1. Admin notification ───────────────────────────────────────────────
   const adminHtml = `

@@ -30,7 +30,7 @@ import {
   readQuizCompletion,
   buildJoinContextFromQuiz,
 } from "@/lib/quizRegistration";
-import { getWhatsAppStartUrl } from "@/config/whatsapp";
+import { getWhatsAppUrl } from "@/config/whatsapp";
 
 function getInitialJoinContext(searchParams: URLSearchParams) {
   const urlContext = searchParams.get("context");
@@ -296,13 +296,10 @@ const Join = () => {
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
   const quizFromNav = searchParams.get("from") === "quiz";
-  const [sessionToken, setSessionToken] = useState("");
   const [hasTrackedFormStart, setHasTrackedFormStart] = useState(false);
 
   useEffect(() => {
     trackCTAView("join_page", "/join");
-    const token = "genmyo_ref_" + Math.random().toString(36).substring(2, 10).toUpperCase();
-    setSessionToken(token);
   }, []);
 
   const handleFieldFocus = (fieldName: string) => {
@@ -462,7 +459,6 @@ const Join = () => {
       `DOB: ${dobValue}`,
       `Country: ${countryValue}`,
       `City: ${cityValue}`,
-      `Token: ${sessionToken}`,
       formData.context ? `Notes: ${formData.context}` : "",
     ]
       .filter(Boolean)
@@ -492,7 +488,7 @@ const Join = () => {
           dob: dobValue,
           country: countryValue,
           city: cityValue,
-          context: formData.context ? `${formData.context} (Token: ${sessionToken})` : `Token: ${sessionToken}`,
+          context: formData.context || "",
         }),
       }).catch((err) => console.error("Email notification error:", err));
     };
@@ -544,7 +540,7 @@ const Join = () => {
   };
 
   if (submitted) {
-    const waUrl = getWhatsAppStartUrl(formData.firstName);
+    const waUrl = getWhatsAppUrl();
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&color=1C1A16&bgcolor=FFFFFF&data=${encodeURIComponent(
       waUrl
     )}`;
