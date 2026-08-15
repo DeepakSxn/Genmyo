@@ -31,8 +31,8 @@ export default async function handler(
   }
 
   const nameStr = (firstName || fullName || "").trim();
-  const introText = nameStr ? `hi mirror. this is ${nameStr}` : "hi mirror";
-  const userWaText = context ? `${introText}. ${context}` : introText;
+  // Same clean draft on Android + iPhone — never append Token / quiz context.
+  const userWaText = nameStr ? `hi mirror. this is ${nameStr}` : "hi mirror";
   const userWaUrl = `https://wa.me/message/Y4GOKBIGBWUUM1?text=${encodeURIComponent(userWaText)}`;
 
   // ─── 1. Admin notification ───────────────────────────────────────────────

@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
 import { MessageCircle, RefreshCw, Compass, ArrowRight, Sparkles } from "lucide-react";
 import { trackCTAClickWhatsApp } from "@/lib/analytics";
+import { getWhatsAppUrl } from "@/config/whatsapp";
 
 interface PromptScenario {
   id: string;
@@ -85,9 +86,7 @@ const PromptGenerator = () => {
     }, 450);
   };
 
-  const getWaLink = (text: string) => {
-    return `https://wa.me/message/Y4GOKBIGBWUUM1?text=${encodeURIComponent(text)}`;
-  };
+  const getWaLink = (text: string) => getWhatsAppUrl(text);
 
   const generatorSchema = {
     "@context": "https://schema.org",

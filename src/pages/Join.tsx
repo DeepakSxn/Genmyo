@@ -30,7 +30,7 @@ import {
   readQuizCompletion,
   buildJoinContextFromQuiz,
 } from "@/lib/quizRegistration";
-import { getWhatsAppUrl } from "@/config/whatsapp";
+import { getWhatsAppStartUrl } from "@/config/whatsapp";
 
 function getInitialJoinContext(searchParams: URLSearchParams) {
   const urlContext = searchParams.get("context");
@@ -544,10 +544,7 @@ const Join = () => {
   };
 
   if (submitted) {
-    const nameStr = formData.firstName.trim();
-    const introText = nameStr ? `hi mirror. this is ${nameStr}` : "hi mirror";
-    const waText = formData.context ? `${introText}. ${formData.context}` : introText;
-    const waUrl = getWhatsAppUrl(waText);
+    const waUrl = getWhatsAppStartUrl(formData.firstName);
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&color=1C1A16&bgcolor=FFFFFF&data=${encodeURIComponent(
       waUrl
     )}`;

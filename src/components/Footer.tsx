@@ -27,6 +27,7 @@ const Footer = () => {
                 { href: "/emotional-check-in", label: "Emotional Check-In" },
                 { href: "/100-conversations", label: "100 Conversations Report" },
                 { href: "/philosophy", label: "Our Philosophy" },
+                { href: "/founders-story", label: "Founder's Story" },
                 { href: "/partners", label: "Partners" },
                 { href: "/blog", label: "Blog" },
                 { href: "/team", label: "Team" },

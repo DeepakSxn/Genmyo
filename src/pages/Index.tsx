@@ -353,10 +353,10 @@ const Index = () => {
       <section className="section-padding bg-background">
         <div className="container-narrow text-center">
           <p className="text-sm font-medium tracking-widest uppercase text-accent mb-6">
-            About GenMyo
+            About GenMyō
           </p>
           <p className="font-serif text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed mb-8">
-            GenMyo is a home for inner wellness, a calmer alternative to a noisy world,
+            GenMyō is a home for inner wellness, a calmer alternative to a noisy world,
             built to help people pause, hear themselves clearly, and grow at their own pace.
           </p>
           <p className="font-serif italic text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-6">
@@ -364,8 +364,34 @@ const Index = () => {
             experience that opens the door inward.
           </p>
           <p className="text-xs text-muted-foreground max-w-xl mx-auto">
-            GenMyo is not therapy, not a diagnostic tool, and not a crisis service.
+            GenMyō is not therapy, not a diagnostic tool, and not a crisis service.
           </p>
+        </div>
+      </section>
+
+      {/* Founder's Story Teaser Block */}
+      <section className="section-padding bg-cream border-t border-b border-border/60">
+        <div className="container-narrow text-center space-y-6">
+          <p className="text-xs font-semibold tracking-widest uppercase text-accent">
+            The Pathway Back
+          </p>
+          <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-medium text-foreground leading-snug max-w-3xl mx-auto">
+            What if the answers you have been searching for, in all the noise, were never out there to begin with?
+          </h2>
+          <p className="text-body-large text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            We spend our lives looking outward, to feeds, apps and quick fixes that give relief but never answers. GenMyō is the pathway back. It helps you build your Inner Wellness Intelligence: the lifelong capacity to understand your inner world, steady it when life shakes it, and keep lifting it, so you can thrive in your outer one. Grounded in behavioural science and neuroscience, always within reach, and yours to grow with for life.
+          </p>
+          <p className="font-serif text-lg md:text-xl font-medium text-foreground italic">
+            The answers were always within you.
+          </p>
+          <div className="pt-2">
+            <Link
+              to="/founders-story"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground rounded-full text-sm font-medium hover:opacity-90 transition-opacity shadow-xs"
+            >
+              <span>Read our story →</span>
+            </Link>
+          </div>
         </div>
       </section>
 

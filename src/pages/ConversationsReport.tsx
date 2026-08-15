@@ -3,9 +3,10 @@ import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
 import { MessageCircle, FileText, ArrowDown, BarChart2, CheckCircle } from "lucide-react";
 import { trackCTAClickWhatsApp } from "@/lib/analytics";
+import { getWhatsAppUrl } from "@/config/whatsapp";
 
 const ConversationsReport = () => {
-  const waUrl = "https://wa.me/message/Y4GOKBIGBWUUM1?text=I%27m%20ready%20to%20read%20the%20100%20Conversations%20findings";
+  const waUrl = getWhatsAppUrl("hi mirror");
 
   const articleSchema = {
     "@context": "https://schema.org",

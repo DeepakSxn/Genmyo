@@ -4,6 +4,7 @@ import { SEO } from "@/components/SEO";
 import { MessageCircle, Check, X, Shield, ArrowRight } from "lucide-react";
 import { trackCTAClickWhatsApp } from "@/lib/analytics";
 import { clusterArticles } from "@/data/clusterContent";
+import { getWhatsAppUrl } from "@/config/whatsapp";
 
 interface ClusterArticleProps {
   slug?: string;
@@ -18,7 +19,7 @@ const ClusterArticle = ({ slug: propSlug }: ClusterArticleProps) => {
     return <Navigate to="/404" replace />;
   }
 
-  const waUrl = "https://wa.me/message/Y4GOKBIGBWUUM1?text=I%27m%20ready%20to%20start%20my%20first%20reflection";
+  const waUrl = getWhatsAppUrl();
 
   // Create dynamic BlogPosting and BreadcrumbList schemas
   const blogPostingSchema = {

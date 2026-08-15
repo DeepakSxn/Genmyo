@@ -4,6 +4,7 @@ import { SEO } from "@/components/SEO";
 import { MessageCircle, HelpCircle, CheckSquare, ArrowLeft } from "lucide-react";
 import { trackCTAClickWhatsApp } from "@/lib/analytics";
 import { reflectionQuestionsLibrary } from "@/data/reflectionQuestions";
+import { getWhatsAppUrl } from "@/config/whatsapp";
 
 interface ReflectionQuestionsProps {
   situation?: string;
@@ -18,7 +19,7 @@ const ReflectionQuestions = ({ situation: propSituation }: ReflectionQuestionsPr
     return <Navigate to="/404" replace />;
   }
 
-  const waUrl = `https://wa.me/message/Y4GOKBIGBWUUM1?text=I%27d%20like%20to%20reflect%20on%20${encodeURIComponent(data.situation.toLowerCase())}`;
+  const waUrl = getWhatsAppUrl();
 
   // ItemList Schema for the questions to win SERP Rich Snippets
   const itemListSchema = {

@@ -3,9 +3,10 @@ import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
 import { MessageCircle, ShieldCheck, Check, X, RefreshCw } from "lucide-react";
 import { trackCTAClickWhatsApp } from "@/lib/analytics";
+import { getWhatsAppUrl } from "@/config/whatsapp";
 
 const WhatsAppJournaling = () => {
-  const waUrl = "https://wa.me/message/Y4GOKBIGBWUUM1?text=I%27m%20ready%20to%20start%20my%20first%20reflection";
+  const waUrl = getWhatsAppUrl();
 
   const journalingSchema = {
     "@context": "https://schema.org",

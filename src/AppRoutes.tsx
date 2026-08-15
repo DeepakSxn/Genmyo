@@ -21,6 +21,7 @@ import FeelingDisconnected from "./pages/FeelingDisconnected";
 import Linktree from "./pages/Linktree";
 import Stories from "./pages/Stories";
 import Quiz from "./pages/Quiz";
+import FoundersStory from "./pages/FoundersStory";
 
 export const AppRoutes = () => (
   <>
@@ -30,6 +31,7 @@ export const AppRoutes = () => (
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/linktree" element={<Linktree />} />
       <Route path="/stories" element={<Stories />} />
+      <Route path="/founders-story" element={<FoundersStory />} />
       <Route path="/philosophy" element={<Philosophy />} />
       <Route path="/how-it-works" element={<HowItWorks />} />
       <Route path="/faq" element={<Navigate to="/#faq" replace />} />
