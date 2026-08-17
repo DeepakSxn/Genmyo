@@ -1,7 +1,7 @@
 # GenMyo — full site index for LLMs
 # Summary: https://genmyo.ai/llms.txt
 # Sitemap: https://genmyo.ai/sitemap.xml
-# Last updated: 2026-07-27
+# Last updated: 2026-08-17
 
 ## Entity (verbatim)
 GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice. GenMyo is not therapy, not a diagnostic tool, and not a crisis service.
@@ -13,6 +13,7 @@ https://genmyo.ai/
 https://genmyo.ai/how-it-works
 https://genmyo.ai/quiz
 https://genmyo.ai/stories
+https://genmyo.ai/founders-story
 https://genmyo.ai/linktree
 https://genmyo.ai/join
 https://genmyo.ai/philosophy

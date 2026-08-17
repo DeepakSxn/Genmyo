@@ -15,6 +15,7 @@
 - **Inner weather quiz:** https://genmyo.ai/quiz — Six questions; surfaces an inner weather profile (storm, press, fog, still) and where to begin; optional path before join.
 - **Join / register:** https://genmyo.ai/join — Save details to begin; quiz results can be carried into this form when coming from /quiz.
 - **Stories:** https://genmyo.ai/stories — Community reflection stories and anonymized excerpts.
+- **Founders' story:** https://genmyo.ai/founders-story — A letter from founder Rajit Punshi on why GenMyō exists.
 - **Philosophy:** https://genmyo.ai/philosophy — Slow tech, no streaks, no advice, inner alignment.
 - **100 conversations report:** https://genmyo.ai/100-conversations — Research-style findings from guided reflections.
 - **Blog:** https://genmyo.ai/blog — Articles on reflective practice and product updates.
