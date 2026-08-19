@@ -1,4 +1,3 @@
-import { useState } from "react";
 import personaRajit from "@/assets/Rajit.png";
 import personaSid from "@/assets/sid.png";
 import personaGaurav from "@/assets/gaurav.jpg";
@@ -6,7 +5,7 @@ import personaDeepak from "@/assets/deepak.png";
 import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
-import { MessageCircle, Linkedin, ChevronDown, ChevronUp } from "lucide-react";
+import { MessageCircle, Linkedin } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
 const foundersStorySchema = {
@@ -33,8 +32,6 @@ const foundersStorySchema = {
 };
 
 const FoundersStory = () => {
-  const [showFullLetter, setShowFullLetter] = useState(false);
-
   return (
     <Layout>
       <SEO
@@ -84,7 +81,7 @@ const FoundersStory = () => {
                 Rajit Punshi
               </h2>
               <p className="text-sm text-muted-foreground font-medium">
-                Founder, GenMyō
+                Founder and CEO, GenMyō
               </p>
               <p className="text-body-large text-foreground font-serif leading-relaxed italic">
                 "The answers were never in the noise. They were always within us."
@@ -112,7 +109,7 @@ const FoundersStory = () => {
                 What if the answers you have been searching for, in all the noise, were never out there to begin with?
               </p>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                Sooner or later, life asks something hard of all of us. And when it does, we are left holding the same quiet questions. Who am I. What do I really want. Why do I feel this way, when so much is going right. What we are reaching for, underneath it all, is the same. Answers, and a steady kind of happiness that holds up when life does not.
+                Sooner or later, life asks something hard of all of us. And we are left holding the same quiet questions. Who am I. What do I really want. Why do I feel this way, when so much is going right. Underneath them all, we are reaching for the same thing: answers, and a steady kind of happiness that holds when life does not.
               </p>
             </div>
 
@@ -121,7 +118,10 @@ const FoundersStory = () => {
                 We keep looking outward
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                So look at where we go searching. Apps and quick fixes give a moment of relief and leave us where we started. Feeds and notifications promise connection and leave us more scattered than before. Slowly, the noise crowds out the very abilities that once carried us through: the ability to pause, to reflect, to be curious, to find our own way to a solution. The truth we keep missing is that the answers were never in the noise. They were always within us.
+                So look at where we search. Apps and quick fixes give a moment's relief and leave us where we started. Feeds promise connection and leave us more scattered.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                Slowly, the noise crowds out the very things that once carried us through: the ability to pause, to reflect, to find our own way. The answers were never in the noise. They were always within us.
               </p>
             </div>
 
@@ -130,25 +130,37 @@ const FoundersStory = () => {
                 How I came to this
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                I did not arrive at that from theory. For more than twenty years my work was risk and resilience, helping some of the world's largest institutions stay standing under pressure. It put me in rooms with thousands of people, and again and again I saw the same thing beneath the surface. Capable, accomplished people who felt hollow. And this was never only a corporate story. I saw it in the society around me, across generations, and like everyone, I have lived my own chapters of it.
+                I did not arrive at this from theory. For more than twenty years I worked in risk and resilience, alongside some of the world's largest institutions and regulators, before leaving in 2011 to build something of my own. Across all of it, I kept seeing the same thing beneath the surface. Everyone, the struggling and the successful alike, was carrying something with nowhere to set it down. People who could hold a room together, and had nowhere to be held themselves.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                I have lived it too. Building something of your own asks more of you than anyone tells you. The highs that lift you one week and the doubts that find you the next. The 3am questions out on the balcony, wondering if I was on the right track.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                At one point, a change of senior management at a key client saw bid after bid fall away, work we had counted on, gone. It forced me to think hard. Rather than wait for the tide to turn, I went back to the ecosystem I had spent years building, and used those relationships to find opportunities elsewhere, and steady the ground beneath us.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                Somewhere in that stretch, something settled in me. The uncertainty would always be there, and so would the challenges. But the solutions, and the happiness, were mine to seize, from within.
               </p>
             </div>
 
             <div>
               <h2 className="font-serif text-2xl font-semibold text-foreground mb-4">
-                Starting with the person
+                Why I built GenMyō
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                One thing became clear. We had grown very good at building resilient systems, and somehow stopped looking after well people. So I chose to start with the person. Whatever already grounds you, your faith, your family, your community, GenMyō is not here to replace it. It is here to help you hear yourself more clearly.
+                That truth did not stay mine for long. Once I had felt it, I started seeing it everywhere. In the founder holding it together for everyone but themselves. In the friend who seemed fine. In people across every generation, each carrying their own weight, each with the same strength inside them, and nowhere to turn to find it.
               </p>
-            </div>
-
-            <div>
-              <h2 className="font-serif text-2xl font-semibold text-foreground mb-4">
-                A guide, always within reach
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Imagine a place you can turn to whenever you need it, day or night, that is only ever interested in one thing. You, and how you are truly doing. Picture someone at the end of a heavy day who types a single honest sentence instead of scrolling. <em>I feel like I am failing at everything and I do not know why.</em> And rather than a like, an ad, or silence, something answers. Not with a lecture, but with a question that helps them see the day a little more clearly. That small moment, lived again and again, is what we built GenMyō for. It is not a therapist and does not pretend to be, and the moment you need a real person, it will help you reach one.
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                We have built a world with a tool for almost everything, and left the inner life to fend for itself. That was the gap I could not unsee.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                So I set out to build what I had needed myself. A private space to come back to whenever life asks something hard of us. A guide that does not hand you answers, but helps you find your own.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                Simple mindfulness practices that, done often, quietly build your strength over time. And real people when you want them, mentors and guides who have walked their own hard roads, because sometimes you do not need an answer, you need someone who understands.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                GenMyō is not here to replace what already grounds you, your faith, your values, or the people you love. It is here to sit alongside them, and to help you reach the strength that was always yours.
               </p>
             </div>
 
@@ -157,19 +169,10 @@ const FoundersStory = () => {
                 Built on real science
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                None of this is wishful thinking. Beneath the simple conversation sits a framework we have spent years building, grounded in reality, behavioural psychology and neuroscience. You will never see the machinery. You are only meant to feel understood, because the brain is not fixed. It reshapes itself, at any age, through small things done often.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="font-serif text-2xl font-semibold text-foreground mb-4">
-                Inner Wellness Intelligence
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                What all of this builds in you has a name. Inner Wellness Intelligence. We understand intelligence in many forms already. IQ for the mind. EQ for emotions. Inner Wellness Intelligence is the next one, the lifelong capacity to understand your inner world, steady it when life shakes it, and keep lifting it, so you can thrive in your outer one. Like any intelligence, it can be strengthened at any age, in good seasons and hard ones alike.
+                None of this is wishful thinking. Beneath the simple conversation sits a framework we have spent years building, grounded in behavioural science and neuroscience. You never see the machinery. You are only meant to feel understood, because the brain is not fixed. It reshapes itself, at any age, through small things done often.
               </p>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                The name carries the whole idea. Gen, for generations. Myō, for bringing light, for rejuvenating what has grown dim. Generations, renewing together.
+                What it builds in you has a name. Inner Wellness Intelligence™. Like IQ for the mind or EQ for emotions, it is the lifelong capacity to understand your inner world, steady it when life shakes it, and keep lifting it, so you can thrive in your outer one. Gen, for generations. Myō, for bringing light. Generations, renewing together.
               </p>
             </div>
 
@@ -178,7 +181,7 @@ const FoundersStory = () => {
                 Not a transaction. A journey.
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                And this is not something you buy once and finish with. GenMyō is a guide for the long journey, and it grows as you grow. It helps you find your feet, then truly know yourself, then live by your own choices, decision by decision, until you hold a steadier hand on your own life. And eventually, when you are full and steady, it helps you do the most meaningful thing a person can do. Turn back, and lift others. The surest way to a stronger family, a stronger team, a stronger society, is a well person.
+                This is not something you buy once and finish with. GenMyō grows as you grow. It helps you find your feet, then know yourself, then live by your own choices. And in time, when you are steady, it helps you do the most meaningful thing a person can. Turn back, and lift others. Because the surest path to a stronger family, team and society is a well person.
               </p>
             </div>
 
@@ -187,16 +190,7 @@ const FoundersStory = () => {
                 The people behind it
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                I am not building this alone. My son, Sid, has poured himself into GenMyō beside me, a father and a son from two different generations building a place where generations can renew one another. Around us stands a small team who have each lived the very thing we are building to help with.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="font-serif text-2xl font-semibold text-foreground mb-4">
-                A story still being written
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                We launched GenMyō first to listen and to learn, and we are now opening up to individuals and organisations in careful stages, with much more still to come. These are the opening chapters, and the best ones lie ahead.
+                I am not building this alone. My son, Sid, has poured himself into it beside me, a father and son from two generations, and around us stands a small team who have each lived the very thing we are building to help with.
               </p>
             </div>
 
@@ -205,7 +199,10 @@ const FoundersStory = () => {
                 An invitation
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                So let me leave you with an invitation rather than an explanation. Come and see for yourself. Ask it the question you have been carrying. Your path is already there, waiting for your first step, and there has never been a better moment than now.
+                So let me leave you with an invitation, not an explanation. Come and see for yourself. Ask it the question you have been carrying.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                The answers you are looking for were always within you. There has never been a better moment to begin.
               </p>
             </div>
 
@@ -219,150 +216,6 @@ const FoundersStory = () => {
             </div>
 
           </article>
-
-          <div className="max-w-3xl mx-auto mt-16 text-center">
-            <button
-              type="button"
-              onClick={() => setShowFullLetter(!showFullLetter)}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-cream border border-border rounded-full text-sm font-medium text-foreground hover:bg-secondary transition-colors"
-            >
-              <span>{showFullLetter ? "Hide the full founder's letter" : "Read the full founder's letter"}</span>
-              {showFullLetter ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            </button>
-          </div>
-
-          {showFullLetter && (
-            <article className="max-w-3xl mx-auto mt-12 p-8 md:p-10 bg-cream/70 rounded-3xl border border-border animate-fade-in space-y-10 text-foreground/90 leading-relaxed font-sans text-base md:text-lg">
-              <div className="border-b border-border/80 pb-4">
-                <h2 className="font-serif text-2xl font-bold text-foreground">The GenMyō Story</h2>
-                <p className="text-sm text-muted-foreground italic font-serif mt-1">A letter from our founder, Rajit Punshi.</p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">The question worth asking</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  What if the answers you have been searching for, in all the noise, were never out there to begin with?
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  Sooner or later, life asks something hard of all of us. The one who seems to have it all together, the one who is struggling openly, you, and me. And when it does, we are left holding the same quiet questions. Who am I. What do I really want. Why do I feel this way, when so much is going right. Underneath every one of them, we are reaching for the same thing. Answers. Solutions. And a steady kind of happiness that holds up when life does not.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">We keep looking outward</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  So look at where we go searching. The apps and the quick fixes give us a moment of relief and then leave us more or less where we started, still without the answers. Feeds and notifications promise us connection and leave us more scattered than before. Slowly, all that noise crowds out the very abilities that once carried us through. The ability to pause. To reflect. To be curious. To think for ourselves, to learn, and to find our own way to a solution. We hand our sense of who we are over to algorithms, and let them tell us who to be.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  And here is the quiet truth we keep missing. The answers were never in the noise. They were always in here, within us, waiting for someone to help us look.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">How I came to this</h3>
-                <p className="text-muted-foreground leading-relaxed">I did not arrive at that truth from theory.</p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  For more than twenty years my work was risk and resilience. Through ORP2b, I helped some of the largest institutions in the world stay standing when everything around them was shaking. That work put me in rooms with thousands of people, across many countries and many generations. From the outside, these were the strong ones. Capable, accomplished, running resilient organisations. But if you sat with them long enough, you saw it. Successful people who felt hollow. Leaders who could control every outcome but their own restlessness. And this was never only a corporate story. I saw the same thing in the society around me, across generations and across geographies. And like everyone, I have had my own chapters of it. So when I say this touches every one of us, I am not speaking from a safe distance. I am speaking as one of the many.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">Starting with the person</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Somewhere in all of this, one thing became clear. We had become very good at building resilient systems, and we had somehow stopped looking after well people. We keep trying to fix the organisation, but an organisation is only ever as well as the people inside it.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">So I chose to start with the person.</p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  That is why GenMyō exists. Not to hand you another quick fix, but to give you back something far more valuable. A pathway inward. A way to seek, to become aware, to learn, to practise, and to find your own solutions. Because that is where they were all along.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  And this is not about turning away from whatever already sustains you. Your faith, your family, your community, the practices that steady you: GenMyō is not here to replace any of it. It is here to help you hear yourself more clearly, so you can bring your fullest self to all of it.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">A guide, always within reach</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Imagine a place you can turn to whenever you need it, day or night, that is only ever interested in one thing. You, and how you are truly doing. You can bring it the thought that has been sitting on your chest at two in the morning, and think out loud without being sold anything in return.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  Picture someone at the end of a heavy day, thumb hovering over the same apps as always, who this time types a single honest sentence instead. <em>I feel like I am failing at everything and I do not know why.</em> And rather than a like, an ad, or silence, something answers. Not with a lecture, but with a question that helps them see the day a little more clearly. A few minutes later they are breathing more easily and reaching for their own next thought. That small moment, lived again and again across the years, is what we built GenMyō for.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  It is not a therapist and does not pretend to be. It stays with what it is here for, your inner wellbeing, and the moment you need a real human being, it will help you reach one.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">Built on real science</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  I have spent my life around risk, so I have little patience for wishful thinking, and GenMyō is not built on any. Beneath that simple conversation sits a framework we have spent years building, grounded in reality, behavioural psychology and neuroscience. You will never see the machinery, and you are not meant to. You are only meant to feel understood.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  Here is the part that gives me hope. The brain is not fixed. It keeps reshaping itself, at any age, through small things done often. And none of us can think our way out of a hard moment until the body feels safe enough to let us, which is exactly why GenMyō meets you as a whole person rather than a problem to be corrected. The science is quietly at work the entire time. You simply get to feel met.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">Inner Wellness Intelligence</h3>
-                <p className="text-muted-foreground leading-relaxed">What all of this builds in you has a name. Inner Wellness Intelligence.</p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  We already understand intelligence in many forms. IQ for the mind. EQ for emotions. Inner Wellness Intelligence is the next one. It is the lifelong capacity to understand your inner world, steady it when life shakes it, and keep lifting it, so you can thrive in your outer one. And here is the most hopeful part. Like any intelligence, it can be learned, practised and strengthened at any age. It is a strength for the good times as much as the hard ones. You do not wait until you are unwell to look after your body, and this is no different. You build it in the calm seasons so you are ready for the storms, and it makes the calm seasons richer while you are in them. As you grow, you can even see it, gently, in a Resilience Score that rises as your capacity builds. It is not a scoreboard, only a quiet sign that the work is real and taking hold.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  The name carries the whole idea. Gen, for generations. Myō, for bringing light, for rejuvenating what has grown dim. Generations, renewing together. Because every generation is carrying something, and every generation can renew.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">The people behind it</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  I am not building this alone, and there is one person I want to name. My son, Sid, has poured himself into GenMyō from the very beginning, and there is something fitting in that. A father and a son, from two different generations, building a place where generations can understand and renew one another. He has shaped this in ways the finished product will never fully show, and I could not be prouder to be doing it beside him.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  Around us stands a small and determined team, each carrying their own reasons for caring about this work. Between us we bring real depth in artificial intelligence, human development, behavioural science, product and community. And just as importantly, we have all lived the very thing we are building to help with. So you are not being sold something by strangers. You are being invited in by people walking the same path as you.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">A story still being written</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  We did not launch GenMyō to declare it finished. We launched it to listen. The first chapter was about learning. Understanding what people truly want, how they wish to be met, and how to make this genuinely useful and worth returning to. Every conversation has taught us something, and quietly shaped what comes next.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  Now we are opening the doors more widely, to individuals and to organisations, in careful and deliberate stages. There is a great deal still to come. New features, new depth, and new ways for this to fit into your life and grow with you. What you are looking at today is the beginning, not the finished thing.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">Not a transaction. A journey.</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  And just as our story is still unfolding, so is yours. GenMyō is not something you buy once and finish with. It is a guide for the long journey, and it grows as you grow. In the beginning it helps you find your feet. In time it helps you truly know yourself. Later it helps you act with intention and live by your own choices, so that decision by decision you feel it, a steadier hand on your own life and the quiet certainty that you are the one holding the pen. And eventually, when you are full and steady, it helps you do the most meaningful thing a person can do. Turn back, and lift others. That is where a real journey of inner wellness leads. Not to endless self improvement, but to contribution. It is the arc of a life well lived, and GenMyō is built to walk every stage of it with you.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  I have spent my whole working life helping organisations stay strong. What I understand now, more clearly than ever, is that the surest way to a stronger organisation, a stronger family, a stronger society, is a well person. That is where I have chosen to put my energy, and my heart.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">An invitation</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  I could keep describing it, but this is not something you understand by reading about it. It is something you feel the first time you are met by it. So let me leave you with an invitation rather than an explanation. Come and see for yourself. Ask it the question you have been carrying. Notice what happens when, perhaps for the first time in a long while, something reflects you back to yourself instead of selling you something.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  Your path is already there. It has been waiting for you. All it needs is your first step, and there has never been a better moment than now.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-3">
-                  These are the opening chapters. The best are still to come, and we would love for you to help write them.
-                </p>
-              </div>
-
-              <div className="pt-4 border-t border-border/80">
-                <p className="font-serif font-bold text-foreground text-xl">Rajit Punshi</p>
-                <p className="text-sm text-muted-foreground">Founder and CEO, GenMyō</p>
-              </div>
-            </article>
-          )}
         </div>
       </section>
 
