@@ -47,6 +47,10 @@
       "destination": "/api/send-email"
     },
     {
+      "source": "/api/register-crisis",
+      "destination": "/api/register-crisis"
+    },
+    {
       "source": "/:path*",
       "destination": "/index.html"
     }

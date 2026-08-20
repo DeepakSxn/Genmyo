@@ -11,6 +11,12 @@ export default defineConfig(() => ({
       overlay: false,
     },
     proxy: {
+      "/api/register-crisis": {
+        target: "https://2zvjy3mw7f.execute-api.ap-south-1.amazonaws.com",
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api\/register-crisis/, "/prod/crisis-users"),
+      },
       "/api/register": {
         target: "https://hb4ngs4y66.execute-api.ap-south-1.amazonaws.com",
         changeOrigin: true,

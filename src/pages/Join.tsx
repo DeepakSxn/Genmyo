@@ -31,6 +31,8 @@ import {
   buildJoinContextFromQuiz,
 } from "@/lib/quizRegistration";
 import { getWhatsAppUrl } from "@/config/whatsapp";
+import { checkCrisisContent } from "@/lib/crisisDetection";
+import { CrisisSupportScreen } from "@/components/CrisisSupportMessage";
 
 function getInitialJoinContext(searchParams: URLSearchParams) {
   const urlContext = searchParams.get("context");
@@ -45,6 +47,7 @@ const ADMIN_EMAIL = "hello@genmyo.ai";
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
 const REGISTRATION_API_URL = "/api/register";
+const CRISIS_REGISTRATION_API_URL = "/api/register-crisis";
 const SECONDARY_AWS_API_URL =
   "https://2zvjy3mw7f.execute-api.ap-south-1.amazonaws.com/prod/register";
 
@@ -326,6 +329,7 @@ const Join = () => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [crisisMode, setCrisisMode] = useState(false);
 
   const [business, setBusiness] = useState<BusinessData>({
     name: "",
@@ -430,6 +434,10 @@ const Join = () => {
     });
   };
 
+  const finishCrisisRegistration = () => {
+    setCrisisMode(true);
+  };
+
   const runRegistration = async () => {
     setSubmitError(null);
     const result = formSchema.safeParse(formData);
@@ -451,11 +459,14 @@ const Join = () => {
     const cityValue = formData.city || "N/A";
     const surnameValue = formData.surname || "";
     const quizDone = readQuizCompletion();
+    const crisisCheck = checkCrisisContent(formData.context);
+    const isCrisisHigh = crisisCheck.severity === "high";
 
     const fullWhatsapp = `${formData.countryCode} ${formData.whatsapp}`.trim();
     const contextPayload = [
       quizFromNav || quizDone ? "Path: from_quiz" : "Path: direct_whatsapp",
       quizDone ? "Quiz completed: yes" : null,
+      isCrisisHigh ? "Crisis hold: yes — Mirror blocked" : null,
       `DOB: ${dobValue}`,
       `Country: ${countryValue}`,
       `City: ${cityValue}`,
@@ -475,6 +486,52 @@ const Join = () => {
       "entry.1418652324": countryValue,
       "entry.142785906": cityValue,
     };
+
+    if (isCrisisHigh) {
+      setIsSubmitting(true);
+      try {
+        const crisisResponse = await fetch(CRISIS_REGISTRATION_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName: fullName,
+            surname: surnameValue,
+            fullName,
+            email: emailValue,
+            whatsapp: fullWhatsapp,
+            dob: dobValue,
+            country: countryValue,
+            city: cityValue,
+            context: formData.context || "",
+            contextPayload,
+            crisisSeverity: "high",
+            crisisDetectedAt: new Date().toISOString(),
+            quizPath: quizFromNav || quizDone ? "from_quiz" : "direct_whatsapp",
+            source: "join",
+          }),
+        });
+
+        if (!crisisResponse.ok) {
+          const err = await crisisResponse.json().catch(() => ({}));
+          setSubmitError(
+            (err as { error?: string }).error ||
+              "We couldn't save your details right now. Please use the helpline resources below or try again."
+          );
+          setCrisisMode(true);
+          return;
+        }
+
+        finishCrisisRegistration();
+      } catch {
+        setSubmitError(
+          "We couldn't save your details right now. Please use the helpline resources below."
+        );
+        setCrisisMode(true);
+      } finally {
+        setIsSubmitting(false);
+      }
+      return;
+    }
 
     const triggerEmailNotification = () => {
       fetch("/api/send-email", {
@@ -538,6 +595,18 @@ const Join = () => {
     e.preventDefault();
     await runRegistration();
   };
+
+  if (crisisMode) {
+    return (
+      <Layout>
+        <SEO
+          title="Support resources — GenMyō"
+          description="Free and confidential crisis support resources."
+        />
+        <CrisisSupportScreen />
+      </Layout>
+    );
+  }
 
   if (submitted) {
     const waUrl = getWhatsAppUrl();
