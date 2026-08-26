@@ -8,7 +8,7 @@ import {
   readQuizCompletion,
   buildJoinPathFromQuiz,
 } from "@/lib/quizRegistration";
-import { trackQuizCompleted } from "@/lib/analytics";
+import { trackQuizStart, trackQuizComplete } from "@/lib/analytics";
 
 interface WeatherScore {
   storm?: number;
@@ -168,6 +168,10 @@ const Quiz = () => {
   const [generation, setGeneration] = useState<string | null>(null);
   const [joinPath, setJoinPath] = useState("/join?from=quiz");
 
+  useEffect(() => {
+    trackQuizStart();
+  }, []);
+
   const currentQ = QUESTIONS[currentIndex];
 
   const handlePick = (optionIndex: number) => {
@@ -225,7 +229,7 @@ const Quiz = () => {
     if (saved) {
       setJoinPath(buildJoinPathFromQuiz(saved));
     }
-    trackQuizCompleted(topResult);
+    trackQuizComplete(topResult);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -414,6 +418,7 @@ const Quiz = () => {
 
                 <Link
                   to={joinPath}
+                  data-cta-location="quiz_result"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-semibold bg-[#C2A053] text-[#1C1A16] rounded-full hover:opacity-90 transition-opacity shadow-sm"
                 >
                   <Sparkles className="w-4 h-4" />

@@ -21,10 +21,14 @@ import DateOfBirthPicker from "@/components/DateOfBirthPicker";
 import { useToast } from "@/components/ui/use-toast";
 import { useSearchParams, Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Sparkles } from "lucide-react";
-import { 
-  trackCTAView, 
-  trackFormStart,
+import {
+  trackJoinPageView,
+  trackJoinFormStart,
+  trackJoinFormSubmit,
   trackFormFieldFocus,
+  trackWhatsappRedirect,
+  getGaIds,
+  getOrCreateLeadId,
 } from "@/lib/analytics";
 import {
   readQuizCompletion,
@@ -302,12 +306,12 @@ const Join = () => {
   const [hasTrackedFormStart, setHasTrackedFormStart] = useState(false);
 
   useEffect(() => {
-    trackCTAView("join_page", "/join");
+    trackJoinPageView();
   }, []);
 
   const handleFieldFocus = (fieldName: string) => {
     if (!hasTrackedFormStart) {
-      trackFormStart("individual_registration");
+      trackJoinFormStart();
       setHasTrackedFormStart(true);
     }
     trackFormFieldFocus("individual_registration", fieldName);
@@ -438,6 +442,12 @@ const Join = () => {
     setCrisisMode(true);
   };
 
+  const buildAnalyticsMeta = async () => {
+    const leadId = getOrCreateLeadId();
+    const { clientId, sessionId } = await getGaIds();
+    return { leadId, clientId, sessionId };
+  };
+
   const runRegistration = async () => {
     setSubmitError(null);
     const result = formSchema.safeParse(formData);
@@ -461,12 +471,20 @@ const Join = () => {
     const quizDone = readQuizCompletion();
     const crisisCheck = checkCrisisContent(formData.context);
     const isCrisisHigh = crisisCheck.severity === "high";
+    const wroteNote = Boolean(formData.context?.trim());
+    const hasCountry = Boolean(formData.country?.trim());
+    const hasDob = Boolean(formData.dob?.trim());
 
     const fullWhatsapp = `${formData.countryCode} ${formData.whatsapp}`.trim();
+    const { leadId, clientId, sessionId } = await buildAnalyticsMeta();
+
     const contextPayload = [
       quizFromNav || quizDone ? "Path: from_quiz" : "Path: direct_whatsapp",
       quizDone ? "Quiz completed: yes" : null,
       isCrisisHigh ? "Crisis hold: yes — Mirror blocked" : null,
+      leadId ? `lead_id: ${leadId}` : null,
+      clientId ? `ga_client_id: ${clientId}` : null,
+      sessionId ? `ga_session_id: ${sessionId}` : null,
       `DOB: ${dobValue}`,
       `Country: ${countryValue}`,
       `City: ${cityValue}`,
@@ -485,6 +503,11 @@ const Join = () => {
       "entry.1640555608": dobValue,
       "entry.1418652324": countryValue,
       "entry.142785906": cityValue,
+
+      // Stitch keys for Mirror (not GA4 event params)
+      lead_id: leadId,
+      ga_client_id: clientId,
+      ga_session_id: sessionId,
     };
 
     if (isCrisisHigh) {
@@ -508,8 +531,27 @@ const Join = () => {
             crisisDetectedAt: new Date().toISOString(),
             quizPath: quizFromNav || quizDone ? "from_quiz" : "direct_whatsapp",
             source: "join",
+            lead_id: leadId,
+            ga_client_id: clientId,
+            ga_session_id: sessionId,
           }),
         });
+
+        fetch("/api/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName: fullName,
+            fullName,
+            email: emailValue,
+            whatsapp: fullWhatsapp,
+            dob: dobValue,
+            country: countryValue,
+            city: cityValue,
+            context: formData.context || "",
+            crisis: true,
+          }),
+        }).catch((err) => console.error("Crisis email notification error:", err));
 
         if (!crisisResponse.ok) {
           const err = await crisisResponse.json().catch(() => ({}));
@@ -521,6 +563,12 @@ const Join = () => {
           return;
         }
 
+        trackJoinFormSubmit({
+          has_country: hasCountry,
+          has_dob: hasDob,
+          wrote_reflection_note: wroteNote,
+          crisis_hold: true,
+        });
         finishCrisisRegistration();
       } catch {
         setSubmitError(
@@ -577,11 +625,23 @@ const Join = () => {
         return;
       }
 
+      trackJoinFormSubmit({
+        has_country: hasCountry,
+        has_dob: hasDob,
+        wrote_reflection_note: wroteNote,
+        crisis_hold: false,
+      });
       triggerSecondaryAws();
       triggerEmailNotification();
       postToGoogleForm(fields);
       finishWaitlistSuccess();
     } catch {
+      trackJoinFormSubmit({
+        has_country: hasCountry,
+        has_dob: hasDob,
+        wrote_reflection_note: wroteNote,
+        crisis_hold: false,
+      });
       triggerSecondaryAws();
       triggerEmailNotification();
       postToGoogleForm(fields);
@@ -642,6 +702,7 @@ const Join = () => {
                 href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackWhatsappRedirect("qr")}
                 className="p-3 bg-white rounded-xl shadow-inner border border-border/40 hover:scale-105 transition-transform cursor-pointer group"
                 title="Click or scan to open WhatsApp"
               >
@@ -663,6 +724,7 @@ const Join = () => {
                 href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackWhatsappRedirect("button")}
                 className="inline-flex items-center justify-center gap-2.5 w-full px-8 py-4 text-base font-semibold bg-[#C2A053] text-[#1C1A16] rounded-full shadow-md hover:opacity-95 transition-all group"
               >
                 <ArrowRight className="w-5 h-5 hidden" />

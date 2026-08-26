@@ -27,6 +27,9 @@ interface CrisisRegistrationBody {
   crisisDetectedAt?: string;
   quizPath?: string;
   source?: string;
+  lead_id?: string;
+  ga_client_id?: string;
+  ga_session_id?: string;
 }
 
 export default async function handler(
@@ -71,6 +74,9 @@ export default async function handler(
     crisisDetectedAt: body.crisisDetectedAt || new Date().toISOString(),
     quizPath: body.quizPath || "",
     source: "join",
+    lead_id: body.lead_id || "",
+    ga_client_id: body.ga_client_id || "",
+    ga_session_id: body.ga_session_id || "",
   };
 
   try {

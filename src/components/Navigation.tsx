@@ -94,6 +94,7 @@ const Navigation = () => {
             </Link>
             <Link
               to="/join"
+              data-cta-location="nav"
               className="inline-flex items-center justify-center px-7 py-2.5 text-sm font-semibold bg-[#C2A053] text-[#1C1A16] rounded-full shadow-sm hover:opacity-90 transition-opacity"
               style={{ backgroundColor: "#C2A053", color: "#1C1A16" }}
             >
@@ -177,6 +178,7 @@ const Navigation = () => {
               <div className="pt-3 border-t border-border/20 mt-2 flex flex-col gap-3">
                 <Link
                   to="/join"
+                  data-cta-location="mobile_sticky"
                   onClick={() => setIsOpen(false)}
                   className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 text-sm font-semibold bg-[#C2A053] text-[#1C1A16] rounded-full hover:opacity-90 transition-opacity"
                   style={{ backgroundColor: "#C2A053", color: "#1C1A16" }}

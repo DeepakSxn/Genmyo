@@ -15,6 +15,11 @@
       "source": "/reflection-prompt-generator",
       "destination": "/join",
       "permanent": true
+    },
+    {
+      "source": "/register",
+      "destination": "/join",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -49,6 +54,10 @@
     {
       "source": "/api/register-crisis",
       "destination": "/api/register-crisis"
+    },
+    {
+      "source": "/api/ga4-mp",
+      "destination": "/api/ga4-mp"
     },
     {
       "source": "/:path*",

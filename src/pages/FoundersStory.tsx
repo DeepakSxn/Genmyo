@@ -290,6 +290,7 @@ const FoundersStory = () => {
           <div className="flex flex-col items-center">
             <Link
               to="/join"
+              data-cta-location="founders_story"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity shadow-md"
             >
               <MessageCircle size={18} />

@@ -17,17 +17,30 @@ export default async function handler(
     return response.status(405).json({ error: "Method Not Allowed" });
   }
 
-  const { firstName, fullName, email, whatsapp, dob, country, city, context } =
+  const { firstName, fullName, email, whatsapp, dob, country, city, context, crisis } =
     request.body || {};
 
   if (!email) {
     return response.status(400).json({ error: "Missing required field: email" });
   }
 
-  const apiKey = process.env.resend_api;
+  const apiKey = process.env.resend_api || process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error("Missing resend_api environment variable.");
     return response.status(500).json({ error: "Internal Server Configuration Error" });
+  }
+
+  if (crisis) {
+    return sendCrisisEmails(response, apiKey, {
+      firstName,
+      fullName,
+      email,
+      whatsapp,
+      dob,
+      country,
+      city,
+      context,
+    });
   }
 
   // Bare click-to-chat — no prefill text (Android + iPhone).
@@ -213,6 +226,109 @@ export default async function handler(
     return response.status(200).json({ success: true, data });
   } catch (error: any) {
     console.error("Failed to send batch emails via Resend:", error);
+    return response.status(500).json({ error: error.message || "Failed to send emails" });
+  }
+}
+
+function escapeHtml(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+async function sendCrisisEmails(
+  response: VercelResponse,
+  apiKey: string,
+  payload: {
+    firstName?: string;
+    fullName?: string;
+    email: string;
+    whatsapp?: string;
+    dob?: string;
+    country?: string;
+    city?: string;
+    context?: string;
+  }
+) {
+  const firstName = escapeHtml(payload.firstName || "there");
+  const displayName = escapeHtml(payload.fullName || payload.firstName || payload.email || "Unknown");
+
+  const adminHtml = `
+    <!DOCTYPE html>
+    <html>
+    <body style="font-family: system-ui, sans-serif; color: #1C1A16; padding: 24px;">
+      <div style="background:#7f1d1d;color:#fff;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
+        <strong>CRISIS HOLD — DO NOT ENGAGE MIRROR</strong>
+      </div>
+      <p>Stored in Agent_Crisis_Holds. User was shown helplines only.</p>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <tr><td style="padding:8px 12px;border:1px solid #e0ddd7;font-weight:600;width:160px;background:#f9f7f3;">Name</td><td style="padding:8px 12px;border:1px solid #e0ddd7;">${displayName}</td></tr>
+        <tr><td style="padding:8px 12px;border:1px solid #e0ddd7;font-weight:600;background:#f9f7f3;">Email</td><td style="padding:8px 12px;border:1px solid #e0ddd7;">${escapeHtml(payload.email)}</td></tr>
+        <tr><td style="padding:8px 12px;border:1px solid #e0ddd7;font-weight:600;background:#f9f7f3;">WhatsApp</td><td style="padding:8px 12px;border:1px solid #e0ddd7;">${escapeHtml(payload.whatsapp || "N/A")}</td></tr>
+        <tr><td style="padding:8px 12px;border:1px solid #e0ddd7;font-weight:600;background:#f9f7f3;">What's on their mind</td><td style="padding:8px 12px;border:1px solid #e0ddd7;">${escapeHtml(payload.context || "—")}</td></tr>
+      </table>
+    </body>
+    </html>
+  `;
+
+  const userHtml = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <body style="margin:0;padding:0;background-color:#FBF9F4;font-family:'Helvetica Neue',Arial,sans-serif;color:#1C1A16;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#FBF9F4;padding:40px 16px;">
+        <tr><td align="center">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#fff;border-radius:20px;overflow:hidden;border:1px solid rgba(28,26,22,0.08);">
+            <tr><td style="padding:40px 40px 24px;text-align:center;background:#FDFCF8;">
+              <p style="margin:0;font-family:Georgia,serif;font-size:26px;letter-spacing:0.18em;text-transform:uppercase;">GENMYŌ</p>
+            </td></tr>
+            <tr><td style="padding:36px 40px 32px;">
+              <p style="margin:0 0 20px;font-family:Georgia,serif;font-size:21px;">Hi ${firstName},</p>
+              <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:#4A463E;">Thank you for reaching out. Your details have been received.</p>
+              <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:#4A463E;">You are not alone. If you need someone to talk to, free and confidential support is available right now:</p>
+              <p style="margin:0 0 12px;font-size:15px;line-height:1.7;color:#4A463E;"><strong>Find a helpline in your country:</strong><br/><a href="https://findahelpline.com" style="color:#B0703E;">https://findahelpline.com</a></p>
+              <p style="margin:0 0 12px;font-size:15px;line-height:1.7;color:#4A463E;"><strong>In Singapore:</strong> call <a href="tel:1767" style="color:#B0703E;">1767</a> or message <a href="https://wa.me/6591511767" style="color:#B0703E;">9151 1767 on WhatsApp</a> (Samaritans of Singapore, 24 hours)</p>
+              <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#4A463E;">If you are in immediate danger, please call your local emergency services.</p>
+              <p style="margin:0;font-size:13px;line-height:1.6;color:#6B6760;">GenMyō is not a crisis service.</p>
+            </td></tr>
+          </table>
+        </td></tr>
+      </table>
+    </body>
+    </html>
+  `;
+
+  try {
+    const res = await fetch("https://api.resend.com/emails/batch", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify([
+        {
+          from: "GenMyō <noreply@genmyo.ai>",
+          to: ["hello@genmyo.ai"],
+          subject: `CRISIS HOLD: ${payload.fullName || payload.firstName || payload.email}`,
+          html: adminHtml,
+        },
+        {
+          from: "GenMyō <noreply@genmyo.ai>",
+          to: [payload.email],
+          subject: "You are not alone — support is available right now",
+          html: userHtml,
+        },
+      ]),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      console.error("Resend crisis email error:", JSON.stringify(data));
+      return response.status(res.status).json({ error: data });
+    }
+    return response.status(200).json({ success: true, crisis: true, data });
+  } catch (error: any) {
+    console.error("Failed to send crisis emails:", error);
     return response.status(500).json({ error: error.message || "Failed to send emails" });
   }
 }

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
-import { trackCTAView, trackCTAClickWhatsApp } from "@/lib/analytics";
+import { trackCTAView } from "@/lib/analytics";
 
 import {
   ArrowRight,
@@ -303,6 +303,7 @@ const Index = () => {
               <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-up delay-300">
                 <Link
                   to="/join"
+                  data-cta-location="hero"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
                 >
                   <MessageCircle size={18} />
@@ -413,8 +414,8 @@ const Index = () => {
               </p>
               <Link
                 to="/join"
+                data-cta-location="for_you"
                 className="inline-flex items-center gap-2 px-8 py-4 text-base font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
-                onClick={() => trackCTAClickWhatsApp("homepage_foryou_cta", "/join")}
               >
                 Start free
                 <ArrowRight size={16} />
@@ -546,6 +547,7 @@ const Index = () => {
           </h2>
           <Link
             to="/join"
+            data-cta-location="final_cta"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium bg-accent text-accent-foreground rounded-full hover:opacity-90 transition-opacity"
           >
             <MessageCircle size={18} />

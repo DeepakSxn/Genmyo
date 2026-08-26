@@ -41,6 +41,7 @@ export const AppRoutes = () => (
       <Route path="/alternatives/stoic" element={<StoicAlternative />} />
       <Route path="/100-conversations" element={<ConversationsReport />} />
       <Route path="/reflection-prompt-generator" element={<Navigate to="/join" replace />} />
+      <Route path="/register" element={<Navigate to="/join" replace />} />
       
       {/* Programmatic Question Library */}
       <Route path="/reflection-questions/feeling-stuck-at-work" element={<ReflectionQuestions situation="feeling-stuck-at-work" />} />
