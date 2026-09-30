@@ -60,7 +60,7 @@ const CountryCodeCombobox = ({
           aria-label={ariaLabel}
           suppressHydrationWarning
           className={cn(
-            "w-full justify-between font-normal px-3",
+            "h-10 w-full justify-between font-normal px-3",
             !selected && "text-muted-foreground",
             hasError && "border-destructive"
           )}

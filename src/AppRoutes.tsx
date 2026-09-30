@@ -4,6 +4,8 @@ import Index from "./pages/Index";
 import Philosophy from "./pages/Philosophy";
 import NotFound from "./pages/NotFound";
 import Join from "./pages/Join";
+import CrisisSupport from "./pages/CrisisSupport";
+import FAQ from "./pages/FAQ";
 import Team from "./pages/Team";
 import Terms from "./pages/Terms";
 import Partners from "./pages/Partners";
@@ -34,7 +36,7 @@ export const AppRoutes = () => (
       <Route path="/founders-story" element={<FoundersStory />} />
       <Route path="/philosophy" element={<Philosophy />} />
       <Route path="/how-it-works" element={<HowItWorks />} />
-      <Route path="/faq" element={<Navigate to="/#faq" replace />} />
+      <Route path="/faq" element={<FAQ />} />
       <Route path="/whatsapp-journaling" element={<Navigate to="/emotional-check-in" replace />} />
       <Route path="/ai-journaling" element={<Navigate to="/emotional-check-in" replace />} />
       <Route path="/alternatives/rosebud" element={<RosebudAlternative />} />
@@ -56,6 +58,7 @@ export const AppRoutes = () => (
       <Route path="/reflection-questions/after-rejection" element={<ReflectionQuestions situation="after-rejection" />} />
       
       <Route path="/join" element={<Join />} />
+      <Route path="/crisis" element={<CrisisSupport />} />
       <Route path="/team" element={<Team />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/partners" element={<Partners />} />

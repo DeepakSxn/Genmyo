@@ -1,71 +1,100 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
 import { ChevronDown, MessageCircle } from "lucide-react";
-import { trackCTAClickWhatsApp } from "@/lib/analytics";
-import { getWhatsAppUrl } from "@/config/whatsapp";
+
+const faqs = [
+  {
+    id: "what-is-genmyo",
+    q: "What is GenMyo?",
+    a: "GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice.",
+  },
+  {
+    id: "mirror-project",
+    q: "What is The Mirror Project?",
+    a: "The Mirror Project is the core introductory experience of GenMyo. It is a free, 2-minute guided reflection session conducted entirely over WhatsApp. By asking a series of thoughtful, slow-paced questions, it helps you pause, clear away mental chatter, and identify what is actually happening in your life right now.",
+  },
+  {
+    id: "journaling",
+    q: "Is GenMyo a journaling app or a meditation app?",
+    a: "No. GenMyo is not a journaling app, a diary, or a meditation library. There is no blank page to fill and no content to browse. The Mirror Project by GenMyo guides you through a short reflection by asking questions — you simply answer, at your own pace.",
+  },
+  {
+    id: "safe-secrets",
+    q: "Is GenMyo safe for deep personal secrets?",
+    a: "GenMyo uses secure API connections and AWS encryption. However, because it is an automated space, it is best used as a patient thought partner for clarity rather than a clinical vault for severe trauma. We prioritize your privacy, never sell your data, and explicitly exclude your reflections from AI model training weights.",
+  },
+  {
+    id: "free",
+    q: "Is it free?",
+    a: "Yes. The Mirror Project is completely free to start and reflect. There are no hidden fees, subscriptions, or credit card requirements to start your daily or weekly sessions.",
+  },
+  {
+    id: "no-app",
+    q: "Do I need to download an app?",
+    a: "No. GenMyo runs directly within WhatsApp. There are no accounts to create, passwords to remember, or new applications to install on your phone. You reflect using the interface you already interact with daily.",
+  },
+  {
+    id: "how-long",
+    q: "How long does a reflection take?",
+    a: "A standard reflection session takes about 2 minutes. However, because you are in control of the pace, you can take as long as you'd like to reply. The system will never rush or nudge you.",
+  },
+  {
+    id: "privacy",
+    q: "Is it private? Can a human read my reflections?",
+    a: "Yes, it is private by default. Your reflection transcripts are processed programmatically. No human at GenMyo reads your reflections unless you explicitly flag a session for technical support or raise a safety concern. We never sell, rent, or share your transcripts with third parties or advertisers.",
+  },
+  {
+    id: "train-ai",
+    q: "Do you use my reflections to train AI?",
+    a: "No. We process your reflections using secure API endpoints that explicitly exclude private user reflections from training foundation language models. Your inputs remain entirely your own.",
+  },
+  {
+    id: "therapy",
+    q: "Is this therapy? Can it replace a therapist?",
+    a: "No, GenMyo is not therapy, clinical psychology, or psychiatric care. We do not diagnose, treat, or provide clinical advice. Guided reflection is a wellness practice designed for self-discovery and clarity. If you need mental health care, we strongly encourage you to seek a licensed professional.",
+  },
+  {
+    id: "crisis",
+    q: "What if I'm in crisis?",
+    a: "GenMyo is not a crisis monitoring service. If you are in distress, self-harming, or experiencing a mental health emergency, please seek immediate help. You can contact these verified, confidential resources:\n- **United States:** Call or text 988 (988 Suicide & Crisis Lifeline)\n- **United Kingdom:** Call 116 123 (Samaritans)\n- **India:** Call +91-9820466726 (AASRA) or +91-9999666555 (Vandrevala Foundation)\n- **International:** Visit [Find A Helpline](https://findahelpline.com/) to find immediate support in your country.",
+  },
+  {
+    id: "no-nudge",
+    q: "Will you message me if I don't reply?",
+    a: "No. We only message you when you initiate a session. We do not use engagement algorithms, pushy reminders, or spam notifications. You can end automated prompts at any time by replying STOP.",
+  },
+  {
+    id: "who-for",
+    q: "Who is GenMyo for?",
+    a: "GenMyo is designed for anyone feeling busy, stuck, or overwhelmed who wants to build self-awareness and self-reflection habits. It is particularly helpful for people looking for a low-friction, private way to clear their mind without adopting complex productivity systems or downloading more apps.",
+  },
+  {
+    id: "how-to-start",
+    q: "How do I start?",
+    a: "Simply click any of our CTA buttons to start. This will open WhatsApp with a prefilled message. Once you send that first message, our AI-guided assistant will walk you through your first reflection session.",
+  },
+] as const;
 
 const FAQ = () => {
-  const waUrl = getWhatsAppUrl();
+  const location = useLocation();
 
-  const faqs = [
-    {
-      q: "What is GenMyo?",
-      a: "GenMyo is an inner wellness platform delivered entirely through WhatsApp. Its core experience, The Mirror Project by GenMyo, is a guided reflection — a few honest questions, asked slowly, that help you reconnect with yourself and see what's actually going on. Not therapy. Not another app. No advice."
-    },
-    {
-      q: "What is The Mirror Project?",
-      a: "The Mirror Project is the core introductory experience of GenMyo. It is a free, 2-minute guided reflection session conducted entirely over WhatsApp. By asking a series of thoughtful, slow-paced questions, it helps you pause, clear away mental chatter, and identify what is actually happening in your life right now."
-    },
-    {
-      q: "Is GenMyo a journaling app or a meditation app?",
-      a: "No. GenMyo is not a journaling app, a diary, or a meditation library. There is no blank page to fill and no content to browse. The Mirror Project by GenMyo guides you through a short reflection by asking questions — you simply answer, at your own pace."
-    },
-    {
-      q: "Is GenMyo safe for deep personal secrets?",
-      a: "GenMyo uses secure API connections and AWS encryption. However, because it is an automated space, it is best used as a patient thought partner for clarity rather than a clinical vault for severe trauma. We prioritize your privacy, never sell your data, and explicitly exclude your reflections from AI model training weights."
-    },
-    {
-      q: "Is it free?",
-      a: "Yes. The Mirror Project is completely free to start and reflect. There are no hidden fees, subscriptions, or credit card requirements to start your daily or weekly sessions."
-    },
-    {
-      q: "Do I need to download an app?",
-      a: "No. GenMyo runs directly within WhatsApp. There are no accounts to create, passwords to remember, or new applications to install on your phone. You reflect using the interface you already interact with daily."
-    },
-    {
-      q: "How long does a reflection take?",
-      a: "A standard reflection session takes about 2 minutes. However, because you are in control of the pace, you can take as long as you'd like to reply. The system will never rush or nudge you."
-    },
-    {
-      q: "Is it private? Can a human read my reflections?",
-      a: "Yes, it is private by default. Your reflection transcripts are processed programmatically. No human at GenMyo reads your reflections unless you explicitly flag a session for technical support or raise a safety concern. We never sell, rent, or share your transcripts with third parties or advertisers."
-    },
-    {
-      q: "Do you use my reflections to train AI?",
-      a: "No. We process your reflections using secure API endpoints that explicitly exclude private user reflections from training foundation language models. Your inputs remain entirely your own."
-    },
-    {
-      q: "Is this therapy? Can it replace a therapist?",
-      a: "No, GenMyo is not therapy, clinical psychology, or psychiatric care. We do not diagnose, treat, or provide clinical advice. Guided reflection is a wellness practice designed for self-discovery and clarity. If you need mental health care, we strongly encourage you to seek a licensed professional."
-    },
-    {
-      q: "What if I'm in crisis?",
-      a: "GenMyo is not a crisis monitoring service. If you are in distress, self-harming, or experiencing a mental health emergency, please seek immediate help. You can contact these verified, confidential resources:\n- **United States:** Call or text 988 (988 Suicide & Crisis Lifeline)\n- **United Kingdom:** Call 116 123 (Samaritans)\n- **India:** Call +91-9820466726 (AASRA) or +91-9999666555 (Vandrevala Foundation)\n- **International:** Visit [Find A Helpline](https://findahelpline.com/) to find immediate support in your country."
-    },
-    {
-      q: "Will you message me if I don't reply?",
-      a: "No. We only message you when you initiate a session. We do not use engagement algorithms, pushy reminders, or spam notifications. You can end automated prompts at any time by replying STOP."
-    },
-    {
-      q: "Who is GenMyo for?",
-      a: "GenMyo is designed for anyone feeling busy, stuck, or overwhelmed who wants to build self-awareness and self-reflection habits. It is particularly helpful for people looking for a low-friction, private way to clear their mind without adopting complex productivity systems or downloading more apps."
-    },
-    {
-      q: "How do I start?",
-      a: "Simply click any of our CTA buttons to start. This will open WhatsApp with a prefilled message. Once you send that first message, our AI-guided assistant will walk you through your first reflection session."
-    }
-  ];
+  useEffect(() => {
+    const hash = location.hash.replace(/^#/, "");
+    if (!hash) return;
+
+    const openTarget = () => {
+      const el = document.getElementById(hash);
+      if (!el || !(el instanceof HTMLDetailsElement)) return;
+      el.open = true;
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    // Wait a tick for the accordion to paint
+    const t = window.setTimeout(openTarget, 50);
+    return () => window.clearTimeout(t);
+  }, [location.hash]);
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -110,10 +139,11 @@ const FAQ = () => {
         <div className="container-narrow">
           <div className="bg-white border border-border/80 rounded-3xl p-6 md:p-8 shadow-sm">
             <div className="w-full">
-              {faqs.map((faq, index) => (
+              {faqs.map((faq) => (
                 <details
-                  key={index}
-                  className="border-b border-border py-2 group last:border-b-0"
+                  key={faq.id}
+                  id={faq.id}
+                  className="border-b border-border py-2 group last:border-b-0 scroll-mt-28"
                 >
                   <summary className="flex flex-1 cursor-pointer list-none items-center justify-between py-4 font-serif text-lg md:text-xl font-medium text-[#1C1A16] hover:text-[#B0703E] text-left transition-colors [&::-webkit-details-marker]:hidden">
                     {faq.q}
