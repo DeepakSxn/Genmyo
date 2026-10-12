@@ -10,7 +10,6 @@ import {
   Star,
 } from "lucide-react";
 
-import WalkthroughDialog from "@/components/WalkthroughDialog";
 import genmyoOrb from "@/assets/genmyo-orb-gold.png";
 
 /* ── Mirror Portrait card (outcome, IP-safe) ── */
@@ -441,8 +440,13 @@ const Index = () => {
                 WhatsApp is already where your team is. You see anonymous, aggregate wellbeing, never
                 an individual. Human support where it's earned.
               </p>
-              <WalkthroughDialog />
-
+              <Link
+                to="/for-business"
+                className="inline-flex items-center gap-2 px-8 py-4 text-base font-medium bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
+              >
+                Explore for business
+                <ArrowRight size={16} />
+              </Link>
             </div>
             <div className="lg:order-1">
               <TeamViz />

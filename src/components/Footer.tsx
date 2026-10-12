@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="md:col-span-2">
             <h3 className="font-serif text-3xl font-medium mb-4">GenMyo</h3>
             <p className="text-primary-foreground/70 max-w-md leading-relaxed">
-              GenMyo is an inner wellness platform delivered through WhatsApp. The Mirror Project by GenMyo — a guided reflection to help you reconnect with yourself.
+              GenMyo is an inner wellness platform delivered through WhatsApp. The Mirror by GenMyo — a guided reflection to help you reconnect with yourself.
             </p>
           </div>
 
@@ -28,6 +28,7 @@ const Footer = () => {
                 { href: "/100-conversations", label: "100 Conversations Report" },
                 { href: "/philosophy", label: "Our Philosophy" },
                 { href: "/founders-story", label: "Founder's Story" },
+                { href: "/for-business", label: "For business" },
                 { href: "/partners", label: "Partners" },
                 { href: "/blog", label: "Blog" },
                 { href: "/team", label: "Team" },

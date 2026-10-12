@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
@@ -11,15 +12,17 @@ const Navigation = () => {
     setIsOpen(false);
   }, [location]);
 
-  const sectionLinks = [
-    { id: "for-you", label: "For you" },
-    { id: "for-business", label: "For business" },
-  ];
+  const sectionLinks = [{ id: "for-you", label: "For you" }] as const;
 
   const isActive = (path: string) => location.pathname === path;
 
-  // Home, partners, how-it-works, & linktree heroes are dark; light nav chrome until html.is-scrolled (see index.css)
-  const darkHero = location.pathname === "/" || location.pathname === "/partners" || location.pathname === "/how-it-works" || location.pathname === "/linktree";
+  // Home, partners, how-it-works, for-business, & linktree heroes are dark; light nav chrome until html.is-scrolled (see index.css)
+  const darkHero =
+    location.pathname === "/" ||
+    location.pathname === "/partners" ||
+    location.pathname === "/how-it-works" ||
+    location.pathname === "/for-business" ||
+    location.pathname === "/linktree";
 
   const linkClass = (active: boolean) =>
     darkHero
@@ -67,6 +70,13 @@ const Navigation = () => {
               </a>
             ))}
             <Link
+              to="/for-business"
+              data-active={isActive("/for-business") ? "true" : undefined}
+              className={linkClass(isActive("/for-business"))}
+            >
+              For business
+            </Link>
+            <Link
               to="/partners"
               data-active={isActive("/partners") ? "true" : undefined}
               className={linkClass(isActive("/partners"))}
@@ -111,12 +121,13 @@ const Navigation = () => {
           </button>
         </div>
 
-        {isOpen && (
+        {isOpen &&
+          createPortal(
           <div
-            className={`md:hidden px-6 py-6 mt-2 rounded-2xl border shadow-xl animate-fade-in transition-all ${
+            className={`md:hidden fixed inset-x-0 top-20 bottom-0 z-[60] overflow-y-auto overscroll-contain px-6 py-6 pb-28 ${
               darkHero
-                ? "bg-[#181613]/95 backdrop-blur-md border-primary-foreground/15 text-primary-foreground"
-                : "bg-background/95 backdrop-blur-md border-border/60 text-foreground"
+                ? "bg-[#181613] text-primary-foreground"
+                : "bg-background text-foreground"
             }`}
           >
             <div className="flex flex-col gap-3">
@@ -145,6 +156,19 @@ const Navigation = () => {
                 }`}
               >
                 How It Works
+              </Link>
+              <Link
+                to="/for-business"
+                onClick={() => setIsOpen(false)}
+                className={`text-base font-medium py-2 transition-colors ${
+                  isActive("/for-business")
+                    ? "text-gold font-semibold"
+                    : darkHero
+                    ? "text-primary-foreground/80 hover:text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                For business
               </Link>
               <Link
                 to="/partners"
@@ -187,7 +211,8 @@ const Navigation = () => {
                 </Link>
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )}
       </div>
     </nav>

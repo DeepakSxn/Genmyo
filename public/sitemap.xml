@@ -19,6 +19,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://genmyo.ai/for-business</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://genmyo.ai/quiz</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>monthly</changefreq>

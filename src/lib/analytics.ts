@@ -15,6 +15,7 @@ export type CtaButtonLocation =
   | "hero"
   | "nav"
   | "for_you"
+  | "for_business"
   | "final_cta"
   | "footer"
   | "mobile_sticky"
@@ -130,6 +131,21 @@ export function trackJoinFormStart() {
   });
 }
 
+/** Join conversation beat reached / abandoned (drop-funnel) */
+export function trackJoinBeat(opts: {
+  beat: string;
+  action: "reached" | "completed" | "abandoned";
+  index: number;
+}) {
+  trackGAEvent("join_beat", {
+    form_id: "individual_registration",
+    beat: opts.beat,
+    beat_action: opts.action,
+    beat_index: opts.index,
+    entry_source: getFirstCtaLocation(),
+  });
+}
+
 /** 4. Successful join submit (on-site conversion — mark as key event in GA4) */
 export function trackJoinFormSubmit(opts: {
   has_country: boolean;
@@ -241,6 +257,7 @@ function resolveCtaLocation(el: Element): string {
   if (path === "/") return "hero";
   if (path.startsWith("/quiz")) return "quiz_result";
   if (path.startsWith("/how-it-works")) return "how_it_works";
+  if (path.startsWith("/for-business")) return "for_business";
   if (path.startsWith("/stories")) return "stories";
   if (path.startsWith("/founders-story")) return "founders_story";
   return "content";

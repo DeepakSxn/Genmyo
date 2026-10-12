@@ -2,18 +2,7 @@ import { useState, useEffect } from "react";
 import { z } from "zod";
 import Layout from "@/components/Layout";
 import { SEO } from "@/components/SEO";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import CountryCodeCombobox from "@/components/CountryCodeCombobox";
-import CountryNameCombobox from "@/components/CountryNameCombobox";
-import DateOfBirthPicker from "@/components/DateOfBirthPicker";
-import { useToast } from "@/components/ui/use-toast";
 import { useSearchParams, Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   trackJoinPageView,
   trackJoinFormStart,
@@ -30,8 +19,7 @@ import {
 import { getWhatsAppUrl } from "@/config/whatsapp";
 import { checkCrisisContent } from "@/lib/crisisDetection";
 import { CrisisSupportScreen } from "@/components/CrisisSupportMessage";
-import { JoinPathway } from "@/components/JoinPathway";
-import { JoinInfoAside } from "@/components/JoinInfoAside";
+import { JoinConversation } from "@/components/JoinConversation";
 
 const JOIN_DRAFT_KEY = "genmyo_join_draft";
 
@@ -80,10 +68,7 @@ function getInitialJoinContext(searchParams: URLSearchParams) {
   return "";
 }
 
-const ADMIN_EMAIL = "hello@genmyo.ai";
-
-const GOOGLE_FORM_URL =
-  "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
+const GOOGLE_FORM_URL =  "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdYB479pboOh2TO8dgUFSObYR5Kd7P0qOhw30kgJ0A33-jzqw/formResponse";
 const REGISTRATION_API_URL = "/api/register";
 const CRISIS_REGISTRATION_API_URL = "/api/register-crisis";
 const SECONDARY_AWS_API_URL =
@@ -298,67 +283,31 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const businessSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(1, "Please enter your name")
-    .max(100, "Name is too long"),
-  email: z
-    .string()
-    .trim()
-    .email("Please enter a valid email")
-    .max(255, "Email is too long"),
-  phoneCode: z.string().min(1, "Select a region code"),
-  phone: z
-    .string()
-    .trim()
-    .min(1, "Contact number is required")
-    .max(20, "Please enter a valid number")
-    .regex(/^[0-9\s\-()]+$/, "Digits only (no region code here)"),
-  company: z
-    .string()
-    .trim()
-    .min(1, "Please enter your company")
-    .max(120, "Company name is too long"),
-  role: z.string().trim().max(120, "Role is too long").optional(),
-  teamSize: z.string().trim().max(50).optional(),
-  notes: z.string().trim().max(1000, "Notes are too long").optional(),
-});
-
-type BusinessData = z.infer<typeof businessSchema>;
-
 const joinSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   "@id": "https://genmyo.ai/join#howto",
   name: "How to join GenMyo on WhatsApp",
   description:
-    "Save your details to connect directly with The Mirror on WhatsApp.",
+    "Share a few details to connect directly with The Mirror on WhatsApp.",
   totalTime: "PT3M",
   provider: { "@id": "https://genmyo.ai/#organization" },
   isPartOf: { "@id": "https://genmyo.ai/#website" },
   step: [
     {
       "@type": "HowToStep",
-      name: "Take the quiz (optional)",
-      text: "Discover your inner weather profile in about two minutes.",
-    },
-    {
-      "@type": "HowToStep",
-      name: "Fill details",
-      text: "Provide your name, email, and WhatsApp number on the join form.",
+      name: "Share your details",
+      text: "Answer a few quiet questions â€” name, email, country, date of birth, and WhatsApp.",
     },
     {
       "@type": "HowToStep",
       name: "Start on WhatsApp",
-      text: "Submit once to connect directly with The Mirror on WhatsApp.",
+      text: "Submit once, then say hi to The Mirror on WhatsApp to begin reflecting.",
     },
   ],
 };
 
 const Join = () => {
-  const { toast } = useToast();
   const [searchParams] = useSearchParams();
   const quizFromNav = searchParams.get("from") === "quiz";
   const [hasTrackedFormStart, setHasTrackedFormStart] = useState(false);
@@ -420,66 +369,6 @@ const Join = () => {
     formData.whatsapp,
     formData.context,
   ]);
-
-  const [business, setBusiness] = useState<BusinessData>({
-    name: "",
-    email: "",
-    phoneCode: "",
-    phone: "",
-    company: "",
-    role: "",
-    teamSize: "",
-    notes: "",
-  });
-  const [businessErrors, setBusinessErrors] = useState<
-    Partial<Record<keyof BusinessData, string>>
-  >({});
-
-  const handleBusinessChange = (field: keyof BusinessData, value: string) => {
-    setBusiness((prev) => ({ ...prev, [field]: value }));
-    if (businessErrors[field]) {
-      setBusinessErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-  };
-
-  const handleBusinessSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = businessSchema.safeParse(business);
-    if (!result.success) {
-      const fieldErrors: Partial<Record<keyof BusinessData, string>> = {};
-      result.error.issues.forEach((issue) => {
-        const field = issue.path[0] as keyof BusinessData;
-        if (!fieldErrors[field]) fieldErrors[field] = issue.message;
-      });
-      setBusinessErrors(fieldErrors);
-      return;
-    }
-    setBusinessErrors({});
-
-    const { name, email, phoneCode, phone, company, role, teamSize, notes } =
-      result.data;
-    const subject = `Business enquiry from ${company}`;
-    const bodyLines = [
-      "A new business enquiry has come in:",
-      "",
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Contact number: ${phoneCode} ${phone}`,
-      `Company: ${company}`,
-      role ? `Role: ${role}` : null,
-      teamSize ? `Team size: ${teamSize}` : null,
-      notes ? `Notes: ${notes}` : null,
-    ].filter(Boolean);
-    const mailto = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
-
-    window.location.href = mailto;
-    toast({
-      title: "Opening your email app",
-      description: `Your enquiry is ready to send to ${ADMIN_EMAIL}. Just hit send.`,
-    });
-  };
 
   const handleChange = (field: keyof FormData, value: string | boolean) => {
     setFormData((prev) => {
@@ -583,7 +472,7 @@ const Join = () => {
     const contextPayload = [
       quizFromNav || quizDone ? "Path: from_quiz" : "Path: direct_whatsapp",
       quizDone ? "Quiz completed: yes" : null,
-      isCrisisHigh ? "Crisis hold: yes — Mirror blocked" : null,
+      isCrisisHigh ? "Crisis hold: yes â€” Mirror blocked" : null,
       leadId ? `lead_id: ${leadId}` : null,
       clientId ? `ga_client_id: ${clientId}` : null,
       sessionId ? `ga_session_id: ${sessionId}` : null,
@@ -756,24 +645,14 @@ const Join = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+
+  const handleSubmit = async () => {
     await runRegistration();
   };
 
-  const isFormReady = Boolean(
-    formData.firstName.trim() &&
-      formData.email.trim().includes("@") &&
-      formData.dob.trim() &&
-      formData.country.trim() &&
-      formData.countryCode.trim() &&
-      formData.whatsapp.trim() &&
-      formData.termsAccepted
-  );
-
   if (crisisMode) {
     return (
-      <Layout>
+      <Layout showFAQ={false}>
         <SEO
           title="Support resources — GenMyō"
           description="Free and confidential crisis support resources."
@@ -785,7 +664,7 @@ const Join = () => {
 
   if (bridging) {
     return (
-      <Layout>
+      <Layout showFAQ={false}>
         <SEO
           title="Start on WhatsApp — GenMyo"
           description="Connecting you to The Mirror on WhatsApp."
@@ -815,7 +694,7 @@ const Join = () => {
     )}`;
 
     return (
-      <Layout>
+      <Layout showFAQ={false}>
         <SEO
           title="Start on WhatsApp — GenMyo"
           description="Connecting you to The Mirror on WhatsApp."
@@ -823,8 +702,6 @@ const Join = () => {
         />
         <section className="bg-background min-h-[75vh] flex items-center justify-center py-12">
           <div className="text-center px-6 animate-fade-up max-w-md mx-auto w-full">
-            <JoinPathway currentStep={2} className="mb-8 max-w-sm mx-auto" />
-
             <h1 className="font-serif text-3xl md:text-4xl text-foreground font-light leading-snug">
               You&apos;re all set
             </h1>
@@ -837,7 +714,6 @@ const Join = () => {
               Say hi on WhatsApp to begin your first reflection.
             </p>
 
-            {/* Primary action — always first */}
             <div className="mt-8 space-y-5">
               <a
                 href={waUrl}
@@ -849,7 +725,6 @@ const Join = () => {
                 Open WhatsApp →
               </a>
 
-              {/* QR for desktop / tablet only */}
               <div className="hidden md:flex flex-col items-center pt-2">
                 <p className="text-xs text-muted-foreground mb-3">
                   Or scan with your phone
@@ -885,14 +760,13 @@ const Join = () => {
   }
 
   return (
-    <Layout>
+    <Layout showFAQ={false}>
       <SEO
         title="Start on WhatsApp — GenMyo"
-        description="Save your details to connect directly with The Mirror on WhatsApp."
+        description="Share a few details to connect directly with The Mirror on WhatsApp."
         jsonSchema={joinSchema}
       />
       <section className="relative section-padding bg-background min-h-[75vh] overflow-hidden">
-        {/* Soft atmosphere — not flat */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-80"
@@ -901,537 +775,28 @@ const Join = () => {
               "radial-gradient(ellipse 80% 50% at 10% 0%, hsl(35 30% 90% / 0.7), transparent 55%), radial-gradient(ellipse 60% 40% at 90% 20%, hsl(42 40% 88% / 0.45), transparent 50%)",
           }}
         />
-
-        <div className="relative w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="w-full">
-            <Tabs defaultValue="individual" className="w-full">
-              <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8 bg-[#F4F0E7]/80">
-                <TabsTrigger value="individual">Individual</TabsTrigger>
-                <TabsTrigger value="business">Business</TabsTrigger>
-              </TabsList>
-
-              <TabsContent
-                value="individual"
-                className="mt-0 focus-visible:outline-none"
-              >
-                <div className="mb-8 md:mb-10 flex justify-center">
-                  <JoinPathway currentStep={1} className="max-w-md w-full" />
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,17.5rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,19rem)] gap-8 lg:gap-10 xl:gap-12 items-start">
-                  {/* Form panel — left on desktop, first on mobile */}
-                  <div className="rounded-2xl border border-[#1C1A16]/10 bg-[#FFFcf7]/90 shadow-[0_12px_40px_-16px_rgba(28,26,22,0.12)] backdrop-blur-[2px]">
-                    <div className="px-5 py-6 sm:px-8 sm:py-8 md:px-10 md:py-9 pb-28 lg:pb-9">
-                      <p className="lg:hidden text-center text-[0.7rem] tracking-wide text-[#5C564C] mb-5">
-                        Private · Free · ~2 min
-                      </p>
-
-                      <header className="mb-7 pb-6 border-b border-[#1C1A16]/08">
-                        <p className="text-[0.65rem] font-semibold tracking-[0.18em] uppercase text-[#B0703E] mb-3">
-                          Join The Mirror Project
-                        </p>
-                        <h1 className="font-serif text-3xl md:text-[2.35rem] font-medium text-[#1C1A16] leading-[1.15] tracking-tight">
-                          {quizFromNav || readQuizCompletion()
-                            ? "Complete your signup"
-                            : "Start on WhatsApp"}
-                        </h1>
-                        <p className="mt-3 text-sm text-[#5C564C] leading-relaxed max-w-md">
-                          {quizFromNav || readQuizCompletion()
-                            ? "Your quiz results are ready. Save details → say hi on WhatsApp → begin reflecting."
-                            : "Save your details, then say hi on WhatsApp. The Mirror meets you there."}
-                        </p>
-                      </header>
-
-                      <form onSubmit={handleSubmit} className="space-y-7">
-                        {/* Group: who you are */}
-                        <fieldset className="space-y-4 border-0 p-0 m-0">
-                          <legend className="sr-only">Your details</legend>
-                          <div className="space-y-2">
-                            <Label htmlFor="firstName">
-                              Your Name{" "}
-                              <span className="text-[#B0703E]">*</span>
-                            </Label>
-                            <Input
-                              id="firstName"
-                              placeholder="Your name"
-                              value={formData.firstName}
-                              onChange={(e) =>
-                                handleChange("firstName", e.target.value)
-                              }
-                              onFocus={() => handleFieldFocus("firstName")}
-                              className={
-                                errors.firstName ? "border-destructive" : ""
-                              }
-                            />
-                            {errors.firstName && (
-                              <p className="text-sm text-destructive">
-                                {errors.firstName}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="space-y-2">
-                            <Label htmlFor="email">
-                              Email <span className="text-[#B0703E]">*</span>
-                            </Label>
-                            <Input
-                              id="email"
-                              type="email"
-                              placeholder="you@email.com"
-                              autoComplete="email"
-                              value={formData.email}
-                              onChange={(e) =>
-                                handleChange("email", e.target.value)
-                              }
-                              onFocus={() => handleFieldFocus("email")}
-                              className={
-                                errors.email ? "border-destructive" : ""
-                              }
-                            />
-                            {errors.email && (
-                              <p className="text-sm text-destructive">
-                                {errors.email}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="space-y-2">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor="dob">
-                                  Date of Birth{" "}
-                                  <span className="text-[#B0703E]">*</span>
-                                </Label>
-                                <DateOfBirthPicker
-                                  value={formData.dob}
-                                  onChange={(value) =>
-                                    handleChange("dob", value)
-                                  }
-                                />
-                                {errors.dob && (
-                                  <p className="text-sm text-destructive">
-                                    {errors.dob}
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="space-y-2">
-                                <Label htmlFor="country">
-                                  Country{" "}
-                                  <span className="text-[#B0703E]">*</span>
-                                </Label>
-                                <CountryNameCombobox
-                                  countries={COUNTRY_CODES}
-                                  value={formData.country}
-                                  onChange={(value) =>
-                                    handleChange("country", value)
-                                  }
-                                  placeholder="Select country"
-                                />
-                                {errors.country && (
-                                  <p className="text-sm text-destructive">
-                                    {errors.country}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            <p className="text-xs text-[#5C564C] leading-relaxed">
-                              Helps personalise your reflection.
-                            </p>
-                          </div>
-                        </fieldset>
-
-                        {/* Group: WhatsApp */}
-                        <fieldset className="space-y-4 border-0 p-0 m-0 pt-1 border-t border-[#1C1A16]/06">
-                          <legend className="sr-only">WhatsApp contact</legend>
-                          <div
-                            className="space-y-2 pt-5"
-                            onFocusCapture={() => handleFieldFocus("whatsapp")}
-                          >
-                            <Label>
-                              WhatsApp Number{" "}
-                              <span className="text-[#B0703E]">*</span>
-                            </Label>
-                            <div className="grid grid-cols-[minmax(0,9.5rem)_1fr] sm:grid-cols-[180px_1fr] gap-2">
-                              <CountryCodeCombobox
-                                countries={COUNTRY_CODES}
-                                value={formData.countryCode}
-                                onChange={(value) =>
-                                  handleChange("countryCode", value)
-                                }
-                                placeholder="Code"
-                                ariaLabel="Country code"
-                                hasError={!!errors.countryCode}
-                              />
-                              <Input
-                                id="whatsapp"
-                                placeholder="234 567 8900"
-                                inputMode="tel"
-                                value={formData.whatsapp}
-                                onChange={(e) =>
-                                  handleChange("whatsapp", e.target.value)
-                                }
-                                onFocus={() => handleFieldFocus("whatsapp")}
-                                className={
-                                  errors.whatsapp ? "border-destructive" : ""
-                                }
-                                aria-label="WhatsApp number"
-                              />
-                            </div>
-                            {errors.countryCode && (
-                              <p className="text-sm text-destructive">
-                                {errors.countryCode}
-                              </p>
-                            )}
-                            {errors.whatsapp && (
-                              <p className="text-sm text-destructive">
-                                {errors.whatsapp}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="space-y-2">
-                            <Label htmlFor="context">
-                              What&apos;s been sitting with you lately?
-                            </Label>
-                            <Textarea
-                              id="context"
-                              placeholder="Optional — one thing on your mind right now"
-                              value={formData.context}
-                              onChange={(e) =>
-                                handleChange("context", e.target.value)
-                              }
-                              onFocus={() => handleFieldFocus("context")}
-                              rows={3}
-                              className={
-                                errors.context ? "border-destructive" : ""
-                              }
-                            />
-                            {errors.context && (
-                              <p className="text-sm text-destructive">
-                                {errors.context}
-                              </p>
-                            )}
-                          </div>
-                        </fieldset>
-
-                        {/* Consent + submit */}
-                        <div className="space-y-4 pt-1 border-t border-[#1C1A16]/06">
-                          <div className="space-y-2 pt-5">
-                            <div className="flex items-start gap-3 rounded-xl bg-[#F4F0E7]/70 px-4 py-3.5">
-                              <Checkbox
-                                id="termsAccepted"
-                                checked={formData.termsAccepted}
-                                onCheckedChange={(checked) =>
-                                  handleChange(
-                                    "termsAccepted",
-                                    checked === true,
-                                  )
-                                }
-                                aria-invalid={
-                                  errors.termsAccepted ? "true" : "false"
-                                }
-                                className={
-                                  errors.termsAccepted
-                                    ? "border-destructive"
-                                    : ""
-                                }
-                              />
-                              <div className="space-y-1 text-sm leading-relaxed">
-                                <Label
-                                  htmlFor="termsAccepted"
-                                  className="cursor-pointer font-normal text-[#1C1A16]"
-                                >
-                                  I agree to the{" "}
-                                  <Link
-                                    to="/terms"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="underline underline-offset-2 hover:text-[#B0703E]"
-                                  >
-                                    Terms & Conditions
-                                  </Link>{" "}
-                                  and acknowledge the{" "}
-                                  <Link
-                                    to="/privacy"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="underline underline-offset-2 hover:text-[#B0703E]"
-                                  >
-                                    Privacy Policy
-                                  </Link>
-                                  .
-                                </Label>
-                              </div>
-                            </div>
-                            {errors.termsAccepted && (
-                              <p className="text-sm text-destructive">
-                                {errors.termsAccepted}
-                              </p>
-                            )}
-                          </div>
-
-                          {alreadyRegistered && (
-                            <div className="rounded-xl border border-[#C2A053]/40 bg-[#C2A053]/10 p-4 space-y-3 animate-fade-in">
-                              <p className="text-sm text-[#1C1A16] leading-relaxed">
-                                This number is already registered. Open WhatsApp
-                                and message The Mirror to continue.
-                              </p>
-                              <a
-                                href={getWhatsAppUrl()}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() => trackWhatsappRedirect("button")}
-                                className="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-sm font-semibold bg-gold text-gold-foreground rounded-full hover:opacity-90 transition-opacity"
-                              >
-                                Open WhatsApp and message The Mirror →
-                              </a>
-                            </div>
-                          )}
-
-                          {submitError && (
-                            <p className="text-sm text-destructive rounded-lg border border-destructive/30 bg-[#FEE2E2]/10 p-4 animate-fade-in">
-                              {submitError}
-                            </p>
-                          )}
-
-                          <div className="lg:static sticky bottom-0 z-20 -mx-5 sm:-mx-8 md:-mx-10 mt-2 border-t border-[#1C1A16]/08 bg-[#FFFcf7]/95 backdrop-blur-md px-5 sm:px-8 md:px-10 py-4 lg:border-0 lg:bg-transparent lg:backdrop-blur-none lg:px-0 lg:py-0 lg:mx-0 space-y-3">
-                            <Button
-                              type="submit"
-                              disabled={isSubmitting || !isFormReady}
-                              className="w-full rounded-full py-6 text-base font-semibold gap-2 disabled:cursor-not-allowed disabled:opacity-45 bg-gold text-gold-foreground hover:opacity-90 transition-opacity shadow-sm"
-                            >
-                              {isSubmitting
-                                ? "Saving details..."
-                                : "Start your reflection on WhatsApp →"}
-                            </Button>
-                            <p className="text-center text-[0.7rem] text-[#5C564C] leading-relaxed">
-                              After this → say hi on WhatsApp → start
-                              reflecting.
-                            </p>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-
-                  {/* Trust rail — right on desktop, below form on mobile */}
-                  <div className="lg:pt-1">
-                    <JoinInfoAside />
-                  </div>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="business">
-                <div className="max-w-lg mx-auto rounded-2xl border border-[#1C1A16]/10 bg-[#FFFcf7]/90 shadow-[0_12px_40px_-16px_rgba(28,26,22,0.12)] px-5 py-6 sm:px-8 sm:py-8">
-                  <div className="text-center mb-10">
-                    <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">
-                      GenMyo for Business
-                    </p>
-                    <h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-4">
-                      Enquire for Your Team
-                    </h1>
-                    <p className="text-muted-foreground">
-                      Tell us about your organisation and we'll be in touch to
-                      arrange a walkthrough.
-                    </p>
-                  </div>
-
-                  <form onSubmit={handleBusinessSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="biz-name">
-                          Name <span className="text-accent">*</span>
-                        </Label>
-                        <Input
-                          id="biz-name"
-                          placeholder="Your name"
-                          value={business.name}
-                          onChange={(e) =>
-                            handleBusinessChange("name", e.target.value)
-                          }
-                          className={
-                            businessErrors.name ? "border-destructive" : ""
-                          }
-                        />
-                        {businessErrors.name && (
-                          <p className="text-sm text-destructive">
-                            {businessErrors.name}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="biz-email">
-                          Work Email <span className="text-accent">*</span>
-                        </Label>
-                        <Input
-                          id="biz-email"
-                          type="email"
-                          placeholder="you@company.com"
-                          value={business.email}
-                          onChange={(e) =>
-                            handleBusinessChange("email", e.target.value)
-                          }
-                          className={
-                            businessErrors.email ? "border-destructive" : ""
-                          }
-                        />
-                        {businessErrors.email && (
-                          <p className="text-sm text-destructive">
-                            {businessErrors.email}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>
-                        Contact Number <span className="text-accent">*</span>
-                      </Label>
-                      <div className="grid grid-cols-[180px_1fr] gap-2">
-                        <CountryCodeCombobox
-                          countries={COUNTRY_CODES}
-                          value={business.phoneCode}
-                          onChange={(value) =>
-                            handleBusinessChange("phoneCode", value)
-                          }
-                          placeholder="Country code"
-                          ariaLabel="Country code"
-                          hasError={!!businessErrors.phoneCode}
-                        />
-                        <Input
-                          id="biz-phone"
-                          type="tel"
-                          placeholder="Contact number"
-                          value={business.phone}
-                          onChange={(e) =>
-                            handleBusinessChange("phone", e.target.value)
-                          }
-                          className={
-                            businessErrors.phone ? "border-destructive" : ""
-                          }
-                        />
-                      </div>
-                      {(businessErrors.phoneCode || businessErrors.phone) && (
-                        <p className="text-sm text-destructive">
-                          {businessErrors.phoneCode || businessErrors.phone}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="biz-company">
-                          Company <span className="text-accent">*</span>
-                        </Label>
-                        <Input
-                          id="biz-company"
-                          placeholder="Company name"
-                          value={business.company}
-                          onChange={(e) =>
-                            handleBusinessChange("company", e.target.value)
-                          }
-                          className={
-                            businessErrors.company ? "border-destructive" : ""
-                          }
-                        />
-                        {businessErrors.company && (
-                          <p className="text-sm text-destructive">
-                            {businessErrors.company}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="biz-role">
-                          Role{" "}
-                          <span className="text-muted-foreground">
-                            (optional)
-                          </span>
-                        </Label>
-                        <Input
-                          id="biz-role"
-                          placeholder="e.g. Head of People"
-                          value={business.role}
-                          onChange={(e) =>
-                            handleBusinessChange("role", e.target.value)
-                          }
-                          className={
-                            businessErrors.role ? "border-destructive" : ""
-                          }
-                        />
-                        {businessErrors.role && (
-                          <p className="text-sm text-destructive">
-                            {businessErrors.role}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="biz-team">
-                        Team Size{" "}
-                        <span className="text-muted-foreground">
-                          (optional)
-                        </span>
-                      </Label>
-                      <Input
-                        id="biz-team"
-                        placeholder="e.g. 50-200"
-                        value={business.teamSize}
-                        onChange={(e) =>
-                          handleBusinessChange("teamSize", e.target.value)
-                        }
-                        className={
-                          businessErrors.teamSize ? "border-destructive" : ""
-                        }
-                      />
-                      {businessErrors.teamSize && (
-                        <p className="text-sm text-destructive">
-                          {businessErrors.teamSize}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="biz-notes">
-                        Notes{" "}
-                        <span className="text-muted-foreground">
-                          (optional)
-                        </span>
-                      </Label>
-                      <Textarea
-                        id="biz-notes"
-                        placeholder="Anything you'd like us to know"
-                        value={business.notes}
-                        onChange={(e) =>
-                          handleBusinessChange("notes", e.target.value)
-                        }
-                        rows={3}
-                        className={
-                          businessErrors.notes ? "border-destructive" : ""
-                        }
-                      />
-                      {businessErrors.notes && (
-                        <p className="text-sm text-destructive">
-                          {businessErrors.notes}
-                        </p>
-                      )}
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="w-full rounded-full py-6 text-base gap-2"
-                    >
-                      Send Enquiry
-                      <ArrowRight size={18} />
-                    </Button>
-                  </form>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
+        <div className="relative w-full max-w-md mx-auto px-4 sm:px-6 pb-8">
+          <JoinConversation
+            formData={{
+              firstName: formData.firstName,
+              email: formData.email,
+              dob: formData.dob,
+              country: formData.country,
+              countryCode: formData.countryCode,
+              whatsapp: formData.whatsapp,
+              context: formData.context,
+              termsAccepted: formData.termsAccepted,
+            }}
+            errors={errors}
+            countries={COUNTRY_CODES}
+            quizFromNav={Boolean(quizFromNav || readQuizCompletion())}
+            isSubmitting={isSubmitting}
+            alreadyRegistered={alreadyRegistered}
+            submitError={submitError}
+            onChange={handleChange}
+            onFieldFocus={handleFieldFocus}
+            onSubmit={handleSubmit}
+          />
         </div>
       </section>
     </Layout>

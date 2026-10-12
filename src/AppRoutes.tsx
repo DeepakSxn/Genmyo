@@ -24,12 +24,14 @@ import Linktree from "./pages/Linktree";
 import Stories from "./pages/Stories";
 import Quiz from "./pages/Quiz";
 import FoundersStory from "./pages/FoundersStory";
+import ForBusiness from "./pages/ForBusiness";
 
 export const AppRoutes = () => (
   <>
     <ScrollToTop />
     <Routes>
       <Route path="/" element={<Index />} />
+      <Route path="/for-business" element={<ForBusiness />} />
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/linktree" element={<Linktree />} />
       <Route path="/stories" element={<Stories />} />
