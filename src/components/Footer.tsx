@@ -30,6 +30,7 @@ const Footer = () => {
                 { href: "/founders-story", label: "Founder's Story" },
                 { href: "/for-business", label: "For business" },
                 { href: "/partners", label: "Partners" },
+                { href: "/for-good", label: "GenMyo for Good" },
                 { href: "/blog", label: "Blog" },
                 { href: "/team", label: "Team" },
               ].map((link) => (

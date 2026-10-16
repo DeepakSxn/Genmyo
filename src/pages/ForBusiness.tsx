@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/accordion";
 import { trackGAEvent } from "@/lib/analytics";
 
-/* Illustrative aggregate dashboard — not a claimed result */
+/* Illustrative aggregate dashboard. Not a claimed result */
 function CohortPreview() {
   const bars = [
     { label: "W1", v: 46 },
@@ -418,7 +418,7 @@ const FAQS = [
   },
   {
     q: "What does a pilot cost?",
-    a: "Pilots are scoped for roughly 50–200 people over about six weeks, free or low-cost, with a pre-agreed measure. Pricing for ongoing rollouts depends on headcount and mentor layer — we share ranges on the pilot call so booking is not a black box.",
+    a: "Pilots are scoped for roughly 50–200 people over about six weeks, free or low-cost, with a pre-agreed measure. Pricing for ongoing rollouts depends on headcount and mentor layer. We share ranges on the pilot call so booking is not a black box.",
   },
   {
     q: "How do we roll it out?",
@@ -430,7 +430,7 @@ const FAQS = [
   },
   {
     q: "Which countries and languages?",
-    a: "WhatsApp delivery works wherever WhatsApp does. The product experience is English-first today; additional languages are on the roadmap — ask on the pilot call for your markets.",
+    a: "WhatsApp delivery works wherever WhatsApp does. The product experience is English-first today; additional languages are on the roadmap. Ask on the pilot call for your markets.",
   },
   {
     q: "Does it replace our EAP?",
@@ -608,7 +608,7 @@ const ForBusiness = () => {
         "@id": "https://genmyo.ai/for-business#service",
         name: "GenMyo for Business",
         provider: { "@id": "https://genmyo.ai/#organization" },
-        serviceType: "Employee wellbeing — WhatsApp guided reflection",
+        serviceType: "Employee wellbeing. WhatsApp guided reflection",
         description:
           "GenMyo for Business is an AI-guided reflection program delivered on WhatsApp. Employees reflect privately in about two minutes a day; employers see only anonymous, aggregate wellbeing trends.",
         areaServed: "Worldwide",
@@ -653,7 +653,7 @@ const ForBusiness = () => {
               </h1>
               <p className="mt-5 max-w-lg text-base leading-relaxed text-primary-foreground/75 md:text-lg">
                 Private reflection in the app they already open. You see
-                anonymous cohort trends — never individual chats.
+                anonymous cohort trends. Never individual chats.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <a
@@ -724,15 +724,15 @@ const ForBusiness = () => {
           </h2>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
             Another app to download, another portal to forget. Frontline and
-            distributed teams never open it. GenMyō meets people in WhatsApp —
-            where work already happens — with short guided reflection instead of
+            distributed teams never open it. GenMyō meets people in WhatsApp,
+            where work already happens, with short guided reflection instead of
             feeds and streaks.
           </p>
           <p className="mt-4 text-sm text-muted-foreground">
             Engagement drop-off on traditional wellbeing apps is widely reported
             across industry studies.{" "}
             <span className="italic text-[#847362]">
-              [needs source — replace with a cited stat before publishing claims]
+              [needs source. Replace with a cited stat before publishing claims]
             </span>
           </p>
           <div className="mt-12">
@@ -775,7 +775,7 @@ const ForBusiness = () => {
             What employers see
           </h2>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            A view of the group. Participation, rhythm, and resilience — never a
+            A view of the group. Participation, rhythm, and resilience. Never a
             name, a transcript, or a private chat.
           </p>
           <div className="mt-10">
@@ -784,7 +784,7 @@ const ForBusiness = () => {
         </div>
       </section>
 
-      {/* Latter half — closed until a buyer opens it */}
+      {/* Latter half. Closed until a buyer opens it */}
       <section className="section-padding bg-background" aria-label="For HR and buyers">
         <div className="container-wide px-6 md:px-12">
           <p className="text-sm font-medium uppercase tracking-widest text-accent">
@@ -871,7 +871,7 @@ const ForBusiness = () => {
                 Pilots agree measures up front: participation, reflection cadence,
                 and cohort resilience signals. We will publish named results when
                 real pilot data exists. Until then, treat dashboard visuals as
-                illustrative — not proof.
+                illustrative. Not proof.
               </p>
             </BuyerDetail>
 
@@ -1045,7 +1045,7 @@ const ForBusiness = () => {
               </h2>
               <p className="mt-5 text-base leading-relaxed text-primary-foreground/75">
                 Free or low-cost. Pre-agreed measure. Deploy via WhatsApp link or
-                QR. We review aggregate signals together at the end — no
+                QR. We review aggregate signals together at the end. No
                 individual data, no black-box pricing conversation.
               </p>
               <ul className="mt-6 space-y-2 text-sm text-primary-foreground/70">
@@ -1059,7 +1059,7 @@ const ForBusiness = () => {
                 Book a pilot call
               </h3>
               <p className="mt-2 text-sm text-[#5C564C]">
-                Three short steps. We reply with times — calendar embed lands
+                Three short steps. We reply with times. Calendar embed lands
                 here once confirmed.
               </p>
               <div className="mt-6">

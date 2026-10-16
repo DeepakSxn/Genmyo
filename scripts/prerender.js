@@ -14,6 +14,7 @@ const routes = [
   "/philosophy",
   "/how-it-works",
   "/for-business",
+  "/for-good",
   "/alternatives/rosebud",
   "/alternatives/stoic",
   "/join",

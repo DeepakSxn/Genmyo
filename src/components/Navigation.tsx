@@ -22,6 +22,7 @@ const Navigation = () => {
     location.pathname === "/partners" ||
     location.pathname === "/how-it-works" ||
     location.pathname === "/for-business" ||
+    location.pathname === "/for-good" ||
     location.pathname === "/linktree";
 
   const linkClass = (active: boolean) =>
